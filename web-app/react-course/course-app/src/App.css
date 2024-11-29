@@ -14877,7 +14877,7 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 
 .promo-modal-container {
   position: fixed;
-  top: -550px;
+  top: 90px;
   left: 0;
   width: 100vw;
   height: 100vh;
