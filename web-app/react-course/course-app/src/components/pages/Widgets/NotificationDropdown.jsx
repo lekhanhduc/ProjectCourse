@@ -26,23 +26,23 @@ export const NotificationDropdown = ({ notifications = [], unreadCount = 0, mark
                     <li className="dropdown-item text-center text-muted">No new notifications</li>
                 ) : (
                     notifications.map((notification) => (
-                        <li key={notification.id} 
-                            className={`notification-item ${notification.isRead ? 'read' : 'unread'}`} 
+                        <li key={notification.id}
+                            className={`notification-item ${notification.isRead ? 'read' : 'unread'}`}
                             style={{ padding: '10px 0', borderBottom: '1px solid #ddd' }}
                         >
-                            <img 
-                                src={notification.avatarUrl || "https://bootdey.com/img/Content/avatar/avatar7.png"} 
-                                alt="Sender Avatar" 
-                                className="rounded-circle me-3" 
-                                style={{ width: '45px', height: '45px' }} 
+                            <img
+                                src={notification.avatarUrl || "https://bootdey.com/img/Content/avatar/avatar7.png"}
+                                alt="Sender Avatar"
+                                className="rounded-circle me-3"
+                                style={{ width: '45px', height: '45px' }}
                             />
                             <div>
                                 <h6 style={{ fontWeight: notification.isRead ? 'normal' : 'bold' }}>
                                     {notification.title}
                                 </h6>
                                 <small className="text-muted d-block mb-1">{timeAgo(notification.createdAt)}</small>
-                                <button 
-                                    className="btn btn-sm btn-link" 
+                                <button
+                                    className="btn btn-sm btn-link"
                                     onClick={() => markAsRead(notification.id)}
                                 >
                                     <i className="fa fa-check-circle"></i> Mark as read
