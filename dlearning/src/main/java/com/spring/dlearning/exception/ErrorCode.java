@@ -81,7 +81,9 @@ public enum ErrorCode {
     CERTIFICATE_EXISTED(400, "Certificate already existed", HttpStatus.BAD_REQUEST),
     INCOMPLETE_LESSONS(400, "User has not completed all required lessons", HttpStatus.BAD_REQUEST),
     INVALID_PAYMENT_TYPE(400, "Payment type invalid", HttpStatus.BAD_REQUEST),
-    TOKEN_CREATION_FAIL(400, "Failed to create token", HttpStatus.BAD_REQUEST)
+    TOKEN_CREATION_FAIL(400, "Failed to create token", HttpStatus.BAD_REQUEST),
+    COURSE_ALREADY_BANNED(400, "Course already banned", HttpStatus.BAD_REQUEST),
+
     ;
 
     private final int code;

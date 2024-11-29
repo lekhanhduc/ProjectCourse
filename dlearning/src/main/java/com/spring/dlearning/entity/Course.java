@@ -67,6 +67,9 @@ public class Course  {
     @JsonIgnore
     Set<Enrollment> enrollments;
 
+    @Column(name = "enabled", nullable = false)
+    Boolean enabled;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     List<Review> comments;
@@ -100,8 +103,9 @@ public class Course  {
 
     @PrePersist
     private void prePersist() {
-        if (this.quantity == null) {
+        if (this.quantity == null && enabled == null) {
             quantity = 0L;
+            enabled = true;
         }
     }
 

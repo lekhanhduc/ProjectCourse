@@ -35,11 +35,23 @@ import Certificate from './components/pages/CertificatePage/Certificate';
 import MyCertificate from './components/pages/CertificatePage/MyCertificate';
 import RevenuePage from './components/pages/RevenuePage/RevenuePage';
 import ManagerStudent from './components/pages/ManagerStudent/ManagerStudent';
+import AdminApp from "./components/admin/layouts/App";
 
 function App() {
   return (
     <div className="App">
       <Routes>
+
+        <Route
+          path="/admin/*"
+          element={
+            <Authorization requiredRole={["ADMIN"]}>
+              <AdminApp />
+            </Authorization>
+          }
+        />
+
+
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />

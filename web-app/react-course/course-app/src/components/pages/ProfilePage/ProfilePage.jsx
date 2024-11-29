@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// import '../../../App.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getProfileInfo, removeAvatar, updateAvatar, updateProfile } from "../../../service/ProfileService";
