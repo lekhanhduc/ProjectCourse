@@ -10,7 +10,7 @@ import TeacherManage from "../components/Teacher/TeacherManage";
 import TeacherSensor from "../components/Teacher/TeacherSensor";
 import TeacherInforDetail from "../components/Teacher/TeacherInforDetail";
 import CourseManage from "../components/Course/CourseManage";
-import { CourseDetail } from "../../pages/CourseDetailPage/CourseDetailPage";
+import CourseDetail from "../components/Course/CourseDetail";
 
 const AdminApp = () => {
   React.useEffect(() => {

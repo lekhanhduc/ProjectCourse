@@ -10,12 +10,11 @@ const AdminLayout = () => {
   return (
     <div className="admin-app">
       {" "}
-      {/* Thêm lớp admin-app */}
       <AdminSidebar />
       <div className="wrapper d-flex flex-column min-vh-100">
         <AdminHeader />
         <div className="body flex-grow-1">
-          <Outlet /> {/* Nội dung con sẽ được hiển thị ở đây */}
+          <Outlet />
         </div>
         <AdminFooter />
       </div>

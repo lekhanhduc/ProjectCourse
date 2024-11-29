@@ -1,6 +1,5 @@
 import axios from "../../../utils/CustomizeAxios";
-const BASE_URL = "http://localhost:8080/api/v1/admin/teachers";
-const API_BASE_URL = "http://localhost:8080/api/v1/admin"; // Cơ sở URL API
+const API_BASE_URL = "http://localhost:8080/api/v1/admin";
 
 export const getAllTeachers = async (page, size, sort) => {
   try {

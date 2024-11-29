@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,23 @@ public class AdvertisementService {
     AdsMapper adsMapper;
     KafkaTemplate<String, Object> kafkaTemplate;
     VNPayUtil vnPayUtil;
+
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    public PageResponse<AdsCreationResponse> getAllAds(int page, int size){
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Advertisement> advertisements = advertisementRepository.findAll(pageable);
+        List<AdsCreationResponse> adsResponses = advertisements.stream()
+                .map(adsMapper::toAdsCreationResponse).toList();
+
+        return PageResponse.<AdsCreationResponse>builder()
+                .currentPage(page)
+                .pageSize(pageable.getPageSize())
+                .totalPages(advertisements.getTotalPages())
+                .totalElements(advertisements.getTotalElements())
+                .data(adsResponses)
+                .build();
+    }
 
     public AdsCreationResponse userCreateAds(AdsCreationRequest request, MultipartFile image)
     {

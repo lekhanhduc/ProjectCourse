@@ -3,15 +3,15 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CContainer,
-  CDropdown,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
   CHeader,
   CHeaderNav,
   CHeaderToggler,
   CNavLink,
   CNavItem,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
   useColorModes,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
@@ -24,9 +24,12 @@ import {
   cilMoon,
   cilSun,
 } from "@coreui/icons";
-
-// import { AppBreadcrumb } from "./index";
 import { AppHeaderDropdown } from "./Header/index";
+import moment from "moment";
+import { useNotification } from "../../../hooks/useNotification";
+import { useWebsocket } from "../../router/useWebSocket";
+
+// Custom hooks
 
 const AdminHeader = () => {
   const headerRef = useRef();
@@ -36,6 +39,14 @@ const AdminHeader = () => {
 
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.sidebarShow);
+
+  const wsClient = useWebsocket();
+  const {
+    notifications,
+    unreadCount,
+    markAsRead,
+    loading: notificationLoading,
+  } = useNotification(wsClient);
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -71,15 +82,69 @@ const AdminHeader = () => {
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           <CNavItem>
-            <CNavLink href="#">
+            <CNavLink
+              href="#"
+              id="notificationDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               <CIcon icon={cilBell} size="lg" />
+              {unreadCount > 0 && (
+                <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                  {unreadCount}
+                </span>
+              )}
             </CNavLink>
+            <CDropdownMenu
+              className="dropdown-menu-end p-3 shadow-lg"
+              aria-labelledby="notificationDropdown"
+            >
+              {notifications.length === 0 ? (
+                <CDropdownItem className="text-muted text-center">
+                  No new notifications
+                </CDropdownItem>
+              ) : (
+                notifications.map((notification) => (
+                  <CDropdownItem
+                    key={notification.id}
+                    className={`d-flex align-items-center ${
+                      notification.isRead ? "read" : "unread"
+                    }`}
+                    onClick={() => markAsRead(notification.id)}
+                  >
+                    <img
+                      src={
+                        notification.avatarUrl ||
+                        "https://bootdey.com/img/Content/avatar/avatar7.png"
+                      }
+                      alt="Avatar"
+                      className="rounded-circle me-3"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                    <div>
+                      <h6
+                        style={{
+                          fontWeight: notification.isRead ? "normal" : "bold",
+                        }}
+                      >
+                        {notification.title}
+                      </h6>
+                      <small className="text-muted">
+                        {moment(notification.createdAt).fromNow()}
+                      </small>
+                    </div>
+                  </CDropdownItem>
+                ))
+              )}
+            </CDropdownMenu>
           </CNavItem>
+
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilList} size="lg" />
             </CNavLink>
           </CNavItem>
+
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilEnvelopeOpen} size="lg" />
@@ -103,27 +168,18 @@ const AdminHeader = () => {
             <CDropdownMenu>
               <CDropdownItem
                 active={colorMode === "light"}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
                 onClick={() => setColorMode("light")}
               >
                 <CIcon className="me-2" icon={cilSun} size="lg" /> Light
               </CDropdownItem>
               <CDropdownItem
                 active={colorMode === "dark"}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
                 onClick={() => setColorMode("dark")}
               >
                 <CIcon className="me-2" icon={cilMoon} size="lg" /> Dark
               </CDropdownItem>
               <CDropdownItem
                 active={colorMode === "auto"}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
                 onClick={() => setColorMode("auto")}
               >
                 <CIcon className="me-2" icon={cilContrast} size="lg" /> Auto
@@ -136,9 +192,7 @@ const AdminHeader = () => {
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      <CContainer className="px-4" fluid>
-        {/* <AppBreadcrumb /> */}
-      </CContainer>
+      <CContainer className="px-4" fluid></CContainer>
     </CHeader>
   );
 };

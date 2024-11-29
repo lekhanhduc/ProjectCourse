@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 
+    Page<Advertisement> findAll (Pageable pageable);
+
     @Query("SELECT ads FROM Advertisement ads WHERE ads.user.id = :userId ORDER BY ads.createdAt DESC")
     Page<Advertisement> findAdvertisementByUserId(Long userId, Pageable pageable);
 

@@ -23,6 +23,18 @@ public class AdvertisementController {
 
     AdvertisementService advertisementService;
 
+    @GetMapping("/fetch-ads")
+    ApiResponse<PageResponse<AdsCreationResponse>> getAllAds(
+            @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "2", required = false) int size
+    ) {
+        var result  = advertisementService.getAllAds(page, size);
+        return ApiResponse.<PageResponse<AdsCreationResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(result)
+                .build();
+    }
+
     @PostMapping("/register-ads")
     ApiResponse<AdsCreationResponse> userCreateAds(@RequestPart("request") @Valid AdsCreationRequest request,
                                                    @RequestPart("file") MultipartFile file) {
