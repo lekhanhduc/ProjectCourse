@@ -18,6 +18,7 @@ import com.spring.dlearning.repository.UserRepository;
 import com.spring.dlearning.common.AdsStatus;
 import com.spring.dlearning.utils.SecurityUtils;
 import com.spring.dlearning.utils.VNPayUtil;
+import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,6 +30,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collections;
@@ -45,6 +47,7 @@ public class AdvertisementService {
     AdvertisementRepository advertisementRepository;
     UserRepository userRepository;
     CloudinaryService cloudinaryService;
+    EmailService emailService;
     AdsMapper adsMapper;
     KafkaTemplate<String, Object> kafkaTemplate;
     VNPayUtil vnPayUtil;
@@ -86,6 +89,7 @@ public class AdvertisementService {
         return adsMapper.toAdsCreationResponse(advertisement);
     }
 
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
     public AdsApproveResponse approveAds(AdsApproveRequest request) {
         Advertisement advertisement = advertisementRepository.findById(request.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.ADVERTISEMENT_ID_INVALID));
@@ -127,6 +131,27 @@ public class AdvertisementService {
         return adsMapper.toAdsApproveResponse(advertisement);
     }
 
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    public AdsApproveResponse rejectAds(AdsApproveRequest request)
+            throws MessagingException, UnsupportedEncodingException {
+
+        var advertisement = advertisementRepository.findById(request.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.ADVERTISEMENT_ID_INVALID));
+
+        advertisement.setApprovalStatus(AdsStatus.REJECTED);
+        advertisementRepository.save(advertisement);
+        String rejectionReason = "Your advertisement did not meet the necessary requirements";
+        emailService.sendEmail("Reject Advertisement",rejectionReason,
+                Collections.singletonList(advertisement.getContactEmail()));
+        return adsMapper.toAdsApproveResponse(advertisement);
+    }
+
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+    public void deleteAds(Long id) {
+        var advertisement = advertisementRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ADVERTISEMENT_ID_INVALID));
+        advertisementRepository.delete(advertisement);
+    }
 
     @PreAuthorize("isAuthenticated()")
     public PageResponse<AdsCreationResponse> getAdsByCurrentLogin(int page, int size){

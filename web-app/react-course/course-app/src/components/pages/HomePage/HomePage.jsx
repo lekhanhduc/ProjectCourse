@@ -158,7 +158,7 @@ export const HomePage = () => {
       <ToastContainer
         position="top-right"
         autoClose={3000}
-        className="add-favorite-toast"
+        className="custom-toast-container"
       />
     </motion.div>
   );

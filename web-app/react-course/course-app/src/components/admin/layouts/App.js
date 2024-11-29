@@ -11,6 +11,7 @@ import TeacherSensor from "../components/Teacher/TeacherSensor";
 import TeacherInforDetail from "../components/Teacher/TeacherInforDetail";
 import CourseManage from "../components/Course/CourseManage";
 import CourseDetail from "../components/Course/CourseDetail";
+import CensorAds from "../../pages/AdsPage/components/Censor";
 
 const AdminApp = () => {
   React.useEffect(() => {
@@ -40,6 +41,7 @@ const AdminApp = () => {
           {/* Thêm route này */}
           <Route path="course/manage" element={<CourseManage />} />
           <Route path="course/detail/:courseId" element={<CourseDetail />} />
+          <Route path="/advertisement/censor" element={<CensorAds />} />
         </Route>
         {/* Route riêng cho NotFound */}
         <Route path="*" element={<NotFound />} />

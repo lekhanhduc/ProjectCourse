@@ -20,8 +20,10 @@ import {
 import CIcon from "@coreui/icons-react";
 
 import avatar8 from "./../../assets/images/avatars/8.jpg";
+import { HandleLogout } from "../../../../service/Oauth2/HandleLogout";
 
 const AppHeaderDropdown = () => {
+  const { handleLogout } = HandleLogout();
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle
@@ -72,7 +74,7 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
 
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={handleLogout}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Logout
         </CDropdownItem>

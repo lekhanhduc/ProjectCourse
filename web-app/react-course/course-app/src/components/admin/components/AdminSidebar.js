@@ -10,10 +10,9 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
-import AppSidebarNav from "./AppSidebarNav"; // Sử dụng AppSidebarNav tùy chỉnh
+import { cilBook } from "@coreui/icons";
 
-import { logo } from "../assets/brand/logo";
-import { sygnet } from "../assets/brand/sygnet";
+import AppSidebarNav from "./AppSidebarNav";
 
 const AdminSidebar = () => {
   const dispatch = useDispatch();
@@ -32,13 +31,18 @@ const AdminSidebar = () => {
       }}
     >
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand to="/">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
+        <CSidebarBrand to="/" className="d-flex align-items-center">
           <CIcon
-            customClassName="sidebar-brand-narrow"
-            icon={sygnet}
+            customClassName="sidebar-brand-full"
+            icon={cilBook}
             height={32}
           />
+          <span
+            className="ms-2 text-white fs-4"
+            style={{ textDecoration: "none", cursor: "pointer" }}
+          >
+            DNV-Learning
+          </span>{" "}
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"
@@ -46,7 +50,7 @@ const AdminSidebar = () => {
           onClick={() => dispatch({ type: "set", sidebarShow: false })}
         />
       </CSidebarHeader>
-      <AppSidebarNav /> {/* Gọi AppSidebarNav mà không truyền tham số items */}
+      <AppSidebarNav />
       <CSidebarFooter className="border-top d-none d-lg-flex">
         <CSidebarToggler
           onClick={() =>

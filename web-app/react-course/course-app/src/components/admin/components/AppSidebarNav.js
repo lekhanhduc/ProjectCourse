@@ -40,6 +40,7 @@ const AppSidebarNav = () => {
     <CSidebarNav>
       {/* MANAGEMENT Group */}
       <CNavTitle>MANAGEMENT</CNavTitle>
+
       <CNavGroup
         toggler={
           <>

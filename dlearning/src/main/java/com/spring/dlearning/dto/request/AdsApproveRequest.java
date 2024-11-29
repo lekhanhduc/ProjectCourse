@@ -11,6 +11,4 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AdsApproveRequest {
     Long id;
-    String content;
-
 }

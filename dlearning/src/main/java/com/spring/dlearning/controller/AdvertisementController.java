@@ -4,21 +4,21 @@ import com.spring.dlearning.dto.request.AdsApproveRequest;
 import com.spring.dlearning.dto.request.AdsCreationRequest;
 import com.spring.dlearning.dto.response.*;
 import com.spring.dlearning.service.AdvertisementService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/v1")
-@Slf4j
 public class AdvertisementController {
 
     AdvertisementService advertisementService;
@@ -26,7 +26,7 @@ public class AdvertisementController {
     @GetMapping("/fetch-ads")
     ApiResponse<PageResponse<AdsCreationResponse>> getAllAds(
             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
-            @RequestParam(value = "size", defaultValue = "2", required = false) int size
+            @RequestParam(value = "size", defaultValue = "7", required = false) int size
     ) {
         var result  = advertisementService.getAllAds(page, size);
         return ApiResponse.<PageResponse<AdsCreationResponse>>builder()
@@ -50,6 +50,24 @@ public class AdvertisementController {
         return ApiResponse.<AdsApproveResponse>builder()
                 .code(HttpStatus.OK.value())
                 .result(advertisementService.approveAds(request))
+                .build();
+    }
+
+    @PutMapping("/reject-ads")
+    ApiResponse<AdsApproveResponse> rejectAds(@RequestBody AdsApproveRequest request)
+            throws MessagingException, UnsupportedEncodingException {
+        return ApiResponse.<AdsApproveResponse>builder()
+                .code(HttpStatus.OK.value())
+                .result(advertisementService.rejectAds(request))
+                .build();
+    }
+
+    @DeleteMapping("/delete-ads/{id}")
+    ApiResponse<Void> deleteAds(@PathVariable Long id){
+        advertisementService.deleteAds(id);
+        return ApiResponse.<Void>builder()
+                .code(HttpStatus.OK.value())
+                .message("Delete Advertisement Successfully!")
                 .build();
     }
 

@@ -2,7 +2,7 @@ import React from "react";
 import { FaRegClock } from "react-icons/fa";
 import { GiTeacher } from "react-icons/gi";
 import { MdFavorite } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const OurCourses = (props) => {
   const renderStars = (rating) => {
@@ -69,7 +69,7 @@ export const OurCourses = (props) => {
 
               {/* Nội dung khóa học */}
               <div className="course-card-custom-body text-center">
-                <h5 className="course-card-custom-title">{course.title}</h5>
+                <Link to={`/course-detail/${course.id}`} className="course-card-custom-title">{course.title}</Link>
 
                 <p className="course-card-custom-author">
                   {course.author}

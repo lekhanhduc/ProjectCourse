@@ -11473,6 +11473,7 @@ h6,
 }
 
 .course-card-custom-title:hover {
+  text-decoration: none;
   color: #007bff;
   cursor: pointer;
 }
