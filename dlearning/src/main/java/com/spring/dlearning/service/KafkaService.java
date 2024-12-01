@@ -2,12 +2,16 @@ package com.spring.dlearning.service;
 
 import com.spring.dlearning.dto.event.CertificateCreationEvent;
 import com.spring.dlearning.dto.event.NotificationEvent;
+import com.spring.dlearning.dto.event.PaymentEvent;
 import com.spring.dlearning.dto.response.CertificateResponse;
+import com.spring.dlearning.dto.response.PaymentResponse;
 import com.spring.dlearning.entity.Certificate;
+import com.spring.dlearning.entity.Payment;
 import com.spring.dlearning.exception.AppException;
 import com.spring.dlearning.exception.ErrorCode;
 import com.spring.dlearning.repository.CertificateRepository;
 import com.spring.dlearning.repository.CourseRepository;
+import com.spring.dlearning.repository.PaymentRepository;
 import com.spring.dlearning.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +34,11 @@ public class KafkaService {
     UserRepository userRepository;
     CourseRepository courseRepository;
     CertificateRepository certificateRepository;
+    PaymentRepository paymentRepository;
     KafkaTemplate<String, Object> kafkaTemplate;
 
     @KafkaListener(topics ="certificate-creation", groupId = "certificate-group")
-    public CertificateResponse createCertificate(CertificateCreationEvent creationEvent) {
+    public void createCertificate(CertificateCreationEvent creationEvent) {
         log.info("Processing certificate creation for userId: {}, courseId: {}", creationEvent.getUserId(), creationEvent.getCourseId());
 
         Certificate certificate = Certificate.builder()
@@ -61,14 +66,42 @@ public class KafkaService {
                 .build();
 
         kafkaTemplate.send("notification-delivery", event);
-
-        return CertificateResponse.builder()
-                .certificateId(certificate.getId())
-                .email(certificate.getUser().getEmail())
-                .courseName(certificate.getCourse().getTitle())
-                .author(certificate.getCourse().getAuthor().getName())
-                .certificateUrl(certificate.getCertificateUrl())
-                .issueDate(certificate.getIssueDate())
-                .build();
     }
+
+    @KafkaListener(topics = "payment-creation", groupId = "payment-group")
+    public void creationPayment (PaymentEvent paymentEvent) {
+        log.info("Processing payment creation for userId: {}, courseId: {}", paymentEvent.getUserId(), paymentEvent.getCourseId());
+
+        Payment payment =Payment.builder()
+                .user(userRepository.findById(paymentEvent.getUserId()
+                        ).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)))
+                .course(courseRepository.findById(paymentEvent.getCourseId())
+                        .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_EXISTED)))
+                .paymentMethod(paymentEvent.getPaymentMethod())
+                .status(paymentEvent.getStatus())
+                .price(paymentEvent.getPrice())
+                .points(paymentEvent.getPoints())
+                .build();
+
+        paymentRepository.save(payment);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("recipient", payment.getUser().getEmail());
+        data.put("email", payment.getUser().getEmail());
+        data.put("courseName", payment.getCourse().getTitle());
+        data.put("points", payment.getPoints());
+        data.put("status", payment.getStatus());
+        data.put("link", "http://localhost:3000/course-detail/" + payment.getCourse().getId());
+
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .channel("Send Email")
+                .recipient(payment.getUser().getEmail())
+                .templateCode("payment-creation-template")
+                .subject("Thanks you...")
+                .param(data)
+                .build();
+
+        kafkaTemplate.send("notification-delivery", notificationEvent);
+    }
+
 }

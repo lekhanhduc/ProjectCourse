@@ -1,6 +1,8 @@
 package com.spring.dlearning.service;
 
 import com.spring.dlearning.constant.PredefinedRole;
+import com.spring.dlearning.dto.event.NotificationEvent;
+import com.spring.dlearning.dto.event.PaymentEvent;
 import com.spring.dlearning.dto.request.BuyCourseRequest;
 import com.spring.dlearning.dto.request.CourseCreationRequest;
 import com.spring.dlearning.dto.request.RelatedCourseRequest;
@@ -17,6 +19,7 @@ import com.spring.dlearning.mapper.EnrollmentMapper;
 import com.spring.dlearning.repository.*;
 import com.spring.dlearning.common.PaymentMethodName;
 import com.spring.dlearning.common.PaymentStatus;
+import com.spring.dlearning.service.specitification.CourseSpecificationBuilder;
 import com.spring.dlearning.utils.SecurityUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +39,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,9 +57,9 @@ public class CourseService {
     CertificateRepository certificateRepository;
     EnrollmentRepository enrollmentRepository;
     EnrollmentMapper enrollmentMapper;
-    PaymentRepository paymentRepository;
-    PaymentMethodRepository paymentMethodRepository;
     DocumentCourseRepository documentCourseRepository;
+    PaymentMethodRepository paymentMethodRepository;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
     public PageResponse<CourseResponse> getAllCourses(Specification<Course> spec, int page, int size) {
 
@@ -158,8 +165,10 @@ public class CourseService {
 
         CourseDocument courseDocument = CourseDocument.builder()
                 .id(String.valueOf(course.getId()))
+                .level(course.getCourseLevel())
                 .author(course.getAuthor().getName())
                 .title(course.getTitle())
+                .language(course.getLanguage())
                 .description(course.getDescription())
                 .thumbnail(course.getThumbnail())
                 .points(course.getPoints())
@@ -289,16 +298,16 @@ public class CourseService {
                                 .methodName(PaymentMethodName.BANK_TRANSFER)
                         .build()));
 
-        Payment payment = Payment.builder()
-                .user(user)
-                .course(course)
+        PaymentEvent paymentEvent = PaymentEvent.builder()
+                .userId(user.getId())
+                .courseId(course.getId())
                 .paymentMethod(paymentMethod)
+                .points(BigDecimal.valueOf(pointsCourse))
                 .price(BigDecimal.valueOf(pointsCourse * 100))
-                .points(BigDecimal.valueOf(pointsUser))
                 .status(PaymentStatus.COMPLETED)
                 .build();
 
-        paymentRepository.save(payment);
+        kafkaTemplate.send("payment-creation", paymentEvent);
 
         Enrollment enrollment = Enrollment.builder()
                 .user(user)
@@ -337,6 +346,32 @@ public class CourseService {
                         .author(c.getAuthor().getName())
                         .build())
                 .toList();
+    }
+
+    public List<Course> getCourse(String [] course, String sortBy) {
+        CourseSpecificationBuilder builder = new CourseSpecificationBuilder();
+        for(String c: course) {
+            Pattern pattern = Pattern.compile("(\\w+?)([:><~!])(.*)(\\p{Punct}?)(.*)(\\p{Punct}?)");
+            Matcher matcher = pattern.matcher(c);
+            if(matcher.find()) {
+                builder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
+            }
+        }
+
+        Sort sort = Sort.unsorted();
+        if(sortBy != null) {
+            Pattern pattern = Pattern.compile("(\\w+?)(:)(asc|desc)");
+            Matcher matcher = pattern.matcher(sortBy);
+            if(matcher.find()) {
+                String columnName = matcher.group(1);
+                String direction = matcher.group(3);
+
+                sort = (direction.equalsIgnoreCase("asc")) ? Sort.by(columnName).ascending()
+                        : Sort.by(columnName).descending();
+            }
+        }
+
+        return courseRepository.findAll(builder.build(), sort);
     }
 
     public List<CourseDocument> findByTitle(String title) {

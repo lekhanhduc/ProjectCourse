@@ -95,7 +95,7 @@ export const CourseFeature = ({ course, handleEnrollNow, isPurchase, id, related
             </div>
 
             {/* Related Courses */}
-            <div className="related-courses-container mt-4">
+            <div className="related-courses-container mt-3">
                 <h4 className="text-white mb-3">Related Courses</h4>
                 <div className="related-courses-list">
                     {relatedCourses && relatedCourses.length > 0 ? (
@@ -109,10 +109,10 @@ export const CourseFeature = ({ course, handleEnrollNow, isPurchase, id, related
                                     src={related.thumbnail}
                                     alt={related.title}
                                     className="related-course-thumbnail rounded"
-                                    style={{ width: "70px", height: "70px", objectFit: "cover" }}
+                                    style={{ width: "130px", objectFit: "cover" }}
                                 />
                                 <div className="related-course-info ml-3">
-                                    <h6 className="course-title mb-1">{related.title}</h6>
+                                    <h6 className="course-title-related mb-1">{related.title}</h6>
                                     <p className="course-author text-muted mb-1">By {related.author}</p>
                                     <span className="course-points badge badge-primary">
                                         {related.points} Points

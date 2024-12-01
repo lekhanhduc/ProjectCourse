@@ -17419,3 +17419,11 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 .btn-export:hover {
   background-color: #218838;
 }
+
+.user-icon {
+  color: #3498db;
+}
+
+.course-title-related {
+  color: white;
+}

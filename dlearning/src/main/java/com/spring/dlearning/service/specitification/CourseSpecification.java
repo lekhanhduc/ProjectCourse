@@ -1,25 +1,26 @@
-package com.spring.dlearning.repository.specification;
+package com.spring.dlearning.service.specitification;
 
 import com.spring.dlearning.entity.Course;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;
 
 public class CourseSpecification implements Specification<Course> {
 
-    private SpecSearchCriteria criteria;
+    private final SearchCriteria criteria;
 
-    public CourseSpecification(SpecSearchCriteria specSearchCriteria) {
+    public CourseSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
     }
 
     @Override
-    public Predicate toPredicate(@NotNull Root<Course> root,
+    public Predicate toPredicate(@NonNull Root<Course> root,
                                  CriteriaQuery<?> query,
-                                 @NotNull CriteriaBuilder criteriaBuilder) {
-        return switch (criteria.getOperation()){
+                                 @NonNull CriteriaBuilder criteriaBuilder) {
+        return switch (criteria.getOperation()) {
             case EQUALITY -> criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
             case NEGATION -> criteriaBuilder.notEqual(root.get(criteria.getKey()), criteria.getValue());
             case GREATER_THAN -> criteriaBuilder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());

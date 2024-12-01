@@ -77,14 +77,15 @@ export const MyCourses = () => {
 
                                     {/* Tác giả khóa học */}
                                     <p className="card-text text-dark my-course-author">
-                                        <strong>Author:</strong> {course.author}
+                                        <i class="fa fa-user user-icon mr-2"></i>
+                                        <b>Author:</b> {course.author}
                                     </p>
 
                                     {/* Level của khóa học */}
                                     <p className="card-text my-course-level">
                                         <span className="d-flex align-items-center">
-                                            <i className="fa fa-signal text-success mr-2"></i>
-                                            <strong>Level:</strong> {course.courseLevel}
+                                            <i className="fa fa-trophy text-warning mr-2"></i>
+                                            <b>Level: </b> {course.courseLevel}
                                         </span>
                                     </p>
 
@@ -92,7 +93,7 @@ export const MyCourses = () => {
                                     <p className="my-course-price text-dark">
                                         <span className="d-flex align-items-center">
                                             <i className="fa fa-coins text-warning mr-2"></i>
-                                            <strong>Points:</strong>
+                                            <b>Points:</b>
                                             <span className="ml-1">{course.points}</span>
                                         </span>
                                     </p>

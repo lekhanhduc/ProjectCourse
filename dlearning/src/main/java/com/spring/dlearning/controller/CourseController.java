@@ -32,6 +32,16 @@ public class CourseController {
 
     CourseService courseService;
 
+    @GetMapping("/search/course")
+    ApiResponse<List<Course>> getCourse (@RequestParam(required = false) String sortBy,
+                                          @RequestParam(defaultValue = "", required = false) String ...search) {
+
+        return ApiResponse.<List<Course>>builder()
+                .code(HttpStatus.OK.value())
+                .result(courseService.getCourse(search, sortBy))
+                .build();
+    }
+
     @GetMapping("/courses")
     ApiResponse<PageResponse<CourseResponse>> getAllCourses(
             @Filter Specification<Course> spec,
