@@ -139,6 +139,22 @@ public class CourseController {
                 .build();
     }
 
+    @GetMapping("/overview-course")
+    ApiResponse<List<OverviewCourseResponse>> overviewCourse() {
+        return ApiResponse.<List<OverviewCourseResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(courseService.overviewCourse())
+                .build();
+    }
+
+    @GetMapping("/overview-course/{courseId}")
+    ApiResponse<OverviewCourseResponse> overviewCourse(@PathVariable Long courseId) {
+        return ApiResponse.<OverviewCourseResponse>builder()
+                .code(HttpStatus.OK.value())
+                .result(courseService.overviewCourseDetail(courseId))
+                .build();
+    }
+
     @GetMapping("/search-title")
     ApiResponse<List<CourseDocument>> findByTitle(@RequestParam String title) {
         return ApiResponse.<List<CourseDocument>>builder()

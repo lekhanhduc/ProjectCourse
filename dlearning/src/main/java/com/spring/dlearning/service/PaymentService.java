@@ -1,11 +1,16 @@
 package com.spring.dlearning.service;
 
 import com.spring.dlearning.constant.PaymentType;
+import com.spring.dlearning.dto.response.CourseSoldByTeacherResponse;
+import com.spring.dlearning.dto.response.PaymentResponse;
 import com.spring.dlearning.dto.response.VNPAYResponse;
+import com.spring.dlearning.entity.Payment;
+import com.spring.dlearning.entity.PaymentMethod;
 import com.spring.dlearning.entity.User;
 import com.spring.dlearning.exception.AppException;
 import com.spring.dlearning.exception.ErrorCode;
 import com.spring.dlearning.model.PaymentInfo;
+import com.spring.dlearning.repository.PaymentRepository;
 import com.spring.dlearning.repository.UserRepository;
 import com.spring.dlearning.utils.SecurityUtils;
 import com.spring.dlearning.utils.ServletHelper;
@@ -14,15 +19,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PaymentService {
     private final UserRepository userRepository;
+    PaymentRepository paymentRepository;
     private final VNPayUtil vnPayUtil;
 
     public VNPAYResponse createVnPayPayment(HttpServletRequest request) {
@@ -43,5 +51,45 @@ public class PaymentService {
                 .message("success")
                 .paymentUrl(paymentUrl)
                 .build();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public List<PaymentResponse> getPaymentByUserLogin () {
+        String email = SecurityUtils.getCurrentUserLogin()
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        List<Payment> payments = paymentRepository.findPaymentByUserLogin(user.getId());
+
+        return payments.stream().map(p -> PaymentResponse.builder()
+                .email(p.getUser().getEmail())
+                .title(p.getCourse() != null ? p.getCourse().getTitle() : "")
+                .price(p.getPrice())
+                .points(p.getPoints())
+                .paymentMethod(String.valueOf(p.getPaymentMethod().getMethodName()))
+                .status(String.valueOf(p.getStatus()))
+                .build()).toList();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public List<CourseSoldByTeacherResponse> getCoursesSoldByTeacher () {
+        var email = SecurityUtils.getCurrentUserLogin()
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        var payments = paymentRepository.getCoursesSoldByTeacher(user.getId());
+
+        return payments.stream().map(p -> CourseSoldByTeacherResponse.builder()
+                .email(p.getUser().getEmail())
+                .title(p.getCourse() != null ? p.getCourse().getTitle() : "")
+                .thumbnail(p.getCourse().getThumbnail())
+                .price(p.getPrice())
+                .status(String.valueOf(p.getStatus()))
+                .time(p.getCreatedAt())
+                .build()).toList();
     }
 }

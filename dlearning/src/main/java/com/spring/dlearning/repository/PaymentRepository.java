@@ -1,5 +1,6 @@
 package com.spring.dlearning.repository;
 
+import com.spring.dlearning.entity.Course;
 import com.spring.dlearning.entity.Payment;
 import com.spring.dlearning.entity.User;
 import com.spring.dlearning.common.PaymentStatus;
@@ -17,7 +18,17 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByUserAndDateRange(@Param("user") User user, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query("SELECT p FROM Payment p WHERE p.course.author = :author AND p.status = :status AND p.createdAt BETWEEN :startDate AND :endDate")
-    List<Payment> findPaymentsByAuthorStatusAndDateRange(@Param("author") User author, @Param("status") PaymentStatus status,
+    List<Payment> findPaymentsByAuthorStatusAndDateRange(@Param("author") User author,
+                                                         @Param("status") PaymentStatus status,
                                                          @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT p FROM Payment p WHERE p.user.id=:id")
+    List<Payment> findPaymentByUserLogin(Long id);
+
+    @Query("SELECT p FROM Payment p WHERE p.course.author.id=:id")
+    List<Payment> getCoursesSoldByTeacher(Long id);
+
+    @Query("SELECT p FROM Payment p where p.course=:course")
+    List<Payment> findByCourse(Course course);
 
 }

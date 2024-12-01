@@ -32,7 +32,7 @@ export const Register = () => {
   });
 
   const [isOtpSent, setIsOtpSent] = useState(false); // Quản lý trạng thái OTP
-  const [errorMessage, setErrorMessage] = useState(""); // Hiển thị thông báo lỗi
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   // Xử lý thay đổi giá trị các input
@@ -135,7 +135,7 @@ export const Register = () => {
             </div>
           </div>
 
-          <RegisterForm 
+          <RegisterForm
             handleRegisterSubmit={handleRegisterSubmit}
             errorMessage={errorMessage}
             handleOtpSubmit={handleOtpSubmit}
@@ -145,7 +145,7 @@ export const Register = () => {
             formErrors={formErrors}
             isOtpSent={isOtpSent}
           />
-          
+
         </div>
       </section>
     </motion.div>

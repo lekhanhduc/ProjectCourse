@@ -77,7 +77,7 @@ export const MyCourses = () => {
 
                                     {/* Tác giả khóa học */}
                                     <p className="card-text text-dark my-course-author">
-                                        <i class="fa fa-user user-icon mr-2"></i>
+                                        <i className="fa fa-user user-icon mr-2"></i>
                                         <b>Author:</b> {course.author}
                                     </p>
 

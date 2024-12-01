@@ -494,20 +494,21 @@ const ManagerCourse = () => {
                                     </h5>
 
                                     <p className="card-text text-dark my-course-author">
-                                        <strong>Author:</strong> {instructorName}
+                                        <i className="fa fa-user user-icon mr-2"></i>
+                                        <b>Author:</b> {instructorName}
                                     </p>
 
                                     <p className="card-text my-course-level">
                                         <span className="d-flex align-items-center">
-                                            <i className="fa fa-signal text-success mr-2"></i>
-                                            <strong>Level:</strong> {course.courseLevel}
+                                            <i className="fa fa-trophy text-warning mr-2"></i>
+                                            <b>Level: </b> {course.courseLevel}
                                         </span>
                                     </p>
 
                                     <p className="my-course-price text-dark">
                                         <span className="d-flex align-items-center">
                                             <i className="fa fa-coins text-warning mr-2"></i>
-                                            <strong>Points:</strong>
+                                            <b>Points:</b>
                                             <span className="ml-1">{course.points}</span>
                                         </span>
                                     </p>

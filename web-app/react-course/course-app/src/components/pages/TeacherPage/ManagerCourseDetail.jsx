@@ -3,10 +3,10 @@ import { FaPlus, FaEdit, FaTrashAlt, FaChevronUp, FaChevronDown } from "react-ic
 import SidebarManager from "./components/layouts/SidebarManager";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createChapter } from "../../../service/ChapterService";
 import { toast, ToastContainer } from "react-toastify";
-import { getInfoCourse } from "../../../service/CourseService";
+import { getInfoCourse, overview } from "../../../service/CourseService";
 import { createLesson, deleteLesson, updateLesson } from "../../../service/LessonService";
 import ModalCreateLesson from "./components/modal/ModalCreateLesson";
 import Swal from "sweetalert2";
@@ -31,13 +31,18 @@ const ManagerCourseDetail = () => {
     const [video, setVideo] = useState(null);
     const [loadingCreateLesson, setLoadingCreateLesson] = useState(false);
     const [isLoadingCreateChapter, setLoadingIsCreateChapter] = useState(false);
-
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentLessonId, setCurrentLessonId] = useState(null);
     const [loadingUpdateLesson, setLoadingUpdateLesson] = useState(false);
     const [isVideoUpdated, setIsVideoUpdated] = useState(false);
     const [expandedChapters, setExpandedChapters] = useState([]); // Trạng thái cho các chapter đang mở rộng
 
+    const [courseOverview, setCourseOverview] = useState({
+        student: null,
+        avgRating: null,
+        quantity: null,
+        totalPrice: null
+    });
     const toggleChapter = (chapterId) => {
         // Kiểm tra nếu chapter đang trong danh sách mở rộng thì xóa nó ra, ngược lại thì thêm vào
         setExpandedChapters(prevState =>
@@ -46,6 +51,26 @@ const ManagerCourseDetail = () => {
                 : [...prevState, chapterId]
         );
     };
+
+    const overviewCourse = useCallback(async () => {
+        try {
+            const data = await overview(id);
+            if (data.code === 200) {
+                setCourseOverview({
+                    student: data.result.quantity,
+                    avgRating: data.result.avgReview,
+                    quantity: data.result.quantity,
+                    totalPrice: data.result.totalPrice
+                });
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }, [id]);
+
+    useEffect(() => {
+        overviewCourse();
+    }, [overviewCourse]);
 
     const handleVideoChange = (e) => {
         setVideo(e.target.files[0]);
@@ -320,7 +345,10 @@ const ManagerCourseDetail = () => {
                         />
                     )}
 
-                    <StatisticsOverview />
+                    <StatisticsOverview
+                        courseOverview={courseOverview}
+                    />
+
                     <SearchLesson />
                     <ButtonNewChapter handleOpenModal={handleOpenModal} />
 

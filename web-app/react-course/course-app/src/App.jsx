@@ -36,6 +36,7 @@ import MyCertificate from './components/pages/CertificatePage/MyCertificate';
 import RevenuePage from './components/pages/RevenuePage/RevenuePage';
 import ManagerStudent from './components/pages/ManagerStudent/ManagerStudent';
 import AdminApp from "./components/admin/layouts/App";
+import OTPModal from './components/pages/RegisterPage/components/ModalOtp';
 
 function App() {
   return (
@@ -151,6 +152,7 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failed" element={<PaymentFail />} />
         <Route path="/payment-cancel" element={<PaymentCancel />} />
+        <Route path="/otp" element={<OTPModal />} />
 
       </Routes>
     </div>

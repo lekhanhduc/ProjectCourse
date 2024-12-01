@@ -1,24 +1,25 @@
-import { FaCheckCircle, FaClipboardList, FaFolderOpen } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { GiTakeMyMoney, GiTrophyCup } from "react-icons/gi";
 import { PiStudentBold } from "react-icons/pi";
 
-const StatisticsOverview = () => {
+const StatisticsOverview = ({ courseOverview }) => {
     return (
         <div className="manager-courses-stats">
             <div className="stats-card">
                 <h3 className="icons-lesson-detail-student"><PiStudentBold /></h3>
-                <p>120 Enrolled</p>
+                <p>{courseOverview.student}</p>
             </div>
             <div className="stats-card">
-                <h3 className="icons-lesson-detail-lessons"><FaClipboardList /></h3>
-                <p>25 Lessons</p>
+                <h3 className="icons-lesson-detail-lessons"><FaStar /></h3>
+                <p>{courseOverview.avgRating}</p>
             </div>
             <div className="stats-card">
-                <h3 className="icons-lesson-detail-chapters"><FaFolderOpen /></h3>
-                <p>3 Total</p>
+                <h3 className="icons-lesson-detail-chapters"><GiTrophyCup /></h3>
+                <p>{courseOverview.quantity}</p>
             </div>
             <div className="stats-card">
-                <h3 className="icons-lesson-detail-completion"><FaCheckCircle /></h3>
-                <p>80% Average</p>
+                <h3 className="icons-lesson-detail-completion"><GiTakeMyMoney /></h3>
+                <p>{courseOverview.totalPrice}</p>
             </div>
         </div>
     );

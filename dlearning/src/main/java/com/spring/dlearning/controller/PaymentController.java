@@ -2,6 +2,8 @@ package com.spring.dlearning.controller;
 
 import com.spring.dlearning.constant.PaymentType;
 import com.spring.dlearning.dto.response.ApiResponse;
+import com.spring.dlearning.dto.response.CourseSoldByTeacherResponse;
+import com.spring.dlearning.dto.response.PaymentResponse;
 import com.spring.dlearning.dto.response.VNPAYResponse;
 import com.spring.dlearning.entity.Advertisement;
 import com.spring.dlearning.entity.Payment;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/payment")
@@ -70,7 +73,7 @@ public class PaymentController {
                             .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
                     recordPaymentTransaction(user, actualAmount, PaymentStatus.COMPLETED);
-                    BigDecimal pointsPer1000VND = new BigDecimal(10); // 1000VND = 10 points
+                    BigDecimal pointsPer1000VND = new BigDecimal(10); // 1.000 VND = 10 points
                     BigDecimal numberOfThousands = actualAmount.divide(new BigDecimal(1000)); //
                     BigDecimal totalPoints = numberOfThousands.multiply(pointsPer1000VND);
 
@@ -105,6 +108,24 @@ public class PaymentController {
             redirectUrl = "http://localhost:3000/payment-failed";
         }
         response.sendRedirect(redirectUrl);
+    }
+
+    @GetMapping("/transaction/user-current")
+    ApiResponse<List<PaymentResponse>> fetchTransactionByUserLogin() {
+
+        return ApiResponse.<List<PaymentResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(paymentService.getPaymentByUserLogin())
+                .build();
+    }
+
+    @GetMapping("/transaction/teacher-buy-course")
+    ApiResponse<List<CourseSoldByTeacherResponse>> getCoursesSoldByTeacher() {
+
+        return ApiResponse.<List<CourseSoldByTeacherResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(paymentService.getCoursesSoldByTeacher())
+                .build();
     }
 
     private void recordPaymentTransaction(User user, BigDecimal amount, PaymentStatus status) {

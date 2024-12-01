@@ -77,7 +77,7 @@ export const ProfileDropdown = ({
             {role === "TEACHER" && (
               <li>
                 <Link to="/manager-courses" className="dropdown-item d-flex align-items-center">
-                  <i className="fa-solid fa-book me-2"></i>Manager
+                  <i className="fa-solid fa-user-secret me-2"></i>Manager
                 </Link>
               </li>
             )}

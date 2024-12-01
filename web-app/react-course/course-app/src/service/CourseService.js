@@ -99,3 +99,8 @@ export const myCourse = async () => {
   const response = await axios.get(`api/v1/users/me/courses`);
   return response.data;
 };
+
+export const overview = async (courseId) => {
+  const response = await axios.get(`api/v1/overview-course/${courseId}`);
+  return response.data;
+};

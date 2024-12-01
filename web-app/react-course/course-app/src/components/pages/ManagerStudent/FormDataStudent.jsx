@@ -2,6 +2,7 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import avatarDefault from '../../../img/avatar-default.jpg'
 
 const FormDataStudent = ({ students, currentPage, handlePageClick, totalPages }) => {
 
@@ -62,7 +63,7 @@ const FormDataStudent = ({ students, currentPage, handlePageClick, totalPages })
                                     <td>{student.name}</td>
                                     <td>{student.email}</td>
                                     <td>
-                                        <img src={student.avatar} alt={student.name} className="student-avatar-img" />
+                                        <img src={student.avatar || avatarDefault} alt={student.name} className="student-avatar-img" />
                                     </td>
                                     <td>{student.courseName}</td>
                                     <td>{student.createAt}</td>

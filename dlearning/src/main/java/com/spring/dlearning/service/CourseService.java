@@ -60,6 +60,7 @@ public class CourseService {
     DocumentCourseRepository documentCourseRepository;
     PaymentMethodRepository paymentMethodRepository;
     KafkaTemplate<String, Object> kafkaTemplate;
+    private final PaymentRepository paymentRepository;
 
     public PageResponse<CourseResponse> getAllCourses(Specification<Course> spec, int page, int size) {
 
@@ -303,7 +304,7 @@ public class CourseService {
                 .courseId(course.getId())
                 .paymentMethod(paymentMethod)
                 .points(BigDecimal.valueOf(pointsCourse))
-                .price(BigDecimal.valueOf(pointsCourse * 100))
+                .price(BigDecimal.valueOf(pointsCourse * 10))
                 .status(PaymentStatus.COMPLETED)
                 .build();
 
@@ -376,5 +377,61 @@ public class CourseService {
 
     public List<CourseDocument> findByTitle(String title) {
         return documentCourseRepository.findByTitle(title);
+    }
+
+    @PreAuthorize("isAuthenticated() and hasAnyAuthority('ADMIN', 'TEACHER')")
+    public List<OverviewCourseResponse> overviewCourse() {
+        var email = SecurityUtils.getCurrentUserLogin()
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        List<Course> courses = courseRepository.findByAuthorId(user.getId());
+
+
+        return courses.stream().map(c -> {
+            List<Review> reviews = c.getComments()
+                    .stream().filter(r -> r.getRating() > 0).toList();
+
+            long totalRating = reviews.stream()
+                    .mapToLong(Review::getRating)
+                    .sum();
+
+            int numberOfReviews = reviews.size();
+
+            double averageRating = (numberOfReviews > 0) ? (double) totalRating / numberOfReviews : 0;
+            OverviewCourseResponse response = new OverviewCourseResponse();
+            response.setTitle(c.getTitle());
+            response.setQuantity(c.getQuantity());
+            response.setThumbnail(c.getThumbnail());
+            response.setTotalPrice(BigDecimal.valueOf(c.getPoints() * 100 * (c.getQuantity())));
+            response.setAvgReview(BigDecimal.valueOf(averageRating).setScale(2, RoundingMode.HALF_UP));
+            return response;
+        }).toList();
+    }
+
+    @PreAuthorize("isAuthenticated() and hasAnyAuthority('ADMIN', 'TEACHER')")
+    public OverviewCourseResponse overviewCourseDetail(Long id) {
+
+       Course course = courseRepository.findById(id)
+               .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_EXISTED));
+
+       List<Review> reviews = course.getComments()
+               .stream().filter(r -> r.getRating() > 0)
+               .toList();
+
+       long totalRating = reviews.stream().mapToLong(Review::getRating).sum();
+       int numberOfReviews = reviews.size();
+
+       BigDecimal avgRating = (numberOfReviews > 0) ? BigDecimal.valueOf(totalRating / numberOfReviews) : new BigDecimal(0);
+
+       List<Payment> payments = paymentRepository.findByCourse(course);
+       BigDecimal totalPrice = payments.stream().map(Payment::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+       return OverviewCourseResponse.builder()
+               .quantity(course.getQuantity())
+               .avgReview(avgRating)
+               .totalPrice(totalPrice)
+               .build();
     }
 }

@@ -17075,7 +17075,6 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 }
 
 .student-table td {
-  font-size: 0.9rem;
   color: #555;
 }
 
@@ -17426,4 +17425,16 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 
 .course-title-related {
   color: white;
+}
+
+.btn-verify-otp {
+  width: 70%;
+  color: white;
+  background-color: #0066cc;
+  padding: 10px 0px;
+}
+
+.btn-verify-otp:hover {
+  color: white;
+  background-color: #0066cc;
 }
