@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,7 @@ public class LessonService {
     ReviewRepository reviewRepository;
     BannedWordsService bannedWordsService;
     LessonMapper lessonMapper;
+    LessonProgressRepository lessonProgressRepository;
 
     @Transactional
     @PreAuthorize("isAuthenticated() and hasAuthority('TEACHER')")
@@ -103,6 +105,8 @@ public class LessonService {
             && Objects.equals(useLogin.getRole().getName(), PredefinedRole.TEACHER_ROLE)
             || Objects.equals(useLogin.getRole().getName(), PredefinedRole.ADMIN_ROLE)
         ){
+            List<LessonProgress> lessonProgresses = lessonProgressRepository.findByLesson(lesson.getId());
+            lessonProgressRepository.deleteAll(lessonProgresses);
             lessonRepository.delete(lesson);
         }  else {
             throw new AppException(ErrorCode.FORBIDDEN);

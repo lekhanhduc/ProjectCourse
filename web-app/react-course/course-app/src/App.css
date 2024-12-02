@@ -14310,6 +14310,7 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 .modal-content {
   max-width: 800px;
   margin: auto;
+  height: 618px;
 }
 
 .create-post-container {
@@ -16964,12 +16965,12 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
@@ -17303,6 +17304,7 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 .create-course-modal {
   border-radius: 10px;
   overflow: hidden;
+  overflow-y: auto;
 }
 
 .create-course-header {

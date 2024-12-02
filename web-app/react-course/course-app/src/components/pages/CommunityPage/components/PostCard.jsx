@@ -25,7 +25,7 @@ const PostCard = (props) => {
               className="me-3"
             />
             <div>
-              <strong className="post-author">{author}</strong>
+              <b className="post-author">{author}</b>
               <p className="text-muted mb-0 post-created">{createdAt}</p>
             </div>
           </div>
