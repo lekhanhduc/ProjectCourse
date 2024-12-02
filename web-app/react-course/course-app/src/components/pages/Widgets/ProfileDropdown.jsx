@@ -107,6 +107,15 @@ export const ProfileDropdown = ({
               </li>
             )}
 
+            {(role === "USER" || role === "TEACHER") && (
+              <li>
+                <Link to="/transaction" className="dropdown-item d-flex align-items-center" >
+                  <i className="fas fa-history me-2"></i>
+                  Transaction
+                </Link>
+              </li>
+            )}
+
             <li>
               <Link to="/change-password" className="dropdown-item d-flex align-items-center">
                 <i className="fa-solid fa-key me-2"></i>Password

@@ -1,10 +1,7 @@
 package com.spring.dlearning.controller;
 
 import com.spring.dlearning.constant.PaymentType;
-import com.spring.dlearning.dto.response.ApiResponse;
-import com.spring.dlearning.dto.response.CourseSoldByTeacherResponse;
-import com.spring.dlearning.dto.response.PaymentResponse;
-import com.spring.dlearning.dto.response.VNPAYResponse;
+import com.spring.dlearning.dto.response.*;
 import com.spring.dlearning.entity.Advertisement;
 import com.spring.dlearning.entity.Payment;
 import com.spring.dlearning.entity.PaymentMethod;
@@ -27,6 +24,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -111,11 +109,14 @@ public class PaymentController {
     }
 
     @GetMapping("/transaction/user-current")
-    ApiResponse<List<PaymentResponse>> fetchTransactionByUserLogin() {
+    ApiResponse<PageResponse<PaymentResponse>> fetchTransactionByUserLogin(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size
+    ) {
 
-        return ApiResponse.<List<PaymentResponse>>builder()
+        return ApiResponse.<PageResponse<PaymentResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .result(paymentService.getPaymentByUserLogin())
+                .result(paymentService.getPaymentByUserLogin(page, size))
                 .build();
     }
 
@@ -140,6 +141,7 @@ public class PaymentController {
         Payment payment = Payment.builder()
                 .user(user)
                 .price(amount)
+                .points(amount.divide(BigDecimal.valueOf(100)))
                 .paymentMethod(paymentMethod)
                 .status(status)
                 .build();

@@ -18,7 +18,7 @@ export const FromUpdateProfile = (props) => {
             <div className="card-body">
               <div className="account-settings">
                 <div className="d-flex flex-column align-items-center justify-content-center">
-                  <div className="user-avatar">
+                  <div>
                     <img
                       src={selectedImage}
                       alt="User Avatar"

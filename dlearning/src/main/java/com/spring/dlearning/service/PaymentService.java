@@ -2,6 +2,7 @@ package com.spring.dlearning.service;
 
 import com.spring.dlearning.constant.PaymentType;
 import com.spring.dlearning.dto.response.CourseSoldByTeacherResponse;
+import com.spring.dlearning.dto.response.PageResponse;
 import com.spring.dlearning.dto.response.PaymentResponse;
 import com.spring.dlearning.dto.response.VNPAYResponse;
 import com.spring.dlearning.entity.Payment;
@@ -19,6 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -54,23 +58,34 @@ public class PaymentService {
     }
 
     @PreAuthorize("isAuthenticated()")
-    public List<PaymentResponse> getPaymentByUserLogin () {
+    public PageResponse<PaymentResponse> getPaymentByUserLogin (int page, int size) {
         String email = SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        List<Payment> payments = paymentRepository.findPaymentByUserLogin(user.getId());
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Payment> payments = paymentRepository.findPaymentByUserLogin(user.getId(), pageable);
+        List<PaymentResponse> data = payments.getContent().stream()
+                .map(p -> PaymentResponse.builder()
+                        .email(p.getUser().getEmail())
+                        .thumbnail(p.getCourse() != null ? p.getCourse().getThumbnail() : "")
+                        .title(p.getCourse() != null ? p.getCourse().getTitle() : "")
+                        .price(p.getPrice())
+                        .points(p.getPoints())
+                        .paymentMethod(String.valueOf(p.getPaymentMethod().getMethodName()))
+                        .status(String.valueOf(p.getStatus()))
+                        .createAt(p.getCreatedAt())
+                        .build()).toList();
 
-        return payments.stream().map(p -> PaymentResponse.builder()
-                .email(p.getUser().getEmail())
-                .title(p.getCourse() != null ? p.getCourse().getTitle() : "")
-                .price(p.getPrice())
-                .points(p.getPoints())
-                .paymentMethod(String.valueOf(p.getPaymentMethod().getMethodName()))
-                .status(String.valueOf(p.getStatus()))
-                .build()).toList();
+        return PageResponse.<PaymentResponse>builder()
+                .currentPage(page)
+                .pageSize(pageable.getPageSize())
+                .totalElements(payments.getTotalElements())
+                .totalPages(payments.getTotalPages())
+                .data(data)
+                .build();
     }
 
     @PreAuthorize("isAuthenticated()")

@@ -1,4 +1,5 @@
 import { FaPaperPlane } from 'react-icons/fa';
+import avatarDefault from '../../../../img/avatar-default.jpg';
 
 export const ReviewLesson = (props) => {
 
@@ -22,7 +23,7 @@ export const ReviewLesson = (props) => {
             <div className="comment-lesson-container">
                 <div className="comment-lesson-avatar">
                     <img
-                        src={avatar}
+                        src={avatar || avatarDefault}
                         alt="User Avatar"
                         className="comment-lesson-avatar-img"
                     />
@@ -50,7 +51,7 @@ export const ReviewLesson = (props) => {
                     <div key={comment.reviewId} className="comment-lesson-container">
                         <div className="comment-lesson-avatar">
                             <img
-                                src={comment.avatar}
+                                src={comment.avatar || avatarDefault}
                                 alt="User Avatar"
                                 className="comment-lesson-avatar-img"
                             />

@@ -37,6 +37,7 @@ import RevenuePage from './components/pages/RevenuePage/RevenuePage';
 import ManagerStudent from './components/pages/ManagerStudent/ManagerStudent';
 import AdminApp from "./components/admin/layouts/App";
 import OTPModal from './components/pages/RegisterPage/components/ModalOtp';
+import TransactionPage from './components/pages/TransactionPage/TransactionPage';
 
 function App() {
   return (
@@ -44,14 +45,11 @@ function App() {
       <Routes>
 
         <Route
-          path="/admin/*"
-          element={
-            <Authorization requiredRole={["ADMIN"]}>
-              <AdminApp />
-            </Authorization>
+          path="/admin/*" element={<Authorization requiredRole={["ADMIN"]}>
+            <AdminApp />
+          </Authorization>
           }
         />
-
 
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
@@ -71,6 +69,7 @@ function App() {
           <Route path='/deposit' element={<DepositPage />} />
           <Route path='/courses' element={<Courses />}></Route>
           <Route path='/manager-course/:id' element={<ManagerCourseDetail />} />
+          <Route path="/transaction" element={<TransactionPage />} />
           <Route path="/community" element={
             <PrivateRoute>
               <Community />
@@ -153,6 +152,7 @@ function App() {
         <Route path="/payment-failed" element={<PaymentFail />} />
         <Route path="/payment-cancel" element={<PaymentCancel />} />
         <Route path="/otp" element={<OTPModal />} />
+
 
       </Routes>
     </div>

@@ -7428,7 +7428,6 @@ button.bg-dark:focus {
 
 .rounded-circle {
   border-radius: 50% !important;
-  margin-top: 9px;
 }
 
 .rounded-pill {
@@ -17439,4 +17438,188 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 .btn-verify-otp:hover {
   color: white;
   background-color: #0066cc;
+}
+
+.transaction-page {
+  margin-top: 150px;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.transaction-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.transaction-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: #0056b3;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.transaction-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.transaction-date-filter {
+  display: flex;
+  gap: 10px;
+}
+
+.transaction-date-input {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 150px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.transaction-date-input:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+.transaction-search-button {
+  padding: 10px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-search-button:hover {
+  background-color: #003f7f;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-table th {
+  background-color: #0056b3;
+  color: #fff;
+  font-size: 12px;
+  padding: 12px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.transaction-table td {
+  padding: 12px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f9ff;
+  transition: background-color 0.3s ease;
+}
+
+/* Course Image */
+.transaction-course-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-status {
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.transaction-status.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.transaction-status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.certificate-header {
+  text-align: center;
+}
+
+.certificate-icon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+}
+
+.payment-points {
+  font-size: 16px;
+  color: #333;
+}
+
+.payment-points i {
+  margin-left: 5px;
+}
+
+.transaction-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.transaction-page-item {
+  margin: 0 5px;
+}
+
+.transaction-page-link {
+  font-size: 14px;
+  /* Giảm kích thước font chữ */
+  padding: 6px 12px;
+  /* Giảm kích thước của các nút phân trang */
+  color: #007bff;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.transaction-page-link:hover {
+  background-color: #e2e6ea;
+}
+
+.transaction-page-item.active .transaction-page-link {
+  background-color: #007bff;
+  color: white;
+}
+
+.transaction-page-item.disabled .transaction-page-link {
+  color: #6c757d;
 }
