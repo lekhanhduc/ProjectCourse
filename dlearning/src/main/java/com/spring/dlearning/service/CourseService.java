@@ -308,7 +308,22 @@ public class CourseService {
                 .status(PaymentStatus.COMPLETED)
                 .build();
 
+        Map<String, Object> data = new HashMap<>();
+        data.put("author", authorCourse.getName());
+        data.put("title", course.getTitle());
+        data.put("buyer", user.getEmail());
+        data.put("points", course.getPoints());
+
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .channel("Send Email")
+                .subject("A User Has Purchased Your Course")
+                .recipient(authorCourse.getEmail())
+                .templateCode("course-purchase-notification")
+                .param(data)
+                .build();
+
         kafkaTemplate.send("payment-creation", paymentEvent);
+        kafkaTemplate.send("notification-delivery", notificationEvent);
 
         Enrollment enrollment = Enrollment.builder()
                 .user(user)

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Purchase Notification</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        .header {
+            border-bottom: 2px solid #e2e2e2;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h2 {
+            font-size: 24px;
+            margin: 0;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        .content p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .content p strong {
+            color: #333;
+        }
+        .content .icon {
+            font-size: 18px;
+            margin-right: 10px;
+            color: #007BFF;
+        }
+        .footer {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .footer p {
+            margin-bottom: 5px;
+        }
+        .footer a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .cta {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .cta a {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .cta a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h2><i class="fas fa-graduation-cap icon"></i> Course Purchase Notification</h2>
+    </div>
+
+    <div class="content">
+        <p>Dear <strong th:text="${author}">{{author}}</strong>,</p>
+        <p>We are pleased to inform you that your course <strong th:text="${title}">{{title}}</strong> has just been purchased by a user.</p>
+
+        <p><i class="fas fa-user-circle icon"></i><strong>Buyer Email:</strong> <span th:text="${buyer}">{{buyerEmail}}</span></p>
+        <p><i class="fas fa-dollar-sign icon"></i><strong>Course Price:</strong> <span th:text="${points}">{{coursePrice}}</span> Points</p>
+
+        <p>You can review the purchase and manage your course through your dashboard.</p>
+    </div>
+
+    <div class="cta">
+        <a href="[[${courseLink}]]">View Course Details</a>
+    </div>
+
+    <div class="footer">
+        <p>If you have any questions or need assistance, feel free to <a href="mailto:support@platform.com">contact us</a>.</p>
+        <p>Best regards, <br> The Course Platform Team</p>
+    </div>
+</div>
+</body>
+</html>
