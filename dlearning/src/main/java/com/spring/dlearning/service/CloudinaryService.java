@@ -69,6 +69,7 @@ public class CloudinaryService {
         log.info("Avatar updated successfully for user with email: {}", email);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public void deleteAvatar() {
         String currentUserEmail = SecurityUtils.getCurrentUserLogin()

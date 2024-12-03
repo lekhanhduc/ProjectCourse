@@ -5,6 +5,8 @@ import com.spring.dlearning.dto.response.ApiResponse;
 import com.spring.dlearning.dto.response.UserProfileResponse;
 import com.spring.dlearning.service.CloudinaryService;
 import com.spring.dlearning.service.ProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,13 @@ public class ProfileController {
     ProfileService profileService;
     CloudinaryService cloudinaryService;
 
+    @Operation(summary = "Update user profile", description = "This API allows the user to update their profile information.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Profile updated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PutMapping("/update-profile")
     ApiResponse<Void> updateProfile( @RequestBody @Valid UserProfileRequest request){
         profileService.updateProfile(request);
@@ -37,6 +46,12 @@ public class ProfileController {
     }
 
     @GetMapping("/info-user")
+    @Operation(summary = "Get user profile information", description = "This API retrieves the user's profile information.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "User profile information successfully retrieved"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     ApiResponse<UserProfileResponse> getUserProfile(){
         var result = profileService.getInfoProfile();
 
@@ -47,6 +62,13 @@ public class ProfileController {
                 .build();
     }
 
+    @Operation(summary = "Update user profile avatar", description = "This API allows a user to upload and update their avatar image.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Avatar updated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid file format"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/update-avatar")
     ApiResponse<String> updateAvatar(@RequestParam("file") MultipartFile file) {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -62,6 +84,11 @@ public class ProfileController {
                 .build();
     }
 
+    @Operation(summary = "Remove user profile avatar", description = "This API allows a user to remove their profile avatar.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Avatar removed successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error, failed to remove avatar")
+    })
     @DeleteMapping("remove-avatar")
     ApiResponse<String> removeAvatar() {
         try {

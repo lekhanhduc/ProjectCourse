@@ -109,6 +109,7 @@ const TransactionPage = () => {
                         pageRangeDisplayed={3}
                         onPageChange={handlePageClick}
                         forcePage={currentPage - 1}
+                        className='paginate-transaction'
                         containerClassName={'transaction-pagination'}
                         pageClassName={'transaction-page-item'}
                         pageLinkClassName={'transaction-page-link'}
@@ -120,6 +121,7 @@ const TransactionPage = () => {
                         breakLinkClassName={'transaction-page-link'}
                         activeClassName={'active'}
                     />
+
                 </table>
             </div>
         </div>

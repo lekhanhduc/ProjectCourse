@@ -17589,29 +17589,36 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
   margin-left: 5px;
 }
 
-.transaction-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-}
-
 .transaction-page-item {
   margin: 0 5px;
+  display: inline-block;
+  /* Đảm bảo các phần tử trang có thể hiển thị cùng nhau */
 }
 
 .transaction-page-link {
   font-size: 14px;
-  /* Giảm kích thước font chữ */
   padding: 6px 12px;
-  /* Giảm kích thước của các nút phân trang */
   color: #007bff;
   border-radius: 5px;
   text-align: center;
   background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
 }
 
-.transaction-page-link:hover {
+.transaction-page-item.disabled .transaction-page-link {
+  color: #6c757d;
+}
+
+.transaction-page-item .transaction-page-link {
+  display: inline-block;
+}
+
+.transaction-page-item .transaction-page-link:focus {
+  outline: none;
+}
+
+.transaction-page-item .transaction-page-link:hover {
   background-color: #e2e6ea;
 }
 
@@ -17620,6 +17627,12 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
   color: white;
 }
 
-.transaction-page-item.disabled .transaction-page-link {
+.transaction-page-item.break .transaction-page-link {
+  background-color: transparent;
   color: #6c757d;
+  border: none;
+}
+
+.paginate-transaction {
+  margin-top: 15px;
 }

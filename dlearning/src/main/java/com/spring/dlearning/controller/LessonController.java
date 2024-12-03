@@ -8,6 +8,8 @@ import com.spring.dlearning.dto.response.CommentLessonResponse;
 import com.spring.dlearning.dto.response.LessonCreationResponse;
 import com.spring.dlearning.dto.response.UpdateLessonResponse;
 import com.spring.dlearning.service.LessonService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
@@ -29,6 +31,15 @@ public class LessonController {
 
     LessonService lessonService;
 
+    @Operation(
+            summary = "Create a new lesson",
+            description = "This endpoint allows the creation of a new lesson, including uploading the lesson's video."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Lesson created successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid input or file"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/create-lesson")
     ApiResponse<LessonCreationResponse> createLesson(@RequestPart("request") LessonCreationRequest request,
                                                      @RequestPart("video") MultipartFile file)
@@ -41,6 +52,12 @@ public class LessonController {
                 .build();
     }
 
+    @Operation(summary = "Update an existing lesson", description = "Update lesson details including name, description, and video.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Lesson updated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PutMapping("/update-lesson")
     ApiResponse<UpdateLessonResponse> updateLesson(
             @RequestPart("request") UpdateLessonRequest request,

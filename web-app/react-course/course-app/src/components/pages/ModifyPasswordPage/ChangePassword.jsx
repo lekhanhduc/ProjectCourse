@@ -26,8 +26,6 @@ export const ChangePassword = () => {
 
   const submitChangePassword = (event) => {
     event.preventDefault();
-    setIsSnipping(true);
-
     setTimeout(() => {
       setIsSnipping(false);
     }, 1000);
@@ -56,7 +54,7 @@ export const ChangePassword = () => {
   if (isSnipping) {
     return (<LoadingSpinner />)
   }
-  
+
   return (
     <div className='change-password-page'>
       <div className="container py-5">
