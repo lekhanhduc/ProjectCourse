@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; // Đảm bảo đã import Link từ react-router-dom
+
 import {
   getCourseDetails,
   banCourse,
@@ -67,7 +69,11 @@ const CourseDetail = () => {
     <div className="course-detail-container">
       <ToastContainer />
       <div className="course-header">
-        <h1 className="course-title">{course.title}</h1>
+        <h1 className="course-title">
+          <Link to={`/lesson-detail/${course.id}`} style={{ color: "inherit" }}>
+            {course.title}
+          </Link>
+        </h1>{" "}
         <button
           className={`status-toggle-button ${
             course.enabled ? "enabled" : "disabled"

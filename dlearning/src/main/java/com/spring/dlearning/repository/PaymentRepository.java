@@ -33,5 +33,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>, JpaSpec
 
     @Query("SELECT p FROM Payment p where p.course=:course")
     List<Payment> findByCourse(Course course);
+    // Lọc Payments theo năm
+    @Query("SELECT p FROM Payment p WHERE EXTRACT(YEAR FROM p.createdAt) = :year")
+    List<Payment> findPaymentsByYear(@Param("year") int year);
 
+    @Query("SELECT p FROM Payment p WHERE p.createdAt BETWEEN :startDate AND :endDate")
+    List<Payment> findPaymentsByDateRange(LocalDateTime startDate, LocalDateTime endDate);
 }

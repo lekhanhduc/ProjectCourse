@@ -12,6 +12,10 @@ import TeacherInforDetail from "../components/Teacher/TeacherInforDetail";
 import CourseManage from "../components/Course/CourseManage";
 import CourseDetail from "../components/Course/CourseDetail";
 import CensorAds from "../../pages/AdsPage/components/Censor";
+import SalesStatistics from "../components/Statistical/SalesStatistics";
+import TopRatedCourses from "../components/Statistical/TopRatedCourses";
+import TopRevenueTeachers from "../components/Statistical/TopRevenueTeachers";
+import TopPurchasingUsers from "../components/Statistical/TopPurchasingUsers";
 import Withdrawal from "../components/Withdrawal/Withdrawal";
 
 const AdminApp = () => {
@@ -39,10 +43,13 @@ const AdminApp = () => {
             path="teachers/detail/:id"
             element={<TeacherInforDetail />}
           />{" "}
-          {/* Thêm route này */}
           <Route path="course/manage" element={<CourseManage />} />
           <Route path="course/detail/:courseId" element={<CourseDetail />} />
           <Route path="/advertisement/censor" element={<CensorAds />} />
+          <Route path="statistical/revenue" element={<SalesStatistics />} />
+          <Route path="statistical/rating" element={<TopRatedCourses />} />
+          <Route path="statistical/teacher" element={<TopRevenueTeachers />} />
+          <Route path="statistical/user" element={<TopPurchasingUsers />} />
           <Route path="/withdrawal" element={<Withdrawal />} />
         </Route>
         {/* Route riêng cho NotFound */}

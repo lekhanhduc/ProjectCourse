@@ -16,7 +16,7 @@ public class AdminUserResponse {
     private String name;
     private String email;
     private String gender;
-    private boolean enabled; // Thêm thuộc tính này
-    private String role; // Kiểu String
-    private LocalDateTime createAt; // Đảm bảo kiểu dữ liệu là LocalDateTime
+    private boolean enabled;
+    private String role;
+    private LocalDateTime createAt;
 }

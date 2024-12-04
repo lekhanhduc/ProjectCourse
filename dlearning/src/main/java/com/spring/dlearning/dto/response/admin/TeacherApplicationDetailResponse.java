@@ -18,7 +18,7 @@ public class TeacherApplicationDetailResponse {
     private String phone;
     private String gender;
     private String avatar;
-    private LocalDate dob;               // Giữ nguyên kiểu LocalDate
+    private LocalDate dob;
     private String cvUrl;
     private String certificate;
     private String facebookLink;

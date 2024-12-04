@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AdminCourseResponse {
     private Long id;
-    private Long authorId; // Thêm trường này vào DTO
+    private Long authorId;
     private String title;
     private String description;
     private Boolean enabled;
@@ -23,6 +23,6 @@ public class AdminCourseResponse {
     private Integer duration;
     private Long points;
     private String thumbnail;
-    private LocalDateTime createdAt; // Định dạng đúng kiểu dữ liệu
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -105,8 +105,8 @@ const AppSidebarNav = () => {
         onClick={() => toggleItem("statistical")}
         visible={openItems["statistical"]}
       >
-        {renderNavItem("General", "/admin/statistical/general")}
-        {renderNavItem("Course", "/admin/statistical/course")}
+        {renderNavItem("Revenue", "/admin/statistical/revenue")}
+        {renderNavItem("Rating", "/admin/statistical/rating")}
         {renderNavItem("Teacher", "/admin/statistical/teacher")}
         {renderNavItem("User", "/admin/statistical/user")}
       </CNavGroup>

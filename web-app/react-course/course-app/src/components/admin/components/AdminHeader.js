@@ -107,8 +107,9 @@ const AdminHeader = () => {
                 notifications.map((notification) => (
                   <CDropdownItem
                     key={notification.id}
-                    className={`d-flex align-items-center ${notification.isRead ? "read" : "unread"
-                      }`}
+                    className={`d-flex align-items-center ${
+                      notification.isRead ? "read" : "unread"
+                    }`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <img

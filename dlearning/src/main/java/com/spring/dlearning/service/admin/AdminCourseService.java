@@ -6,6 +6,7 @@ import com.spring.dlearning.exception.AppException;
 import com.spring.dlearning.exception.ErrorCode;
 import com.spring.dlearning.mapper.admin.AdminCourseMapper;
 import com.spring.dlearning.repository.CourseRepository;
+import com.spring.dlearning.repository.ReviewRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -22,6 +27,7 @@ public class AdminCourseService {
 
     CourseRepository courseRepository;
     AdminCourseMapper courseMapper;
+    private final ReviewRepository reviewRepository;
 
     public Page<AdminCourseResponse> getAllCourses(Pageable pageable) {
         return courseRepository.findAll(pageable)
@@ -89,6 +95,9 @@ public class AdminCourseService {
                 .updatedAt(course.getUpdatedAt())
                 .build();
     }
+
+
+
 }
 
 

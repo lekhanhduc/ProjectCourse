@@ -30,5 +30,6 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
     List<Course> findRelatedCourses(@Param("keywords") String keywords, @Param("currentCourseId") Long currentCourseId);
 
     Page<Course> findByEnabled(boolean enabled, Pageable pageable); // Lọc khóa học theo trạng thái enabled
-
+    @Query("SELECT c FROM Course c LEFT JOIN FETCH c.author WHERE c.id = :id")
+    Optional<Course> findCourseDetailsById(@Param("id") Long id);
 }

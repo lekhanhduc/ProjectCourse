@@ -3,6 +3,7 @@ package com.spring.dlearning.controller.admin;
 import com.spring.dlearning.dto.response.admin.AdminCourseResponse;
 import com.spring.dlearning.service.admin.AdminCourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -10,12 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/admin/courses")
 @RequiredArgsConstructor
 public class AdminCourseController {
-
+    @Autowired
     private final AdminCourseService courseService;
+    private final AdminCourseService adminCourseService;
 
     @GetMapping
     public ResponseEntity<Page<AdminCourseResponse>> getAllCourses(
@@ -87,4 +91,5 @@ public class AdminCourseController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return Sort.by(direction, sortBy);
     }
+
 }

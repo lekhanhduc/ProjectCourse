@@ -15,8 +15,8 @@ public class AdminTeacherResponse {
     private String name;
     private String email;
     private String gender;
-    private String role; // Giữ định dạng String
-    private LocalDateTime createdAt; // Thay đổi thành "createdAt" để đồng bộ với entity User
+    private String role;
+    private LocalDateTime createdAt;
 }
 
 

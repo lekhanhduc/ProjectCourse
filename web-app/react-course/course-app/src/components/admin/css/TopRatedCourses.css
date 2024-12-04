@@ -1,0 +1,106 @@
+/* Cung cấp khoảng cách giữa viền và các phần tử */
+.top-rated-courses-container {
+  margin: 20px; /* Tạo khoảng cách cách xa lề trang */
+  padding-left: 20px; /* Khoảng cách giữa container và viền bên trái */
+  padding-right: 20px; /* Khoảng cách bên phải */
+}
+/* Căn giữa tiêu đề h1 */
+.top-rated-courses h1 {
+  text-align: center; /* Căn giữa nội dung */
+  margin-top: 20px; /* Khoảng cách từ trên xuống */
+  font-weight: bold;
+}
+
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center; /* Căn giữa các phần tử trong filter */
+  padding-left: 20px; /* Đảm bảo khoảng cách với viền bên trái */
+}
+
+.filters select,
+.filters button {
+  padding: 10px;
+  margin: 5px;
+  margin-left: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.courses-list-1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-left: 20px; /* Khoảng cách giữa danh sách khóa học và viền */
+}
+
+.course-item-1 {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.course-item-1:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.course-thumbnail-1 img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.course-info-1 {
+  padding: 10px;
+  color: white;
+}
+
+.course-info-1 h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.course-info-1 p {
+  color: yellow;
+  font-weight: bold;
+}
+
+.user-info-1 {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.user-avatar-1 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-info-1 span {
+  font-size: 14px;
+  color: tomato;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-left: 20px; /* Khoảng cách giữa các nút */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.course-item-link-1 {
+  text-decoration: none;
+}

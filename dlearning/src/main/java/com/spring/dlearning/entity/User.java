@@ -137,5 +137,8 @@ public class User extends AbstractEntity<Long> {
             enabled = Boolean.TRUE;
         }
     }
-
+    // Thêm phương thức getFullName() để ghép tên đầy đủ
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
 }
