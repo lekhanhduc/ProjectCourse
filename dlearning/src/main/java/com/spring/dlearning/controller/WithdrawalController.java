@@ -56,7 +56,7 @@ public class WithdrawalController {
     public ResponseEntity<Page<WithdrawalHistoryResponse>> getAllWithdrawal(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "user.name,asc") String[] sort) {
+            @RequestParam(defaultValue = "user.name,asc", required = false)  String[] sort) {
 
         // Điều chỉnh page để Spring bắt đầu từ 0 (page - 1)
         Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));

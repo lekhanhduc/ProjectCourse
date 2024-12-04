@@ -23,7 +23,7 @@ const Withdrawal = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(7);
     const [totalItems, setTotalItems] = useState(0);
-    const [sort, setSort] = useState("name,asc");
+    const [sort, setSort] = useState("user.name,asc");
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate(); // Khởi tạo useNavigate
 
@@ -58,7 +58,7 @@ const Withdrawal = () => {
         try {
             let response = await getAllWithdrawalWithPaginate(page, size, sort);
 
-            setListWithdrawals(response.result);
+            setListWithdrawals(response.content);
             setTotalItems(response.totalElements);
         } catch (error) {
             console.error("Error fetching withdrawal:", error);
@@ -125,8 +125,8 @@ const Withdrawal = () => {
                 </div>
                 <div className="user-manage-sort">
                     <select onChange={handleSortChange}>
-                        <option value="name,asc">Sort by Name (A-Z)</option>
-                        <option value="name,desc">Sort by Name (Z-A)</option>
+                        <option value="user.name,asc">Sort by Name (A-Z)</option>
+                        <option value="user.name,desc">Sort by Name (Z-A)</option>
                         <option value="createdAt,asc">Sort by Date (Oldest)</option>
                         <option value="createdAt,desc">Sort by Date (Newest)</option>
                     </select>
