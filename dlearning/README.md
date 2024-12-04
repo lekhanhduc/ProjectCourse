@@ -1,4 +1,4 @@
-# Install Kafka
+# Install Kafka, ElasticSearch
 docker-compose up -d
 
 # Install Redis

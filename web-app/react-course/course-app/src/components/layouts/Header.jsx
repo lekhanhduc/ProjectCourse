@@ -76,9 +76,12 @@ export const Header = () => {
 
             <div className="navbar-nav ml-auto d-flex align-items-center">
               <div className="nav-item d-flex align-items-center mx-3">
-                <span className="points-display text-primary">
-                  <i className="fa fa-coins"></i> {points.toLocaleString('de-DE')}
-                </span>
+                {role !== 'ADMIN' &&
+                  <span className="points-display text-primary">
+                    <i className="fa fa-coins"></i>
+                    {points != null ? points.toLocaleString('de-DE') : ''}
+                  </span>
+                }
               </div>
 
               <NotificationDropdown

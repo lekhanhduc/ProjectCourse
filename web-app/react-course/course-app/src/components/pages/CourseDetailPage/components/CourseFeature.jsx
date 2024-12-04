@@ -115,7 +115,7 @@ export const CourseFeature = ({ course, handleEnrollNow, isPurchase, id, related
                                     <h6 className="course-title-related mb-1">{related.title}</h6>
                                     <p className="course-author text-muted mb-1">By {related.author}</p>
                                     <span className="course-points badge badge-primary">
-                                        {related.points} Points
+                                        {related.points !== null ? related.points.toLocaleString('de-DE') : 'Free'} Points
                                     </span>
                                 </div>
                             </div>

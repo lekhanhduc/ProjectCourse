@@ -114,7 +114,7 @@ const RevenuePage = () => {
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                                 <Label
-                                    value={`${totalRevenue.toLocaleString('vi-VN')} VND`}
+                                    value={`${totalRevenue.toLocaleString('de-DE')} VND`}
                                     position="center"
                                     style={{ fontSize: '20px', fontWeight: 'bold', fill: '#4A90E2' }}
                                 />
