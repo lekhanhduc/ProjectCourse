@@ -38,6 +38,7 @@ import ManagerStudent from './components/pages/ManagerStudent/ManagerStudent';
 import AdminApp from "./components/admin/layouts/App";
 import OTPModal from './components/pages/RegisterPage/components/ModalOtp';
 import TransactionPage from './components/pages/TransactionPage/TransactionPage';
+import Withdrawal from './components/pages/TeacherPage/Withdrawal';
 
 function App() {
   return (
@@ -84,6 +85,12 @@ function App() {
           <Route path="/manager-student" element={
             <Authorization requiredRole={["TEACHER"]}>
               <ManagerStudent />
+            </Authorization>
+          } />
+
+          <Route path="/Withdrawal" element={
+            <Authorization requiredRole={["TEACHER"]}>
+              <Withdrawal />
             </Authorization>
           } />
 

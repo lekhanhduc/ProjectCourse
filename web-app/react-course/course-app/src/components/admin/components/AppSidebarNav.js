@@ -110,6 +110,19 @@ const AppSidebarNav = () => {
         {renderNavItem("Teacher", "/admin/statistical/teacher")}
         {renderNavItem("User", "/admin/statistical/user")}
       </CNavGroup>
+      <CNavTitle>WITHDRAWAL</CNavTitle>
+      <CNavGroup
+        toggler={
+          <>
+            <CIcon icon={cilChartLine} className="me-2" />
+            Withdrawal
+          </>
+        }
+        onClick={() => toggleItem("statistical")}
+        visible={openItems["statistical"]}
+      >
+        {renderNavItem("Confirm", "/admin/withdrawal")}
+      </CNavGroup>
     </CSidebarNav>
   );
 };

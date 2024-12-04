@@ -83,7 +83,8 @@ public enum ErrorCode {
     INVALID_PAYMENT_TYPE(400, "Payment type invalid", HttpStatus.BAD_REQUEST),
     TOKEN_CREATION_FAIL(400, "Failed to create token", HttpStatus.BAD_REQUEST),
     COURSE_ALREADY_BANNED(400, "Course already banned", HttpStatus.BAD_REQUEST),
-
+    POINT_INVALID(400, "Points cannot be null and less than 0", HttpStatus.BAD_REQUEST),
+    BANK_NUMBER_INVALID(400, "Bank number cannot be null", HttpStatus.BAD_REQUEST)
     ;
 
     private final int code;

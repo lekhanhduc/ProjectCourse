@@ -12,6 +12,7 @@ import TeacherInforDetail from "../components/Teacher/TeacherInforDetail";
 import CourseManage from "../components/Course/CourseManage";
 import CourseDetail from "../components/Course/CourseDetail";
 import CensorAds from "../../pages/AdsPage/components/Censor";
+import Withdrawal from "../components/Withdrawal/Withdrawal";
 
 const AdminApp = () => {
   React.useEffect(() => {
@@ -42,6 +43,7 @@ const AdminApp = () => {
           <Route path="course/manage" element={<CourseManage />} />
           <Route path="course/detail/:courseId" element={<CourseDetail />} />
           <Route path="/advertisement/censor" element={<CensorAds />} />
+          <Route path="/withdrawal" element={<Withdrawal />} />
         </Route>
         {/* Route riêng cho NotFound */}
         <Route path="*" element={<NotFound />} />
