@@ -286,6 +286,7 @@ export const CourseDetail = () => {
                 try {
                     const response = await buyCourse(id);
                     if (response.data.result) {
+                        setIsPurchase(true);
                         Swal.fire({
                             title: 'Purchase successful!',
                             text: `You have purchased the course: ${response.data.result.title}`,
