@@ -1,31 +1,30 @@
 package com.spring.dlearning.service.specitification;
 
 import com.spring.dlearning.entity.Payment;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
+import java.time.LocalDateTime;
 
-public class PaymentSpecification implements Specification<Payment> {
+public class PaymentSpecification {
 
-    private final SearchCriteria criteria;
+    private PaymentSpecification() {}
 
-    public PaymentSpecification(SearchCriteria criteria) {
-        this.criteria = criteria;
-    }
+    public static Specification<Payment> byUserAndCreateAtRange(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate userPredicate = criteriaBuilder.equal(root.get("user").get("id"), userId);
 
-    @Override
-    public Predicate toPredicate(Root<Payment> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        return switch (criteria.getOperation()) {
-            case EQUALITY -> criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
-            case NEGATION -> criteriaBuilder.notEqual(root.get(criteria.getKey()), criteria.getValue());
-            case GREATER_THAN -> criteriaBuilder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
-            case LESS_THAN -> criteriaBuilder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
-            case LIKE -> criteriaBuilder.like(root.get(criteria.getKey()), "%" + criteria.getValue().toString() + "%");
-            case START_WITH -> criteriaBuilder.like(root.get(criteria.getKey()), criteria.getValue().toString() + "%");
-            case ENDS_WITH -> criteriaBuilder.like(root.get(criteria.getKey()),"%" +criteria.getValue().toString());
-            case CONTAINS -> criteriaBuilder.like(root.get(criteria.getKey()), "%" + criteria.getValue().toString() + "%");
+            if (startDate != null && endDate != null) {
+                Predicate datePredicate = criteriaBuilder.between(root.get("createdAt"), startDate, endDate);
+                return criteriaBuilder.and(userPredicate, datePredicate);
+            } else if (startDate != null) {
+                Predicate datePredicate = criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), startDate);
+                return criteriaBuilder.and(userPredicate, datePredicate);
+            } else if (endDate != null) {
+                Predicate datePredicate = criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), endDate);
+                return criteriaBuilder.and(userPredicate, datePredicate);
+            } else {
+                return userPredicate;
+            }
         };
     }
 }

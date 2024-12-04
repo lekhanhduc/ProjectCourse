@@ -44,6 +44,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registration.interceptors(new ChannelInterceptor() {
             @Override
             public Message<?> preSend(@Nonnull Message<?> message, @Nonnull MessageChannel channel) {
+                // Lấy thông tin header STOMP của tin nhắn
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
                 // set auth for websocket session

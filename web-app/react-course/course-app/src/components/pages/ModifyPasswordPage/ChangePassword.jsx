@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FaEye, FaEyeSlash, FaLock, FaKey, FaUser, FaShieldAlt } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaLock, FaKey, FaUser, FaShieldAlt, FaSync } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
-import LoadingSpinner from '../../../utils/LoadingSpinner';
+import { motion } from 'framer-motion';
 
 export const ChangePassword = () => {
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,10 +15,11 @@ export const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [isSnipping, setIsSnipping] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     document.title = 'Change Password'
-  })
+  });
 
   const togglePasswordVisibility = (setter) => {
     setter((prev) => !prev);
@@ -26,6 +27,7 @@ export const ChangePassword = () => {
 
   const submitChangePassword = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     setTimeout(() => {
       setIsSnipping(false);
     }, 1000);
@@ -39,6 +41,7 @@ export const ChangePassword = () => {
       body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
     })
       .then(async (response) => {
+        setIsLoading(false);
         if (response.ok) {
           toast.success('Password changed successfully.');
         } else {
@@ -47,12 +50,13 @@ export const ChangePassword = () => {
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error('An error occurred. Please try again.');
       });
   };
 
   if (isSnipping) {
-    return (<LoadingSpinner />)
+    return (<div>Loading...</div>);
   }
 
   return (
@@ -69,7 +73,12 @@ export const ChangePassword = () => {
               <div className="card-body p-5">
                 <form onSubmit={submitChangePassword}>
                   {/* Current Password Field */}
-                  <div className="mb-4 position-relative">
+                  <motion.div
+                    className="mb-4 position-relative"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     <label htmlFor="currentPassword" className="form-label">Current Password</label>
                     <div className="input-group">
                       <span className="input-group-text bg-white border-end-0"><FaLock /></span>
@@ -89,10 +98,15 @@ export const ChangePassword = () => {
                         {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* New Password Field */}
-                  <div className="mb-4 position-relative">
+                  <motion.div
+                    className="mb-4 position-relative"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     <label htmlFor="newPassword" className="form-label">New Password</label>
                     <div className="input-group">
                       <span className="input-group-text bg-white border-end-0"><FaKey /></span>
@@ -112,10 +126,15 @@ export const ChangePassword = () => {
                         {showNewPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Confirm Password Field */}
-                  <div className="mb-4 position-relative">
+                  <motion.div
+                    className="mb-4 position-relative"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     <label htmlFor="confirmPassword" className="form-label">Confirm New Password</label>
                     <div className="input-group">
                       <span className="input-group-text bg-white border-end-0"><FaKey /></span>
@@ -135,16 +154,28 @@ export const ChangePassword = () => {
                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  {/* Submit Button */}
-                  <div className="d-grid mt-4">
-                    <button type="submit"
-                      className="btn btn-primary btn-lg rounded-pill shadow">
-                      <FaShieldAlt className="me-2"
-                      /> Change Password
+                  {/* Submit Button with loading effect */}
+                  <motion.div
+                    className="d-grid mt-4"
+                    initial={{ scale: 1 }}
+                    animate={{ scale: isLoading ? 1.05 : 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-lg rounded-pill shadow"
+                      disabled={isLoading} // Disable button khi đang gửi yêu cầu
+                    >
+                      {isLoading ? (
+                        <FaSync className="me-2 fa-spin" /> // Biểu tượng đang xoay
+                      ) : (
+                        <FaShieldAlt className="me-2" />
+                      )}
+                      {isLoading ? 'Processing...' : 'Change Password'}
                     </button>
-                  </div>
+                  </motion.div>
                 </form>
               </div>
             </div>
@@ -157,7 +188,6 @@ export const ChangePassword = () => {
         autoClose={3000}
         className="custom-toast-container"
       />
-
     </div>
   );
 };

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -147,6 +149,24 @@ public class PaymentController {
                 .build();
 
         paymentRepository.save(payment);
+    }
+
+    @GetMapping("/transaction/search")
+    ApiResponse<PageResponse<PaymentResponse>> searchTransaction(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDate start = (startDate != null && !startDate.isEmpty()) ? LocalDate.parse(startDate, formatter) : null;
+        LocalDate end = (endDate != null && !endDate.isEmpty()) ? LocalDate.parse(endDate, formatter) : null;
+
+        return ApiResponse.<PageResponse<PaymentResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(paymentService.getPaymentsByDateRange(page, size, start, end))
+                .build();
     }
 
 }

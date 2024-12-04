@@ -8,3 +8,14 @@ export const fetchTransactionByUserLogin = async (page) => {
   });
   return response.data;
 };
+
+export const searchTransaction = async (page, startDate, endDate) => {
+  const response = await axios.get(`api/v1/payment/transaction/search`, {
+    params: {
+      page: page,
+      startDate: startDate ? startDate : "",
+      endDate: endDate ? endDate : "",
+    },
+  });
+  return response.data;
+};
