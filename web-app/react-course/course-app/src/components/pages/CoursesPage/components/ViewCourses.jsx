@@ -43,7 +43,7 @@ export const ViewCourses = ({ courses }) => {
                             </div>
                             <div className="course-price mt-2">
                                 <strong>Price: </strong>
-                                <span className="course-price-value">${course.points}</span>
+                                <span className="course-price-value">${course.points.toLocaleString('de-DE')}</span>
                             </div>
                         </div>
                     </Link>
