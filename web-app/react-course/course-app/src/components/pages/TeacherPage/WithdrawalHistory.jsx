@@ -31,7 +31,7 @@ const WithdrawalHistory = (props) => {
                                 <tr key={`table-users-${index}`}>
                                     <th>{item.name}</th>
                                     <td>{item.points}</td>
-                                    <td>{item.money}</td>
+                                    <td>{item.money} VND</td>
                                     <td>{item.bank}</td>
                                     <td>{item.bankNumber}</td>
                                     <td>{item.status}</td>

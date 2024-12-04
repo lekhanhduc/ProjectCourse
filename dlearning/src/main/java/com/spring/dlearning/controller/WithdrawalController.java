@@ -6,6 +6,7 @@ import com.spring.dlearning.dto.response.PageResponse;
 import com.spring.dlearning.dto.response.WithdrawalHistoryResponse;
 import com.spring.dlearning.dto.response.WithdrawalResponse;
 import com.spring.dlearning.dto.response.admin.AdminUserResponse;
+import com.spring.dlearning.entity.WithdrawalHistory;
 import com.spring.dlearning.service.WithdrawalService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -61,6 +62,42 @@ public class WithdrawalController {
         // Điều chỉnh page để Spring bắt đầu từ 0 (page - 1)
         Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
         Page<WithdrawalHistoryResponse> users = withdrawalService.getAllWithDrawalHistory(pageable);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("get-processing-withdrawal")
+    public ResponseEntity<Page<WithdrawalHistoryResponse>> getProcessingWithdrawal(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "user.name,asc", required = false)  String[] sort) {
+
+        // Điều chỉnh page để Spring bắt đầu từ 0 (page - 1)
+        Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
+        Page<WithdrawalHistoryResponse> users = withdrawalService.getProcessingWithdrawal(pageable);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("get-cancelled-withdrawal")
+    public ResponseEntity<Page<WithdrawalHistoryResponse>> getCancelledWithdrawal(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "user.name,asc", required = false)  String[] sort) {
+
+        // Điều chỉnh page để Spring bắt đầu từ 0 (page - 1)
+        Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
+        Page<WithdrawalHistoryResponse> users = withdrawalService.getCancelledWithdrawal(pageable);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("get-completed-withdrawal")
+    public ResponseEntity<Page<WithdrawalHistoryResponse>> getCompletedWithdrawal(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "user.name,asc", required = false)  String[] sort) {
+
+        // Điều chỉnh page để Spring bắt đầu từ 0 (page - 1)
+        Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
+        Page<WithdrawalHistoryResponse> users = withdrawalService.getCompletedWithdrawal(pageable);
         return ResponseEntity.ok(users);
     }
 

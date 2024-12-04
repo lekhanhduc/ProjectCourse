@@ -26,14 +26,21 @@ const ModalAddWithdrawal = (props) => {
             bankNumber: bankNumber
         }
 
-        const res = await addWithdrawal(withdrawalData);
-        if (res.data && res.data.code === 201) {
-            toast.success("Add withdrawal successfully");
+        try {
+            const res = await addWithdrawal(withdrawalData);
+            if (res.data && res.data.code === 201) {
+                toast.success("Add withdrawal successfully");
+                props.setCurrentPage(1);
+                await props.fetchWithdrawalWithPaginate(1);
+            } else {
+                toast.error("Failed to add withdrawal");
+            }
+        } catch (error) {
+            toast.error("An error occurred while add the withdrawal");
+        } finally {
             handleClose();
-            props.setCurrentPage(1);
-            await props.fetchWithdrawalWithPaginate(1);
-            return;
         }
+
     }
 
     return (
@@ -54,7 +61,7 @@ const ModalAddWithdrawal = (props) => {
                         <div className="col-md-6">
                             <label className="form-label">Point</label>
                             <input
-                                type="text"
+                                type="number"
                                 className="form-control"
                                 value={point}
                                 onChange={(event) => setPoint(event.target.value)}

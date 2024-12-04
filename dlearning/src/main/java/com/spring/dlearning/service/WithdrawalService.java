@@ -5,6 +5,7 @@ import com.spring.dlearning.dto.request.WithdrawalRequest;
 import com.spring.dlearning.dto.response.PageResponse;
 import com.spring.dlearning.dto.response.WithdrawalHistoryResponse;
 import com.spring.dlearning.dto.response.WithdrawalResponse;
+import com.spring.dlearning.dto.response.admin.AdminCourseResponse;
 import com.spring.dlearning.dto.response.admin.AdminUserResponse;
 import com.spring.dlearning.entity.User;
 import com.spring.dlearning.entity.WithdrawalHistory;
@@ -76,6 +77,21 @@ public class WithdrawalService {
         return withdrawalRepository.findAll(pageable).map(withdrawl -> withdrawalMapper.toWithdrawalHistoryResponse(withdrawl));
     }
 
+    public Page<WithdrawalHistoryResponse> getCompletedWithdrawal(Pageable pageable) {
+        return withdrawalRepository.findByStatus(TransactionStatus.COMPLETED, pageable)
+                .map(withdrawalMapper::toWithdrawalHistoryResponse);
+    }
+
+    public Page<WithdrawalHistoryResponse> getProcessingWithdrawal(Pageable pageable) {
+        return withdrawalRepository.findByStatus(TransactionStatus.PROCESSING, pageable)
+                .map(withdrawalMapper::toWithdrawalHistoryResponse);
+    }
+
+    public Page<WithdrawalHistoryResponse> getCancelledWithdrawal(Pageable pageable) {
+        return withdrawalRepository.findByStatus(TransactionStatus.CANCELLED, pageable)
+                .map(withdrawalMapper::toWithdrawalHistoryResponse);
+    }
+
     public WithdrawalResponse addWithdrawal(WithdrawalRequest withdrawalRequest) {
 
         String email = SecurityUtils.getCurrentUserLogin()
@@ -84,7 +100,7 @@ public class WithdrawalService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        if (withdrawalRequest.getPoints() == null || withdrawalRequest.getPoints() < 0) {
+        if (withdrawalRequest.getPoints() == null || withdrawalRequest.getPoints() <= 0 || withdrawalRequest.getPoints() > user.getPoints()) {
             throw new AppException(ErrorCode.POINT_INVALID);
         }
 
@@ -104,6 +120,7 @@ public class WithdrawalService {
         return withdrawalMapper.toWithdrawalResponse(withdrawalHistory);
     }
 
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
     public void acceptWithdrawal(Long id){
         WithdrawalHistory withdrawalHistory = withdrawalRepository.findById(id).get();
 
@@ -111,6 +128,7 @@ public class WithdrawalService {
         withdrawalRepository.save(withdrawalHistory);
     }
 
+    @PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
     public void cancelWithdrawal(Long id){
         WithdrawalHistory withdrawalHistory = withdrawalRepository.findById(id).get();
         withdrawalHistory.setStatus(TransactionStatus.CANCELLED);

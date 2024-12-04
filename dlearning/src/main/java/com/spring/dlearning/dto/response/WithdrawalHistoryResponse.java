@@ -6,6 +6,8 @@ import com.spring.dlearning.common.TransactionStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @Builder
@@ -27,4 +29,6 @@ public class WithdrawalHistoryResponse {
     String bankNumber;
 
     TransactionStatus status;
+
+    LocalDateTime createAt;
 }

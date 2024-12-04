@@ -6,7 +6,7 @@ import "./Teacher.css";
 import WithdrawalHistory from "./WithdrawalHistory";
 import { getWithdrawal, getWithdrawalWithPaginate } from "../../../service/WithdrawalService";
 const Withdrawal = () => {
-    const LIMIT = 3;
+    const LIMIT = 5;
     const token = localStorage.getItem('token');
     const [showModalAddWithdrawal, setShowModalAddWithdrawal] = useState(false);
     const [listWithdrawals, setListWithdrawals] = useState([]);
