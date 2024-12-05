@@ -88,7 +88,7 @@ public enum ErrorCode {
     YEARS_OF_EXPERIENCE_INVALID(400, "Years of experience must be greater than or equal to 1", HttpStatus.BAD_REQUEST),
     CERTIFICATE_INVALID(400, "Certificate cannot be null", HttpStatus.BAD_REQUEST),
     CV_INVALID(400, "Cv cannot be null", HttpStatus.BAD_REQUEST),
-    EXPERTISE_INVALID(400, "Expertise can not be null", HttpStatus.BAD_REQUEST)
+    EXPERTISE_INVALID(400, "Expertise can not be null", HttpStatus.BAD_REQUEST),
     ;
 
     private final int code;

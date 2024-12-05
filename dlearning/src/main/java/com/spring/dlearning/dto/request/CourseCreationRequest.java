@@ -1,6 +1,7 @@
 package com.spring.dlearning.dto.request;
 
 import com.spring.dlearning.common.CourseLevel;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,5 +17,7 @@ public class CourseCreationRequest {
     Integer duration;
     String language;
     CourseLevel courseLevel;
+
+    @Min(value = 1, message = "POINT_INVALID")
     Long points;
 }

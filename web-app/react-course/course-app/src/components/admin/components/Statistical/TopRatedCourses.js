@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getTopRatedCourses } from "../../service/TopRatedCoursesService"; // API service
 import "../../css/TopRatedCourses.css"; // Import CSS
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import ReactPaginate from "react-paginate";
 
 const TopRatedCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -10,6 +11,8 @@ const TopRatedCourses = () => {
   const [sortOrder, setSortOrder] = useState("desc"); // Sorting order (desc/asc)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
 
   const months = [
     "January",
@@ -33,8 +36,14 @@ const TopRatedCourses = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getTopRatedCourses(month, year, 1, 10, ascending); // Fetch data with ascending parameter
-      setCourses(response);
+      const response = await getTopRatedCourses(
+        month,
+        year,
+        currentPage,
+        ascending
+      );
+      setCourses(response.result.data);
+      setTotalPages(response.result.totalPages);
     } catch (error) {
       setError("Error fetching top-rated courses.");
     } finally {
@@ -45,11 +54,15 @@ const TopRatedCourses = () => {
   // Automatically fetch courses when month, year, or sortOrder changes
   useEffect(() => {
     fetchTopRatedCourses(sortOrder === "asc");
-  }, [month, year, sortOrder]);
+  }, [month, year, sortOrder, currentPage]);
 
   // Handle sorting by rating
   const handleSort = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected + 1);
   };
 
   return (
@@ -105,6 +118,27 @@ const TopRatedCourses = () => {
           </div>
         ))}
       </div>
+      <ReactPaginate
+        previousLabel={"«"}
+        nextLabel={"»"}
+        breakLabel={"..."}
+        pageCount={totalPages}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={3}
+        onPageChange={handlePageClick}
+        forcePage={currentPage - 1}
+        className="paginate-transaction"
+        containerClassName={"transaction-pagination"}
+        pageClassName={"transaction-page-item"}
+        pageLinkClassName={"transaction-page-link"}
+        previousClassName={"transaction-page-item"}
+        previousLinkClassName={"transaction-page-link"}
+        nextClassName={"transaction-page-item"}
+        nextLinkClassName={"transaction-page-link"}
+        breakClassName={"transaction-page-item"}
+        breakLinkClassName={"transaction-page-link"}
+        activeClassName={"active"}
+      />
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
     </div>

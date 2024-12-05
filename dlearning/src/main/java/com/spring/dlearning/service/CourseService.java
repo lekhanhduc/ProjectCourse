@@ -60,7 +60,7 @@ public class CourseService {
     DocumentCourseRepository documentCourseRepository;
     PaymentMethodRepository paymentMethodRepository;
     KafkaTemplate<String, Object> kafkaTemplate;
-    private final PaymentRepository paymentRepository;
+    PaymentRepository paymentRepository;
 
     public PageResponse<CourseResponse> getAllCourses(Specification<Course> spec, int page, int size) {
 
@@ -300,7 +300,12 @@ public class CourseService {
 
 //       Cộng tiền vào account author khi người dùng mua thành công
         User authorCourse = course.getAuthor();
-        authorCourse.setPoints(authorCourse.getPoints() + pointsCourse);
+        Long addPointsTeacher = course.getPoints() * 80 / 100;
+        if(authorCourse.getPoints() == null) {
+            authorCourse.setPoints(addPointsTeacher);
+        } else {
+            authorCourse.setPoints(authorCourse.getPoints() + addPointsTeacher);
+        }
 
         PaymentMethod paymentMethod = paymentMethodRepository.findByMethodName(PaymentMethodName.BANK_TRANSFER)
                 .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.builder()

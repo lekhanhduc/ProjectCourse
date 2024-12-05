@@ -28,7 +28,7 @@ const SalesStatistics = () => {
   const [year, setYear] = useState(2024);
   const [loading, setLoading] = useState(false);
 
-  const years = [2024, 2025, 2026];
+  const years = [2022, 2023, 2024, 2025, 2026];
 
   useEffect(() => {
     const fetchData = async () => {

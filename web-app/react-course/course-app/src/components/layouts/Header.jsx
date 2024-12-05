@@ -53,7 +53,7 @@ export const Header = () => {
         <nav className="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
           <NavLink to="/home" className="navbar-brand ml-lg-3">
             <h1 className="m-0 text-uppercase text-primary rounded">
-              <i className="fa fa-book-reader mr-3"></i>D-LEARNING
+              <i className="fa fa-book-reader mr-3"></i>LEARNING
             </h1>
           </NavLink>
 

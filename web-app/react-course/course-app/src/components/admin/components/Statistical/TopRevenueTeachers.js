@@ -132,7 +132,10 @@ const TopRevenueTeachers = () => {
               className="teacher-avatar-24"
             />
             <h2>{teacher.teacherName}</h2>
-            <p>Total Revenue: ${teacher.totalRevenue.toFixed(2)}</p>
+            <p>
+              Total Revenue:{" "}
+              {teacher.totalRevenue.toLocaleString("de-DE") + " VND"}
+            </p>
             <p>Total Courses Sold: {teacher.totalCoursesSold}</p>
             <Link
               to={`http://localhost:3000/admin/users/detail/${teacher.teacherId}`}

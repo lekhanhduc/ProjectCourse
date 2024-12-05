@@ -104,9 +104,9 @@ import {
   cilUser,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-
 import { HandleLogout } from "../../../../service/Oauth2/HandleLogout";
 import { useUserProfile } from "../../../../hooks/useUserProfile"; // Import custom hook to fetch user profile
+import avatarDefault from "../../../../img/avatar-default.jpg";
 
 const AppHeaderDropdown = () => {
   const { handleLogout } = HandleLogout();
@@ -121,7 +121,7 @@ const AppHeaderDropdown = () => {
         caret={false}
       >
         {/* If avatar exists, display it, otherwise show default */}
-        <CAvatar src={avatar || "default-avatar.jpg"} size="md" />
+        <CAvatar src={avatar || avatarDefault} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
