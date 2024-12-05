@@ -28,8 +28,8 @@ const SidebarCommunity = (props) => {
                 </button>
             </Form.Group>
             <div className="sidebar-menu">
-                <Link to="/community" ><SidebarMenuItem title="Dashboard" icon={<FaHome />} /></Link>
-                <Link to="/community/my-post"><SidebarMenuItem title="My Post" icon={<FaPen  />} /></Link>
+                <Link to="/community" className="sidebar-community"><SidebarMenuItem title="Dashboard" icon={<FaHome />} /></Link>
+                <Link to="/community/my-post" className="sidebar-community"><SidebarMenuItem title="My Post" icon={<FaPen  />} /></Link>
             </div>
         </div>
     );

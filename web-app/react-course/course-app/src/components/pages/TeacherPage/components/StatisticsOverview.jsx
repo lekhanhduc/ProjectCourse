@@ -19,7 +19,7 @@ const StatisticsOverview = ({ courseOverview }) => {
             </div>
             <div className="stats-card">
                 <h3 className="icons-lesson-detail-completion"><GiTakeMyMoney /></h3>
-                <p>{courseOverview.totalPrice}</p>
+                <p>{courseOverview.totalPrice !== null ? courseOverview.totalPrice.toLocaleString('de-DE') + ' VND' : '0'}</p>
             </div>
         </div>
     );

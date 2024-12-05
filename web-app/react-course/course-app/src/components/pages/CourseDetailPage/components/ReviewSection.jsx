@@ -37,7 +37,7 @@ export const ReviewSection = ({
                 {/* Rating Stars */}
                 {renderStars(newRating, handleRatingChange)}
 
-                <button className="btn btn-primary px-4 mt-3" onClick={handleAddReview}>
+                <button className="btn btn-primary px-4 mt-3 send-review" onClick={handleAddReview}>
                     Send
                 </button>
             </div>}
@@ -83,7 +83,7 @@ export const ReviewSection = ({
                                     value={editContent[comment.id] !== undefined ? editContent[comment.id] : comment.content}
                                     onChange={(e) => setEditContent({ ...editContent, [comment.id]: e.target.value })}
                                 />
-                                <button className="btn btn-success mt-2" onClick={() => handleEditReview(comment.id, editContent[comment.id])}>
+                                <button className="btn btn-success mt-2 save-review" onClick={() => handleEditReview(comment.id, editContent[comment.id])}>
                                     Save
                                 </button>
                             </div>
@@ -149,7 +149,7 @@ export const ReviewSection = ({
                                     value={replyContent[comment.id] || ""}
                                     onChange={(e) => setReplyContent({ ...replyContent, [comment.id]: e.target.value })}
                                 />
-                                <button className="btn btn-primary px-4" onClick={() => handleAddReply(comment.id)}>
+                                <button className="btn btn-primary px-4 send-review" onClick={() => handleAddReply(comment.id)}>
                                     Send
                                 </button>
 

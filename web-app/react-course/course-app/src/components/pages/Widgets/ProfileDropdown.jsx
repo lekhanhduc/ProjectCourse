@@ -128,7 +128,7 @@ export const ProfileDropdown = ({
             </li>
 
             <li>
-              <Button className="dropdown-item d-flex align-items-center" id="logout"
+              <Button className="dropdown-item d-flex align-items-center btn-logout" id="logout"
                 onClick={handleLogout} >
                 <i className="fa-solid fa-sign-out-alt me-2"></i>Logout
               </Button>

@@ -73,9 +73,7 @@ public class PaymentController {
                             .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
                     recordPaymentTransaction(user, actualAmount, PaymentStatus.COMPLETED);
-                    BigDecimal pointsPer1000VND = new BigDecimal(10); // 1.000 VND = 10 points
-                    BigDecimal numberOfThousands = actualAmount.divide(new BigDecimal(1000)); //
-                    BigDecimal totalPoints = numberOfThousands.multiply(pointsPer1000VND);
+                    BigDecimal totalPoints = actualAmount.divide(new BigDecimal(1000));
 
                     long pointsToAdd = totalPoints.longValue();
 
@@ -131,26 +129,6 @@ public class PaymentController {
                 .build();
     }
 
-    private void recordPaymentTransaction(User user, BigDecimal amount, PaymentStatus status) {
-
-        PaymentMethod paymentMethod = paymentMethodRepository.findByMethodName(PaymentMethodName.BANK_TRANSFER)
-                .orElseGet(() -> paymentMethodRepository.save(
-                        PaymentMethod.builder()
-                                .methodName(PaymentMethodName.BANK_TRANSFER)
-                                .build()
-                ));
-
-        Payment payment = Payment.builder()
-                .user(user)
-                .price(amount)
-                .points(amount.divide(BigDecimal.valueOf(100)))
-                .paymentMethod(paymentMethod)
-                .status(status)
-                .build();
-
-        paymentRepository.save(payment);
-    }
-
     @GetMapping("/transaction/search")
     ApiResponse<PageResponse<PaymentResponse>> searchTransaction(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -167,6 +145,26 @@ public class PaymentController {
                 .code(HttpStatus.OK.value())
                 .result(paymentService.getPaymentsByDateRange(page, size, start, end))
                 .build();
+    }
+
+    private void recordPaymentTransaction(User user, BigDecimal amount, PaymentStatus status) {
+
+        PaymentMethod paymentMethod = paymentMethodRepository.findByMethodName(PaymentMethodName.BANK_TRANSFER)
+                .orElseGet(() -> paymentMethodRepository.save(
+                        PaymentMethod.builder()
+                                .methodName(PaymentMethodName.BANK_TRANSFER)
+                                .build()
+                ));
+
+        Payment payment = Payment.builder()
+                .user(user)
+                .price(amount)
+                .points(amount.divide(BigDecimal.valueOf(1000)))
+                .paymentMethod(paymentMethod)
+                .status(status)
+                .build();
+
+        paymentRepository.save(payment);
     }
 
 }

@@ -23,7 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +59,26 @@ public class TeacherService {
                 .build();
     }
 
+    private BigDecimal avgRating (User teacher) {
+        List<Course> courses = teacher.getCourses();
+
+        long countRating =  courses.stream().flatMap(course -> course.getReviews().stream())
+                .filter(review -> review.getRating() > 0)
+                .count();
+
+        log.info("countRating {}", countRating);
+
+        BigDecimal totalRating = courses.stream().flatMap(course -> course.getReviews().stream())
+                .filter(review -> review.getRating() > 0 )
+                .map(review -> BigDecimal.valueOf(review.getRating()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return countRating > 0
+                ?
+                totalRating.divide(BigDecimal.valueOf(countRating), 2, RoundingMode.HALF_UP)
+                : BigDecimal.ZERO;
+    }
+
     public PageResponse<StudentResponse> getStudentsByPurchasedCourses(int page, int size) {
         String email = SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
@@ -84,22 +106,6 @@ public class TeacherService {
                         .createAt(enrollment.getCreatedAt())
                         .build()).toList())
                 .build();
-    }
-
-    private BigDecimal avgRating (User user) {
-        long countRating = user.getReviews().stream().filter(review -> review.getRating() != 0)
-                .count();
-
-        BigDecimal totalRating = user.getReviews()
-                .stream()
-                .filter(review -> review.getRating() != 0)
-                .map(review -> BigDecimal.valueOf(review.getRating()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return countRating > 0
-                ?
-                totalRating.divide(BigDecimal.valueOf(countRating), 2, RoundingMode.HALF_UP)
-                : BigDecimal.ZERO;
     }
 
 }

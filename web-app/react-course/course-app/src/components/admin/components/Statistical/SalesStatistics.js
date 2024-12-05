@@ -10,9 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { getRevenueData } from "../../service/SalesStatisticsService"; // API service
-import { Select, Spin } from "antd"; // Import Select từ Ant Design
-import { color } from "framer-motion";
+import { getRevenueData } from "../../service/SalesStatisticsService";
+import { Select, Spin } from "antd";
 
 ChartJS.register(
   CategoryScale,
@@ -26,10 +25,10 @@ ChartJS.register(
 
 const SalesStatistics = () => {
   const [data, setData] = useState({ labels: [], datasets: [] });
-  const [year, setYear] = useState(2024); // Năm mặc định
+  const [year, setYear] = useState(2024);
   const [loading, setLoading] = useState(false);
 
-  const years = [2024, 2025, 2026]; // Các năm có thể chọn
+  const years = [2024, 2025, 2026];
 
   useEffect(() => {
     const fetchData = async () => {

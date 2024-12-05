@@ -18,8 +18,8 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
     @Query("SELECT c FROM Course c JOIN c.author u WHERE u.id = :userId")
     List<Course> findByAuthorId(@Param("userId") Long userId);
 
-    @Query("SELECT count(*) FROM Review r WHERE r.user.id=:userId")
-    int totalReview (Long userId);
+    @Query("SELECT count(r) FROM Review r WHERE r.course.author.id = :userId")
+    int totalReview(Long userId);
 
     @Query(value = "SELECT * FROM courses " +
             "WHERE MATCH(title, description) AGAINST (:keywords IN NATURAL LANGUAGE MODE) " +

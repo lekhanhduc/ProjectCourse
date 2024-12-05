@@ -106,11 +106,11 @@ public class User extends AbstractEntity<Long> {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    Set<Course> courses;
+    List<Course> courses;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews"})
-    Set<Review> reviews;
+    List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "user"})
@@ -137,7 +137,6 @@ public class User extends AbstractEntity<Long> {
             enabled = Boolean.TRUE;
         }
     }
-    // Thêm phương thức getFullName() để ghép tên đầy đủ
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }

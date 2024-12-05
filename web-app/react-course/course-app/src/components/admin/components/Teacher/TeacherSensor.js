@@ -16,8 +16,8 @@ import {
   approveTeacher,
   rejectTeacher,
 } from "../../service/Admin_TeacherService";
-import "../../css/UserManage.css"; // Common CSS
-import "../../css/TeacherCensor.css"; // Specific CSS
+import "../../css/UserManage.css";
+import "../../css/TeacherCensor.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

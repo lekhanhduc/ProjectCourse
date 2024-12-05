@@ -52,14 +52,9 @@ const TopRatedCourses = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  // Handle month and year change
-  const handleMonthChange = (e) => setMonth(e.target.value);
-  const handleYearChange = (e) => setYear(e.target.value);
-
   return (
     <div className="top-rated-courses">
-      {/* Tiêu đề thẻ H1 */}
-      <h1>Top Rated Courses</h1> {/* Tiêu đề trang */}
+      <h1>Top Rated Courses</h1>
       <div className="filters">
         <div className="month-year-container">
           <select value={month} onChange={(e) => setMonth(e.target.value)}>

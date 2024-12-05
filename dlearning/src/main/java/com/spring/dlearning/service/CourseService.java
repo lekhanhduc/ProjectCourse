@@ -304,7 +304,7 @@ public class CourseService {
                 .courseId(course.getId())
                 .paymentMethod(paymentMethod)
                 .points(BigDecimal.valueOf(pointsCourse))
-                .price(BigDecimal.valueOf(pointsCourse * 10))
+                .price(BigDecimal.valueOf(pointsCourse * 1000))
                 .status(PaymentStatus.COMPLETED)
                 .build();
 

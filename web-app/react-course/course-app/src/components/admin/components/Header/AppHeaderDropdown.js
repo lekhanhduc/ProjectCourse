@@ -84,7 +84,7 @@
 // };
 
 // export default AppHeaderDropdown;
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   CAvatar,
   CBadge,
@@ -111,8 +111,7 @@ import { useUserProfile } from "../../../../hooks/useUserProfile"; // Import cus
 const AppHeaderDropdown = () => {
   const { handleLogout } = HandleLogout();
 
-  // Use the useUserProfile hook to get avatar, points, and loading state
-  const { avatar, points, loading } = useUserProfile();
+  const { avatar } = useUserProfile();
 
   return (
     <CDropdown variant="nav-item">

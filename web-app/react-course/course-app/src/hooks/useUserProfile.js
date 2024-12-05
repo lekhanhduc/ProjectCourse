@@ -12,7 +12,7 @@ export const useUserProfile = () => {
   useEffect(() => {
     if (!authContext.authenticated) {
       setAvatar(null);
-      setPoints(0);
+      setPoints(null);
       setLoading(false);
       return;
     }

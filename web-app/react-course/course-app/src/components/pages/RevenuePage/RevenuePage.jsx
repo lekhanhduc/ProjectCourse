@@ -45,7 +45,7 @@ const RevenuePage = () => {
     // Dữ liệu cho biểu đồ tròn với màu sắc mới
     const pieData = [
         { name: 'Total Revenue', value: totalRevenue },
-        { name: 'Remaining', value: 50000000 - totalRevenue } // Giả sử mục tiêu là 1 triệu VND
+        { name: 'Remaining', value: 500000000 - totalRevenue } // Giả sử mục tiêu là 1 triệu VND
     ];
     const COLORS = ['#4A90E2', '#B0BEC5']; // Xanh lam nhạt và xám đậm
 

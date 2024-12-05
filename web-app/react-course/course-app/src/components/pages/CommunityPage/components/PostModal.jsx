@@ -182,12 +182,12 @@ const PostModal = ({ show, handleClose, post }) => {
                 setComments((prevComments) => {
                     // Bước 1: Tạo một danh sách comments mới bằng cách map qua các bình luận cũ.
                     const updateComments = prevComments.map(comment => {
-                    // Bước 2: Kiểm tra xem comment hiện tại có trùng ID với comment cần update không (commentId là ID của comment muốn update)
+                        // Bước 2: Kiểm tra xem comment hiện tại có trùng ID với comment cần update không (commentId là ID của comment muốn update)
                         if (comment.id === commentId) {
                             // Nếu trùng, cập nhật content của comment đó với nội dung mới từ `result`
                             return { ...comment, content: result.content };
                         }
-                    // Bước 3: Nếu không phải bình luận cha, tìm trong danh sách replies (bình luận con) của bình luận hiện tại
+                        // Bước 3: Nếu không phải bình luận cha, tìm trong danh sách replies (bình luận con) của bình luận hiện tại
                         const updatedReplies = comment.replies.map(reply => {
                             // Nếu reply hiện tại có ID trùng với commentId, cập nhật nội dung của nó
                             if (reply.id === commentId) {
@@ -196,7 +196,7 @@ const PostModal = ({ show, handleClose, post }) => {
                             // Nếu không, giữ nguyên reply
                             return reply;
                         });
-                    // Bước 4: Trả về bình luận hiện tại với danh sách replies đã được cập nhật (nếu có)
+                        // Bước 4: Trả về bình luận hiện tại với danh sách replies đã được cập nhật (nếu có)
                         return { ...comment, replies: updatedReplies };
                     })
                     // Bước 5: Cập nhật lại state `comments` với danh sách bình luận đã thay đổi
@@ -252,7 +252,7 @@ const PostModal = ({ show, handleClose, post }) => {
 
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <strong>{cmt.name}</strong> <span className="text-muted">{timeAgo(cmt.createdAt)}</span>
+                                            <b>{cmt.name}</b> <span className="text-muted">{timeAgo(cmt.createdAt)}</span>
                                         </div>
                                         <Dropdown show={activeDropdownId === cmt.id} onToggle={() => toggleDropdown(cmt.id)} className="ms-auto">
                                             <Dropdown.Toggle as="button" className="post-dropdown-toggle">
@@ -300,7 +300,7 @@ const PostModal = ({ show, handleClose, post }) => {
                                                     <div className="flex-grow-1">
                                                         <div className="d-flex justify-content-between align-items-center">
                                                             <div>
-                                                                <strong>{reply.name}</strong>
+                                                                <b>{reply.name}</b>
                                                                 <span className="text-muted"> - {timeAgo(reply.createdAt)}</span>
                                                             </div>
                                                             <Dropdown show={activeDropdownId === reply.id} onToggle={() => toggleDropdown(reply.id)} className="ms-auto">

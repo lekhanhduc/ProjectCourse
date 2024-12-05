@@ -298,7 +298,7 @@ export const FromUpdateProfile = (props) => {
                       name="submit"
                       className="btn btn-secondary"
                       style={{
-                        marginRight: "10px",
+                        marginRight: "0px",
                         padding: "8px 15px",
                         borderRadius: "5px",
                       }}

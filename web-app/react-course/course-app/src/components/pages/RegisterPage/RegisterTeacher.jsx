@@ -81,8 +81,8 @@ export const RegisterTeacher = () => {
                 toast.success('Registration successful! Please await our notification.');
                 return;
             }
-            if (data.code === 400 && data.message === 'Your request is pending review, please do not resubmit.') {
-                toast.error('Your request is pending review, please do not resubmit.');
+            if (data.code === 400) {
+                toast.error(data.message);
                 return;
             }
         } catch (error) {
@@ -109,12 +109,12 @@ export const RegisterTeacher = () => {
                                     wrapper="span"
                                     speed={50}
                                     style={{
-                                        fontSize: '1.2em', 
-                                        fontWeight: 'bold', 
+                                        fontSize: '1.2em',
+                                        fontWeight: 'bold',
                                         display: 'inline-block',
-                                        color: '#007bff', 
-                                        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', 
-                                        letterSpacing: '0.05em', 
+                                        color: '#007bff',
+                                        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+                                        letterSpacing: '0.05em',
                                     }}
                                     repeat={Infinity}
                                 />

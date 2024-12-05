@@ -39,7 +39,7 @@ export const CommentParent = ({
                 <div className="flex-grow-1">
                     <div className="d-flex justify-content-between align-items-center">
                         <div>
-                            <strong>{comment.name}</strong> <span className="text-muted">{timeAgo(comment.createdAt)}</span>
+                            <b>{comment.name}</b> <span className="text-muted">{timeAgo(comment.createdAt)}</span>
                         </div>
                         <CommentDropdown
                             commentId={comment.id}

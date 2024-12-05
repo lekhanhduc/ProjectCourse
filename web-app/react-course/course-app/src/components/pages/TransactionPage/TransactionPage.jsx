@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../utils/LoadingSpinner';
 import ReactPaginate from 'react-paginate';
 import { searchTransaction } from '../../../service/PaymentService';
+import deposit from '../../../img/naptien.png';
 
 const TransactionPage = () => {
 
@@ -30,9 +31,7 @@ const TransactionPage = () => {
     };
 
     useEffect(() => {
-        if (currentPage === 1) {
-            fetchPayment();
-        }
+        fetchPayment();
     }, [currentPage]);
 
     const handlePageClick = (data) => {
@@ -95,7 +94,7 @@ const TransactionPage = () => {
                                 <tr key={index}>
                                     <td>
                                         <img
-                                            src={payment.thumbnail || "https://png.pngtree.com/png-clipart/20230822/original/pngtree-business-acounting-money-mobile-cash-logo-vector-template-picture-image_8185496.png"}
+                                            src={payment.thumbnail || deposit}
                                             alt="Course Thumbnail"
                                             className="transaction-course-img"
                                         />

@@ -85,6 +85,9 @@ public class Course  {
     @JsonIgnore
     List<Payment> payments;
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Review> reviews;
+
     @Column(name = "created_by")
     @CreatedBy
     String createdBy;

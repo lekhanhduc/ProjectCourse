@@ -14,7 +14,7 @@ export const PostHeader = ({ avatar, author, createdAt }) => {
                 className="me-3"
             />
             <div>
-                <strong>{author}</strong>
+                <b>{author}</b>
                 <p className="text-muted mb-0" style={{ fontSize: '0.85em' }}>{createdAt}</p>
             </div>
         </div>
