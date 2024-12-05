@@ -20,14 +20,20 @@ public class AdsCleanUpScheduler {
     public void cleanAds() {
         List<Advertisement> ads = adRepository.findAll();
         if(!ads.isEmpty()) {
-            ads.stream()
-                    .filter(a ->  a.getApprovalStatus().equals(AdsStatus.ACTIVE) && a.getEndDate().isBefore(LocalDate.now()))
-                    .forEach(a -> {
-                        a.setApprovalStatus(AdsStatus.COMPLETED);
-                        adRepository.save(a);
-                        log.info("Ad ID {} has been updated to COMPLETED.", a.getId());
+            ads.forEach(a -> {
+                        if (a.getApprovalStatus().equals(AdsStatus.ACTIVE) && a.getEndDate().isBefore(LocalDate.now())) {
+                            a.setApprovalStatus(AdsStatus.COMPLETED);
+                            adRepository.save(a);
+                            log.info("Ad ID {} has been updated to COMPLETED.", a.getId());
+                        }
+                        if (a.getStartDate().isEqual(LocalDate.now()) && !a.getApprovalStatus().equals(AdsStatus.PAID)) {
+                            a.setApprovalStatus(AdsStatus.ACTIVE);
+                            adRepository.save(a);
+                            log.info("Ad ID {} has been updated to ACTIVE.", a.getId());
+                        }
                     });
         }
+
     }
 }
 

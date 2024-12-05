@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { resetPassword, sendOtp, verifyOtp } from '../../../service/UserService';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const ForgotPassword = () => {
 
@@ -63,7 +64,7 @@ export const ForgotPassword = () => {
     const handlePasswordSubmit = async (event) => {
         event.preventDefault();
         if (newPassword.length < 6) {
-            showAlert(false, 'Password must be at least 6 characters long.');
+            toast.error('Password must be at least 6 characters long.');
             return;
         }
         try {
@@ -176,6 +177,11 @@ export const ForgotPassword = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                className="custom-toast-container"
+            />
         </motion.div>
     );
 };

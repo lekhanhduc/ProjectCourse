@@ -26,7 +26,7 @@ public class UploadCourseRequest {
     CourseLevel courseLevel;
 
     @NotNull(message = "DURATION_INVALID")
-    @Min(value = 0, message = "DURATION_INVALID")
+    @Min(value = 1, message = "DURATION_INVALID")
     Integer duration;
 
     @NotNull(message = "PRICE_INVALID")
