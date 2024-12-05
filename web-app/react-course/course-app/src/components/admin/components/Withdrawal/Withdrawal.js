@@ -43,7 +43,7 @@ const Withdrawal = () => {
     useEffect(() => {
         fetchAllWithdrawalWithPaginate(page + 1, rowsPerPage, sort);
         // fetchAllWithdrawal(); // Gọi API với trang bắt đầu từ 1
-    }, [page, rowsPerPage, sort, currentFilter, searchTerm]);
+    }, [page, rowsPerPage, sort, currentFilter]);
 
     const fetchUsers = async (page, size, sort, keywords = "") => {
         try {
@@ -163,7 +163,6 @@ const Withdrawal = () => {
                     />
                     <CIcon icon={cilSearch} className="search-icon" />
                 </div>
-
                 <div className="user-manage-sort">
                     <select onChange={handleSortChange}>
                         <option value="user.name,asc">Sort by Name (A-Z)</option>
@@ -239,21 +238,52 @@ const Withdrawal = () => {
                     <tbody>
                         {listWithdrawals.map((item, index) => (
                             <tr key={item.id} style={{ cursor: "pointer" }}>
-                                <td>{page * rowsPerPage + index + 1}</td>
+                                <td class="text-nowrap">{page * rowsPerPage + index + 1}</td>
                                 <td class="text-nowrap">{item.createdAt}</td>
                                 <td class="text-nowrap">{item.name}</td>
-                                <td>{item.points}</td>
-                                <td>{item.money}</td>
-                                <td>{item.bank}</td>
-                                <td>{item.bankNumber}</td>
-                                <td>{item.status}</td>
+                                <td class="text-nowrap">{item.points.toLocaleString('de-DE')}</td>
+                                <td class="text-nowrap">{item.money.toLocaleString('de-DE')} VND</td>
+                                <td class="text-nowrap">{item.bank}</td>
+                                <td class="text-nowrap">{item.bankNumber}</td>
+                                <td class="text-nowrap">
+                                    {item.status === "PROCESSING" && (
+                                        <div style={{
+                                            backgroundColor: "blue",
+                                            textAlign: "center",
+                                            borderRadius: "5px"
+                                        }}>
+                                            {item.status}
+                                        </div>
+                                    )}
+
+                                    {item.status === "COMPLETED" && (
+                                        <div style={{
+                                            backgroundColor: "green",
+                                            textAlign: "center",
+                                            borderRadius: "5px"
+                                        }}>
+                                            {item.status}
+                                        </div>
+                                    )}
+
+                                    {item.status === "CANCELLED" &&
+                                        <div style={{
+                                            backgroundColor: "red",
+                                            textAlign: "center",
+                                            borderRadius: "5px"
+                                        }}>
+                                            {item.status}
+                                        </div>
+                                    }
+
+                                </td>
                                 <td class="text-nowrap">
                                     {item.status === "PROCESSING" && (
                                         <div>
-                                            <button
-                                                className="btn btn-primary"
+                                            <button className="btn btn-primary"
                                                 onClick={() => confirmWithdrawalOfTeacher(item.id)}
                                                 style={{
+
                                                     color: "#fff",
                                                     border: "none",
                                                     padding: "5px 10px",
@@ -264,8 +294,7 @@ const Withdrawal = () => {
                                                 <CIcon icon={cilCheck} /> Confirm
                                             </button>
 
-                                            <button
-                                                className="btn btn-danger"
+                                            <button className="btn btn-danger"
                                                 onClick={() => cancelWithdrawalOfTeacher(item.id)}
                                                 style={{
                                                     color: "#fff",
@@ -289,14 +318,12 @@ const Withdrawal = () => {
                                         </div>
                                     )}
 
-                                    {item.status === "CANCELLED" && (
-                                        <div>
-                                            <CIcon
-                                                icon={cilBan}
-                                                style={{ color: "#FF3333", fontSize: "24px" }}
-                                            />
-                                        </div>
-                                    )}
+                                    {item.status === "CANCELLED" && <div>
+                                        <CIcon
+                                            icon={cilBan}
+                                            style={{ color: "#FF3333", fontSize: "24px" }}
+                                        />
+                                    </div>}
                                 </td>
                             </tr>
                         ))}
@@ -330,6 +357,7 @@ const Withdrawal = () => {
                 pauseOnHover
             />
         </div>
+
     );
 };
 
