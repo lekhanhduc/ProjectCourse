@@ -83,10 +83,13 @@ public class CourseController {
     }
 
     @GetMapping("/manager-courses")
-    ApiResponse<List<CourseResponse>> managerCourse(){
-        var result = courseService.managerCourses();
+    ApiResponse<PageResponse<CourseResponse>> managerCourse(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size
+    ){
+        var result = courseService.managerCourses(page, size);
 
-        return ApiResponse.<List<CourseResponse>>builder()
+        return ApiResponse.<PageResponse<CourseResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .result(result)
                 .build();

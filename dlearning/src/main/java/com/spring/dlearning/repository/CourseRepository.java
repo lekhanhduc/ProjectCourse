@@ -16,6 +16,9 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course>, CustomCourseRepository {
 
     @Query("SELECT c FROM Course c JOIN c.author u WHERE u.id = :userId")
+    Page<Course> findByAuthorId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("SELECT c FROM Course c JOIN c.author u WHERE u.id = :userId")
     List<Course> findByAuthorId(@Param("userId") Long userId);
 
     @Query("SELECT count(r) FROM Review r WHERE r.course.author.id = :userId")

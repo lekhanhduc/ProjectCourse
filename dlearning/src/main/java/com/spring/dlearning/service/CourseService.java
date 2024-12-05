@@ -179,16 +179,24 @@ public class CourseService {
     }
 
     @PreAuthorize("isAuthenticated() and hasAnyAuthority('USER', 'TEACHER', 'ADMIN')")
-    public List<CourseResponse> managerCourses(){
+    public PageResponse<CourseResponse> managerCourses(int page, int size){
         String email = SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new AppException(ErrorCode.EMAIL_INVALID));
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        List<Course> myCourse = courseRepository.findByAuthorId(user.getId());
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-        return myCourse.stream().map(courseMapper::toCourseResponse).toList();
+        Page<Course> coursePage = courseRepository.findByAuthorId(user.getId(), pageable);
+        List<CourseResponse> courses = coursePage.getContent().stream().map(courseMapper::toCourseResponse).toList();
+        return PageResponse.<CourseResponse>builder()
+                .currentPage(page)
+                .pageSize(pageable.getPageSize())
+                .totalElements(coursePage.getTotalElements())
+                .totalPages(coursePage.getTotalPages())
+                .data(courses)
+                .build();
     }
 
     @Transactional

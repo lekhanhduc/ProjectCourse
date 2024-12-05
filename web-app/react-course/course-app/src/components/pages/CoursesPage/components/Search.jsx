@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 
 export const Search = ({ onSearch }) => {
 
@@ -98,6 +98,8 @@ export const Search = ({ onSearch }) => {
                                 <option value="Spanish">Spanish</option>
                                 <option value="French">French</option>
                                 <option value="German">German</option>
+                                <option value="India">INDIA</option>
+                                <option value="VietNamese">VIETNAMESE</option>
                             </select>
                         </div>
 

@@ -9,6 +9,7 @@ import axios from '../../../utils/CustomizeAxios';
 import { toast, ToastContainer } from "react-toastify";
 import { FaBook, FaClock, FaDollarSign, FaFileAlt, FaImage, FaLanguage, FaPlayCircle, FaTags, FaUpload, FaUserTie } from "react-icons/fa";
 import { TailSpin } from "react-loader-spinner";
+import ReactPaginate from "react-paginate";
 
 const ManagerCourse = () => {
 
@@ -22,13 +23,16 @@ const ManagerCourse = () => {
     const [showImageModal, setShowImageModal] = useState(false);
     const [instructorName, setInstructorName] = useState('');
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCoursesByTeacher = async () => {
             try {
-                const data = await getCoursesByTeacher();
-                setCourses(data.result);
+                const data = await getCoursesByTeacher(currentPage);
+                setCourses(data.result.data);
+                setTotalPages(data.result.totalPages);
                 setIsLoadingCourse(false);
             } catch (error) {
                 console.log(error);
@@ -39,7 +43,7 @@ const ManagerCourse = () => {
         }
 
         fetchCoursesByTeacher();
-    }, [token]);
+    }, [token, currentPage, totalPages]);
 
     const handleDetail = (id) => {
         navigate(`/manager-course/${id}`)
@@ -160,6 +164,10 @@ const ManagerCourse = () => {
         } finally {
             setLoading(false);
         }
+    }
+
+    const handlePageClick = (data) => {
+        setCurrentPage(data.selected + 1);
     }
 
     if (isLoadingCourse) {
@@ -517,6 +525,26 @@ const ManagerCourse = () => {
                         </div>
                     ))}
                 </div>
+                <ReactPaginate
+                    previousLabel={'«'}
+                    nextLabel={'»'}
+                    breakLabel={'...'}
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={3}
+                    onPageChange={handlePageClick}
+                    forcePage={currentPage - 1}
+                    containerClassName={'manager-course-page pagination pagination-lg justify-content-center'}
+                    pageClassName={'manager-course-page-item'}
+                    pageLinkClassName={'manager-course-page-link'}
+                    previousClassName={'manager-course-page-item'}
+                    previousLinkClassName={'manager-course-page-link'}
+                    nextClassName={'manager-course-page-item'}
+                    nextLinkClassName={'manager-course-page-link'}
+                    breakClassName={'manager-course-page-item'}
+                    breakLinkClassName={'manager-course-page-link'}
+                    activeClassName={'active'}
+                />
             </div>
             <ToastContainer
                 position="top-right"

@@ -85,8 +85,12 @@ export const getInfoCourse = async (id) => {
   }
 };
 
-export const getCoursesByTeacher = async () => {
-  const response = await axios.get("api/v1/manager-courses");
+export const getCoursesByTeacher = async (page) => {
+  const response = await axios.get("api/v1/manager-courses", {
+    params: {
+      page: page,
+    },
+  });
   return response.data;
 };
 

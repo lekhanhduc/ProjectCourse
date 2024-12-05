@@ -17655,3 +17655,55 @@ my-account-cover-photo .post-container .post-comment-input-container input::plac
 .sidebar-community:hover {
   text-decoration: none !important;
 }
+
+.manager-course-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.manager-course-page-item {
+  margin: 0 5px;
+}
+
+.manager-course-page-link {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 16px;
+  background-color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.manager-course-page-link:hover {
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+}
+
+.manager-course-page-item.active .manager-course-page-link {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.manager-course-page-item.disabled .manager-course-page-link {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.manager-course-page-item .manager-course-page-link {
+  cursor: pointer;
+}
+
+.manager-course-page-item:first-child .manager-course-page-link,
+.manager-course-page-item:last-child .manager-course-page-link {
+  border-radius: 50%;
+}
+
+.manager-course-page-link:focus {
+  outline: none;
+}
