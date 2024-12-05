@@ -15,6 +15,19 @@ const ModalAddWithdrawal = (props) => {
         setBankNumber("");
     }
 
+    const BankEnum = [
+        'AGRIBANK',
+        'BIDV',
+        'LPBANK',
+        'MBBANK',
+        'SACOMBANK',
+        'SCB',
+        'TECHCOMBANK',
+        'TPBANK',
+        'VIETCOMBANK',
+        'VIETTINBANK',
+    ];
+
     const [point, setPoint] = useState(0);
     const [bank, setBank] = useState("");
     const [bankNumber, setBankNumber] = useState("");
@@ -69,12 +82,18 @@ const ModalAddWithdrawal = (props) => {
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Bank</label>
-                            <input
-                                type="text"
+                            <select
                                 className="form-control"
                                 value={bank}
-                                onChange={(event) => setBank(event.target.value)}
-                            />
+                                onChange={(e) => setBank(e.target.value)}
+                            >
+                                <option value="">-- Select Bank --</option>
+                                {BankEnum.map((bankItem, index) => (
+                                    <option key={index} value={bankItem}>
+                                        {bankItem}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Bank Number</label>

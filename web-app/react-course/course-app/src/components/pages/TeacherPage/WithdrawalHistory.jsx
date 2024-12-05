@@ -21,7 +21,6 @@ const WithdrawalHistory = (props) => {
                         <th scope="col">Bank</th>
                         <th scope="col">Bank Number</th>
                         <th scope="col">Status</th>
-                        {/* <th>Action</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -34,25 +33,48 @@ const WithdrawalHistory = (props) => {
                                     <td>{item.money.toLocaleString('de-DE')} VND</td>
                                     <td>{item.bank}</td>
                                     <td>{item.bankNumber}</td>
-                                    <td>{item.status}</td>
-                                    {/* <td>
-                                        <button
-                                            className="btn btn-secondary"
-                                        >
-                                            View
-                                        </button>
-                                        <button
-                                            className="btn btn-warning mx-3"
-                                        >
-                                            Update
-                                        </button>
-                                        <button
-                                            className="btn btn-danger"
+                                    <td>
+                                        {item.status === "PROCESSING" && (
+                                            <div
+                                                className={`status-box status-${item.status.toLowerCase()}`}
+                                                style={{
+                                                    backgroundColor: "#007FFF",
+                                                    textAlign: "center",
+                                                    borderRadius: "5px",
+                                                    color: "white"
+                                                }}>
+                                                {item.status}
+                                            </div>
+                                        )}
 
-                                        >
-                                            Delete
-                                        </button>
-                                    </td> */}
+                                        {item.status === "COMPLETED" && (
+                                            <div
+                                                className={`status-box status-${item.status.toLowerCase()}`}
+                                                style={{
+                                                    backgroundColor: "#00C853",
+                                                    textAlign: "center",
+                                                    borderRadius: "5px",
+                                                    color: "white"
+                                                }}>
+                                                {item.status}
+                                            </div>
+                                        )}
+
+                                        {item.status === "CANCELLED" &&
+                                            <div
+                                                className={`status-box status-${item.status.toLowerCase()}`}
+                                                style={{
+                                                    backgroundColor: "#FF1744",
+                                                    textAlign: "center",
+                                                    borderRadius: "5px",
+                                                    color: "white"
+                                                }}>
+                                                {item.status}
+                                            </div>
+                                        }
+
+                                    </td>
+
                                 </tr>
                             )
                         })

@@ -32,11 +32,11 @@ const Withdrawal = () => {
     return (
         <div className="withdrawal-container">
             <div className="title">
-                Withdrawal
+                Withdrawal History
             </div>
             <div className="withdrawal-content">
                 <div className="btn-add-withdrawl">
-                    <button className="btn btn-primary" onClick={() => setShowModalAddWithdrawal(true)}><FcPlus /> Add new withdrawal</button>
+                    <button className="btn btn-primary add-new-withdrawal" onClick={() => setShowModalAddWithdrawal(true)}><FcPlus /> Add new withdrawal</button>
                 </div>
                 <div className="withdrawal-history">
                     <WithdrawalHistory

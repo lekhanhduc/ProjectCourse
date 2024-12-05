@@ -109,7 +109,7 @@ public class WithdrawalService {
             throw new AppException(ErrorCode.POINT_INVALID);
         }
 
-        if (withdrawalRequest.getBankNumber() == null || withdrawalRequest.getBankNumber().isEmpty()) {
+        if (withdrawalRequest.getBankNumber() == null || withdrawalRequest.getBankNumber().isEmpty() || withdrawalRequest.getBankNumber().length() <= 3) {
             throw new AppException(ErrorCode.BANK_NUMBER_INVALID);
         }
 
