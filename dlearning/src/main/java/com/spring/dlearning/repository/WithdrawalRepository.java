@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WithdrawalRepository extends JpaRepository<WithdrawalHistory, Long> {
+public interface WithdrawalRepository extends JpaRepository<WithdrawalHistory, Long>, CustomWithdrawalRepository {
 
     List<WithdrawalHistory> findByUserId(Long userId);
 

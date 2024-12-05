@@ -292,6 +292,7 @@ export const CourseDetail = () => {
                             text: `You have purchased the course: ${response.data.result.title}`,
                             icon: 'success'
                         });
+                        window.location.reload();
                     } else {
                         Swal.fire({
                             title: 'Purchase fail!',

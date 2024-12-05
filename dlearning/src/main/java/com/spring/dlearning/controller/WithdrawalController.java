@@ -5,6 +5,7 @@ import com.spring.dlearning.dto.response.ApiResponse;
 import com.spring.dlearning.dto.response.PageResponse;
 import com.spring.dlearning.dto.response.WithdrawalHistoryResponse;
 import com.spring.dlearning.dto.response.WithdrawalResponse;
+import com.spring.dlearning.dto.response.admin.AdminCourseResponse;
 import com.spring.dlearning.dto.response.admin.AdminUserResponse;
 import com.spring.dlearning.entity.WithdrawalHistory;
 import com.spring.dlearning.service.WithdrawalService;
@@ -99,6 +100,19 @@ public class WithdrawalController {
         Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
         Page<WithdrawalHistoryResponse> users = withdrawalService.getCompletedWithdrawal(pageable);
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/search-withdrawal")
+    public ResponseEntity<Page<WithdrawalHistoryResponse>> searchCourses(
+            @RequestParam String keywords,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "user.name,asc") String[] sort) {
+
+        String[] keywordArray = keywords.split("\\s+");
+        Pageable pageable = PageRequest.of(page - 1, size, getSortOrder(sort));
+        Page<WithdrawalHistoryResponse> courses = withdrawalService.searchCoursesByKeywords(keywordArray, pageable);
+        return ResponseEntity.ok(courses);
     }
 
     @PostMapping("/add-withdrawal")

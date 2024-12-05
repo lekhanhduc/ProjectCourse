@@ -1,6 +1,7 @@
 package com.spring.dlearning.repository;
 
 import com.spring.dlearning.entity.Course;
+import com.spring.dlearning.entity.WithdrawalHistory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -13,38 +14,38 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Repository
-public class CustomCourseRepositoryImpl implements CustomCourseRepository {
+public class CustomWithdrawalRepositoryImpl implements CustomWithdrawalRepository{
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public Page<Course> searchByMultipleKeywords(String[] keywords, Pageable pageable) {
+    public Page<WithdrawalHistory> searchByMultipleKeywords(String[] keywords, Pageable pageable) {
         if (keywords == null || keywords.length == 0) {
             return Page.empty(pageable);
         }
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT c FROM Course c WHERE 1=1 ");
+        StringBuilder queryBuilder = new StringBuilder("SELECT w FROM WithdrawalHistory w WHERE 1=1 ");
 
         queryBuilder.append("AND (");
         IntStream.range(0, keywords.length).forEach(i -> {
             if (i > 0) {
                 queryBuilder.append(" OR ");
             }
-            queryBuilder.append("(LOWER(c.title) LIKE LOWER(CONCAT('%', :keyword")
+            queryBuilder.append("(LOWER(w.user.name) LIKE LOWER(CONCAT('%', :keyword")
                     .append(i)
-                    .append(", '%')) OR LOWER(c.author.name) LIKE LOWER(CONCAT('%', :keyword")
+                    .append(", '%')) OR LOWER(w.bank) LIKE LOWER(CONCAT('%', :keyword")
                     .append(i)
                     .append(", '%')))");
         });
         queryBuilder.append(")");
 
         // Main query
-        TypedQuery<Course> query = entityManager.createQuery(queryBuilder.toString(), Course.class);
+        TypedQuery<WithdrawalHistory> query = entityManager.createQuery(queryBuilder.toString(), WithdrawalHistory.class);
         IntStream.range(0, keywords.length).forEach(i -> query.setParameter("keyword" + i, keywords[i]));
 
         // Count query for total rows
-        String countQueryStr = queryBuilder.toString().replaceFirst("SELECT c", "SELECT COUNT(c)");
+        String countQueryStr = queryBuilder.toString().replaceFirst("SELECT w", "SELECT COUNT(w)");
         TypedQuery<Long> countQuery = entityManager.createQuery(countQueryStr, Long.class);
         IntStream.range(0, keywords.length).forEach(i -> countQuery.setParameter("keyword" + i, keywords[i]));
         long totalRows = countQuery.getSingleResult();
@@ -52,7 +53,7 @@ public class CustomCourseRepositoryImpl implements CustomCourseRepository {
         query.setFirstResult((int) pageable.getOffset());
         query.setMaxResults(pageable.getPageSize());
 
-        List<Course> courses = query.getResultList();
-        return new PageImpl<>(courses, pageable, totalRows);
+        List<WithdrawalHistory> withdrawalHistories = query.getResultList();
+        return new PageImpl<>(withdrawalHistories, pageable, totalRows);
     }
 }

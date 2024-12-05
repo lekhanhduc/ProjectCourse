@@ -92,6 +92,11 @@ public class WithdrawalService {
                 .map(withdrawalMapper::toWithdrawalHistoryResponse);
     }
 
+    public Page<WithdrawalHistoryResponse> searchCoursesByKeywords(String[] keywords, Pageable pageable) {
+        return withdrawalRepository.searchByMultipleKeywords(keywords, pageable)
+                .map(withdrawalMapper::toWithdrawalHistoryResponse);
+    }
+
     public WithdrawalResponse addWithdrawal(WithdrawalRequest withdrawalRequest) {
 
         String email = SecurityUtils.getCurrentUserLogin()

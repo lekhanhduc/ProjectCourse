@@ -90,4 +90,26 @@ const getCompletedWithdrawal = async (page, size, sort) => {
     }
 }
 
-export { getAllWithdrawal, confirmWithdrawal, cancelWithdrawal, getAllWithdrawalWithPaginate, getCancelledWithdrawal, getProcessingWithdrawal, getCompletedWithdrawal };
+const searchWithdrawal = async (page, size, sort, keywords) => {
+    try {
+        const response = await axios.get(`/api/v1/search-withdrawal`, {
+            params: { page, size, sort, keywords },
+
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error searching withdrawal:", error);
+        throw error;
+    }
+};
+
+export {
+    getAllWithdrawal,
+    confirmWithdrawal,
+    cancelWithdrawal,
+    getAllWithdrawalWithPaginate,
+    getCancelledWithdrawal,
+    getProcessingWithdrawal,
+    getCompletedWithdrawal,
+    searchWithdrawal
+};
