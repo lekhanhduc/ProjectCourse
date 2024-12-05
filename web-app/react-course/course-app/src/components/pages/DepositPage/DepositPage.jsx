@@ -76,6 +76,14 @@ const DepositPage = () => {
                     </div>
                 </div>
 
+                <div className="row mb-4">
+                    <div className="col-12 text-center">
+                        <small className="text-muted">
+                            <b>Note:</b> 1,000 VND = 1 Point. You will receive points based on the amount you deposit.
+                        </small>
+                    </div>
+                </div>
+
                 <button className="btn btn-success btn-lg mt-4 deposit-confirm-button" onClick={handleDeposit}>
                     <FaPlusCircle className="mr-2" /> Confirm Deposit
                 </button>

@@ -325,7 +325,8 @@ public class CourseService {
         data.put("author", authorCourse.getName());
         data.put("title", course.getTitle());
         data.put("buyer", user.getEmail());
-        data.put("points", course.getPoints());
+        data.put("prices", (course.getPoints() * 80 / 100) * 1000);
+        data.put("points", course.getPoints() * 80 / 100);
 
         NotificationEvent notificationEvent = NotificationEvent.builder()
                 .channel("Send Email")
