@@ -16,6 +16,7 @@ public interface WithdrawalMapper {
 
     @Mapping(source = "user.name", target = "name")
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "createdAt", target = "createdAt")
     WithdrawalHistoryResponse toWithdrawalHistoryResponse(WithdrawalHistory withdrawalHistory);
 
 }

@@ -197,6 +197,9 @@ const Withdrawal = () => {
                         <tr>
                             <th>STT</th>
                             <th>
+                                <CIcon icon={cilCalendar} className="table-icon" /> Date
+                            </th>
+                            <th>
                                 <CIcon icon={cilCalendar} className="table-icon" /> Name
                             </th>
                             <th>
@@ -224,20 +227,20 @@ const Withdrawal = () => {
                         {listWithdrawals.map((item, index) => (
                             <tr key={item.id} style={{ cursor: "pointer" }}>
                                 <td>{page * rowsPerPage + index + 1}</td>
-                                {/* <td>{new Date(item.createAt).toLocaleDateString()}</td> */}
-                                <td>{item.name}</td>
+                                <td class="text-nowrap">{item.createdAt}</td>
+                                <td class="text-nowrap">{item.name}</td>
                                 <td>{item.points}</td>
                                 <td>{item.money}</td>
                                 <td>{item.bank}</td>
                                 <td>{item.bankNumber}</td>
                                 <td>{item.status}</td>
-                                <td>
+                                <td class="text-nowrap">
                                     {item.status === "PROCESSING" && (
                                         <div>
-                                            <button
+                                            <button className="btn btn-primary"
                                                 onClick={() => confirmWithdrawalOfTeacher(item.id)}
                                                 style={{
-                                                    backgroundColor: "#d9534f",
+
                                                     color: "#fff",
                                                     border: "none",
                                                     padding: "5px 10px",
@@ -245,13 +248,12 @@ const Withdrawal = () => {
                                                     cursor: "pointer",
                                                 }}
                                             >
-                                                <CIcon icon={cilTrash} /> Confirm
+                                                <CIcon icon={cilCheck} /> Confirm
                                             </button>
 
-                                            <button
+                                            <button className="btn btn-danger"
                                                 onClick={() => cancelWithdrawalOfTeacher(item.id)}
                                                 style={{
-                                                    backgroundColor: "#d9534f",
                                                     color: "#fff",
                                                     border: "none",
                                                     padding: "5px 10px",
@@ -268,7 +270,7 @@ const Withdrawal = () => {
                                         <div>
                                             <CIcon
                                                 icon={cilCheck}
-                                                style={{ color: "green", fontSize: "24px" }}
+                                                style={{ color: "#00FF00", fontSize: "24px" }}
                                             />
                                         </div>
                                     )}
@@ -276,7 +278,7 @@ const Withdrawal = () => {
                                     {item.status === "CANCELLED" && <div>
                                         <CIcon
                                             icon={cilBan}
-                                            style={{ color: "red", fontSize: "24px" }}
+                                            style={{ color: "#FF3333", fontSize: "24px" }}
                                         />
                                     </div>}
                                 </td>

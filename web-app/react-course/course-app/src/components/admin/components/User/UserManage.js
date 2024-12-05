@@ -124,7 +124,7 @@ const UserManage = () => {
                 style={{ cursor: "pointer" }}
               >
                 <td>{page * rowsPerPage + index + 1}</td>
-                <td>{new Date(user.createAt).toLocaleDateString()}</td>
+                <td>{user.createAt}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.gender || "N/A"}</td>

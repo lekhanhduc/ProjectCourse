@@ -1,6 +1,7 @@
 package com.spring.dlearning.dto.response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.dlearning.common.Bank;
 import com.spring.dlearning.common.TransactionStatus;
 import lombok.*;
@@ -30,5 +31,6 @@ public class WithdrawalHistoryResponse {
 
     TransactionStatus status;
 
-    LocalDateTime createAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    LocalDateTime createdAt;
 }

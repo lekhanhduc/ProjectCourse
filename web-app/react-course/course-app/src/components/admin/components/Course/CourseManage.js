@@ -106,25 +106,22 @@ const CourseManage = () => {
         </div>
         <div className="course-manage-filters">
           <button
-            className={`filter-button ${
-              currentFilter === "ALL" ? "active" : ""
-            }`}
+            className={`filter-button ${currentFilter === "ALL" ? "active" : ""
+              }`}
             onClick={() => handleFilterChange("ALL")}
           >
             All Courses
           </button>
           <button
-            className={`filter-button ${
-              currentFilter === "ACTIVE" ? "active" : ""
-            }`}
+            className={`filter-button ${currentFilter === "ACTIVE" ? "active" : ""
+              }`}
             onClick={() => handleFilterChange("ACTIVE")}
           >
             Active Courses
           </button>
           <button
-            className={`filter-button ${
-              currentFilter === "BANNED" ? "active" : ""
-            }`}
+            className={`filter-button ${currentFilter === "BANNED" ? "active" : ""
+              }`}
             onClick={() => handleFilterChange("BANNED")}
           >
             Banned Courses
@@ -162,14 +159,10 @@ const CourseManage = () => {
                 <td>{course.title}</td>
                 <td>{course.authorName || "Unknown"}</td>
                 <td>
-                  {course.createdAt
-                    ? new Date(course.createdAt).toLocaleString()
-                    : "N/A"}
+                  {course.createdAt}
                 </td>
                 <td>
-                  {course.updatedAt
-                    ? new Date(course.updatedAt).toLocaleString()
-                    : "N/A"}
+                  {course.updatedAt}
                 </td>
                 <td>{course.enabled ? "Active" : "Banned"}</td>
               </tr>

@@ -7,6 +7,12 @@ import com.spring.dlearning.common.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "withdrawal_history")
@@ -16,7 +22,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WithdrawalHistory extends AbstractEntity<Long>{
+public class WithdrawalHistory{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -39,4 +50,20 @@ public class WithdrawalHistory extends AbstractEntity<Long>{
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     TransactionStatus status;
+
+    @Column(name = "created_by")
+    @CreatedBy
+    String createdBy;
+
+    @Column(name = "updated_by")
+    @LastModifiedBy
+    String updateBy;
+
+    @Column(name = "create_at")
+    @CreationTimestamp
+    LocalDateTime createdAt;
+
+    @Column(name = "update_at")
+    @UpdateTimestamp
+    LocalDateTime updatedAt;
 }

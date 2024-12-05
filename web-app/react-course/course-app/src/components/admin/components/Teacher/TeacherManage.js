@@ -121,9 +121,7 @@ const TeacherManage = () => {
               <tr key={teacher.id}>
                 <td>{page * rowsPerPage + index + 1}</td>
                 <td>
-                  {teacher.createdAt
-                    ? new Date(teacher.createdAt).toLocaleDateString()
-                    : "N/A"}
+                  {teacher.createdAt}
                 </td>
                 <td>{teacher.name}</td>
                 <td>{teacher.email}</td>
