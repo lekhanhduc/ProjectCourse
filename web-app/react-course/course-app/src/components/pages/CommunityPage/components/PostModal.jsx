@@ -339,13 +339,13 @@ const PostModal = ({ show, handleClose, post }) => {
                                     {replyStatus[cmt.id] && (
                                         <div className='reply-box-container mt-2'>
                                             <textarea
-                                                placeholder="Viết phản hồi của bạn..."
+                                                placeholder="Write your feedback..."
                                                 className="form-control reply-textarea"
                                                 value={replyContent[cmt.id] || ""}
                                                 onChange={(e) => setReplyContent({ ...replyContent, [cmt.id]: e.target.value })}
                                             />
                                             <Button variant="primary" className="mt-1 reply-button" onClick={() => handleReplyComment(cmt.id)}>
-                                                Gửi
+                                                Send
                                             </Button>
                                         </div>
                                     )}

@@ -14,20 +14,29 @@ export const Courses = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [filterQuery, setFilterQuery] = useState('');
 
-    useEffect(() => {
-        document.title = 'Courses'
-    })
+    // Các state cho các trường tìm kiếm
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [courseLevel, setCourseLevel] = useState('');
+    const [language, setLanguage] = useState('');
+    const [minPoints, setMinPoints] = useState('');
+    const [maxPoints, setMaxPoints] = useState('');
 
+    useEffect(() => {
+        document.title = 'Courses';
+    }, []);
+
+    // Hàm gọi API để lấy danh sách khóa học
     const fetchCourses = useCallback(async () => {
         setLoading(true);
         try {
             const result = await SearchService(currentPage, pageSize, filterQuery);
             if (result && result.result) {
                 setCourses(result.result.data);
-                setTotalPages(result.result.totalPages >= 1 ? result.result.totalPages : 1); 
+                setTotalPages(result.result.totalPages >= 1 ? result.result.totalPages : 1);
             } else {
                 setCourses([]);
-                setTotalPages(1); 
+                setTotalPages(1);
             }
         } catch (err) {
             console.log(err);
@@ -46,14 +55,28 @@ export const Courses = () => {
         fetchCourses();
     }, [fetchCourses]);
 
+    // Cập nhật giá trị trang khi nhấn trang mới
     const handlePageClick = (data) => {
         setCurrentPage(data.selected + 1);
-    }
+    };
 
-    if(loading){
-        return (
-            <LoadingSpinner />
-        );
+    // Hàm onSearch sẽ nhận filter query từ Search component và gọi lại API
+    const handleSearch = (filterQuery) => {
+        setFilterQuery(filterQuery);  // Cập nhật filterQuery để thực hiện tìm kiếm
+    };
+
+    // Truyền các tham số tìm kiếm vào Search component
+    const searchParams = {
+        title,
+        author,
+        courseLevel,
+        language,
+        minPoints,
+        maxPoints
+    };
+
+    if (loading) {
+        return <LoadingSpinner />;
     }
 
     return (
@@ -64,7 +87,17 @@ export const Courses = () => {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5 }}
         >
-            <Search onSearch={setFilterQuery} />
+            {/* Truyền hàm handleSearch và các tham số tìm kiếm vào Search */}
+            <Search
+                onSearch={handleSearch}
+                searchParams={searchParams}
+                setTitle={setTitle}
+                setAuthor={setAuthor}
+                setCourseLevel={setCourseLevel}
+                setLanguage={setLanguage}
+                setMinPoints={setMinPoints}
+                setMaxPoints={setMaxPoints}
+            />
             <div className="container-fluid">
                 <div className="container py-3">
                     <div className="row mx-0 justify-content-center">
@@ -83,7 +116,7 @@ export const Courses = () => {
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={3}
                         onPageChange={handlePageClick}
-                        forcePage={currentPage - 1} 
+                        forcePage={currentPage - 1}
                         containerClassName={'pagination pagination-lg justify-content-center'}
                         pageClassName={'page-item'}
                         pageLinkClassName={'page-link'}

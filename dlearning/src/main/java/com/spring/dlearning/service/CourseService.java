@@ -186,7 +186,7 @@ public class CourseService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
 
         Page<Course> coursePage = courseRepository.findByAuthorId(user.getId(), pageable);
         List<CourseResponse> courses = coursePage.getContent().stream().map(courseMapper::toCourseResponse).toList();

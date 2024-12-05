@@ -136,6 +136,9 @@ public class User extends AbstractEntity<Long> {
         if (enabled == null) {
             enabled = Boolean.TRUE;
         }
+        if(points == null) {
+            points = 0L;
+        }
     }
     public String getFullName() {
         return this.firstName + " " + this.lastName;

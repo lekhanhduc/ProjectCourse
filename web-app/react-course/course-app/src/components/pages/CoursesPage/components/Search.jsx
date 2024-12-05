@@ -1,61 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 
-export const Search = ({ onSearch }) => {
-
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [courseLevel, setCourseLevel] = useState('');
-    const [language, setLanguage] = useState('');
-    const [minPoints, setMinPoints] = useState('');
-    const [maxPoints, setMaxPoints] = useState('');
+export const Search = ({ onSearch, searchParams, setTitle, setAuthor, setCourseLevel, setLanguage, setMinPoints, setMaxPoints }) => {
 
     const handleSearch = () => {
         let filterQuery = '';
 
-        if (title) {
-            filterQuery += `title~~'*${title}*'`;
-        }
-        if (author) {
-            filterQuery += (filterQuery ? ' and ' : '') + `author.name~~'*${author}*'`;
-        }
-        if (courseLevel) {
-            filterQuery += (filterQuery ? ' and ' : '') + `courseLevel~~'*${courseLevel}*'`;
-        }
-        if (language) {
-            filterQuery += (filterQuery ? ' and ' : '') + `language~~'*${language}*'`;
-        }
-        if (minPoints) {
-            filterQuery += (filterQuery ? ' and ' : '') + `points>:${minPoints}`;
-        }
-        if (maxPoints) {
-            filterQuery += (filterQuery ? ' and ' : '') + `points<:${maxPoints}`;
-        }
+        if (searchParams.title) filterQuery += `title~~'*${searchParams.title}*'`;
+        if (searchParams.author) filterQuery += (filterQuery ? ' and ' : '') + `author.name~~'*${searchParams.author}*'`;
+        if (searchParams.courseLevel) filterQuery += (filterQuery ? ' and ' : '') + `courseLevel~~'*${searchParams.courseLevel}*'`;
+        if (searchParams.language) filterQuery += (filterQuery ? ' and ' : '') + `language~~'*${searchParams.language}*'`;
+        if (searchParams.minPoints) filterQuery += (filterQuery ? ' and ' : '') + `points>:${searchParams.minPoints}`;
+        if (searchParams.maxPoints) filterQuery += (filterQuery ? ' and ' : '') + `points<:${searchParams.maxPoints}`;
 
         if (filterQuery) {
-            onSearch(filterQuery);  // Gọi hàm tìm kiếm với query filter
-            console.log(courseLevel);
-
+            onSearch(filterQuery);
         } else {
             alert('Please enter at least one search criterion.');
         }
     };
-
-    // Components Search này chỉ có nhiệm vụ: thu thập giá trị mà người dùng nhập vào sau đó truyền lên component Courses thông qua hàm OnSearch
-    // Khi người dùng nhấn nút Search, dữ liệu này sẽ được truyền ngược lên Courses thông qua hàm onSearch.
 
     return (
         <div className="content-page">
             <div className="container-fluid mb-5">
                 <div className="search-bar p-4 rounded shadow-sm custom-search-bar">
                     <div className="row justify-content-center align-items-center">
-
                         {/* Title Search */}
                         <div className="col-lg-2 col-md-4 col-sm-6 mb-3">
                             <input
                                 type="text"
                                 className="form-control search-input custom-input"
                                 placeholder="Search by Title"
-                                value={title}
+                                value={searchParams.title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </div>
@@ -66,7 +41,7 @@ export const Search = ({ onSearch }) => {
                                 type="text"
                                 className="form-control search-input custom-input"
                                 placeholder="Search by Author"
-                                value={author}
+                                value={searchParams.author}
                                 onChange={(e) => setAuthor(e.target.value)}
                             />
                         </div>
@@ -75,7 +50,7 @@ export const Search = ({ onSearch }) => {
                         <div className="col-lg-2 col-md-4 col-sm-6 mb-3">
                             <select
                                 className="form-control search-input custom-input"
-                                value={courseLevel}
+                                value={searchParams.courseLevel}
                                 onChange={(e) => setCourseLevel(e.target.value)}
                             >
                                 <option value="">All Levels</option>
@@ -90,7 +65,7 @@ export const Search = ({ onSearch }) => {
                         <div className="col-lg-2 col-md-4 col-sm-6 mb-3">
                             <select
                                 className="form-control search-input custom-input"
-                                value={language}
+                                value={searchParams.language}
                                 onChange={(e) => setLanguage(e.target.value)}
                             >
                                 <option value="">All Languages</option>
@@ -103,24 +78,24 @@ export const Search = ({ onSearch }) => {
                             </select>
                         </div>
 
-                        {/* Min Price Search */}
+                        {/* Min Points Search */}
                         <div className="col-lg-2 col-md-4 col-sm-6 mb-3">
                             <input
                                 type="number"
                                 className="form-control search-input custom-input"
-                                placeholder="Min Price"
-                                value={minPoints}
+                                placeholder="Min Points"
+                                value={searchParams.minPoints}
                                 onChange={(e) => setMinPoints(e.target.value)}
                             />
                         </div>
 
-                        {/* Max Price Search */}
+                        {/* Max Points Search */}
                         <div className="col-lg-2 col-md-4 col-sm-6 mb-3">
                             <input
                                 type="number"
                                 className="form-control search-input custom-input"
-                                placeholder="Max Price"
-                                value={maxPoints}
+                                placeholder="Max Points"
+                                value={searchParams.maxPoints}
                                 onChange={(e) => setMaxPoints(e.target.value)}
                             />
                         </div>
@@ -131,11 +106,9 @@ export const Search = ({ onSearch }) => {
                                 Search
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     );
-}
+};

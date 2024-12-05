@@ -69,8 +69,21 @@ export const Register = () => {
       return;
     }
 
+    const dob = new Date(formData.dob);
+    const minDate = new Date('1950-01-01');
+    const currentDate = new Date();
+
+    if (dob < minDate) {
+      setErrorMessage("Date of birth must be later than 01/01/1950.");
+      return;
+    }
+
+    if (dob >= currentDate) {
+      setErrorMessage("Date of birth must be earlier than the current date.");
+      return;
+    }
+
     try {
-      // Kiểm tra email đã tồn tại
       const data = await checkUserExists(formData.email);
       if (data.result) {
         setErrorMessage("Email already exists, please use another email.");

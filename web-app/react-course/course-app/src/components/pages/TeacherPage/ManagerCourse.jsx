@@ -19,13 +19,19 @@ const ManagerCourse = () => {
     const [httpError, setHttpError] = useState('');
     const [showModalCreate, setShowModalCreate] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
-    const [videoPreviewUrl, setVideoPreviewUrl] = useState(null)
+    // const [videoPreviewUrl, setVideoPreviewUrl] = useState(null)
     const [showImageModal, setShowImageModal] = useState(false);
     const [instructorName, setInstructorName] = useState('');
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState();
+    const [errorMessages, setErrorMessages] = useState({
+        points: '',
+        duration: ''
+    });
+
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchCoursesByTeacher = async () => {
@@ -82,8 +88,8 @@ const ManagerCourse = () => {
         courseTitle: '',
         courseDescription: '',
         level: '',
-        duration: '',
-        coursePrice: 0,
+        duration: null,
+        coursePrice: null,
         language: '',
         instructorName: '',
         courseThumbnail: null,
@@ -107,6 +113,31 @@ const ManagerCourse = () => {
 
     const handleUploadCourse = async (event) => {
         event.preventDefault();
+        setErrorMessages({
+            points: '',
+            duration: ''
+        });
+        let hasError = false;
+        if (courseData.coursePrice < 0) {
+            setErrorMessages(prevState => ({
+                ...prevState,
+                points: 'Points must be greater than or equal to 0'
+            }));
+            hasError = true;
+        }
+
+        if (courseData.duration <= 0) {
+            setErrorMessages(prevState => ({
+                ...prevState,
+                duration: 'Duration cannot be 0'
+            }));
+            hasError = true;
+        }
+
+        if (hasError) {
+            return;
+        }
+
         setLoading(true);
         const formData = new FormData();
         const dataCourse = new Blob([JSON.stringify({
@@ -141,7 +172,8 @@ const ManagerCourse = () => {
                 };
                 console.log(newCourse);
 
-                setCourses((prevCourses) => [...prevCourses, newCourse]);
+                setCourses((prevCourses) => [newCourse, ...prevCourses]);
+
                 setCourseData({
                     courseTitle: '',
                     courseDescription: '',
@@ -151,13 +183,11 @@ const ManagerCourse = () => {
                     language: '',
                     instructorName: '',
                     courseThumbnail: null,
-                    courseFile: null,
                 });
                 setPreviewUrl(null);
-                setVideoPreviewUrl(null);
                 setShowModalCreate(false);
             } else {
-                toast.error('Created Course Error');
+                toast.error(response.data.message);
             }
         } catch (error) {
             console.log(error)
@@ -293,7 +323,9 @@ const ManagerCourse = () => {
                                                     onChange={(e) => handleChange('duration', e.target.value)}
                                                     required
                                                 />
+                                                {errorMessages.duration && <span className="text-danger">{errorMessages.duration}</span>}
                                             </div>
+
                                             <div className="col-md-4">
                                                 <label htmlFor="coursePrice" className="create-course-label">
                                                     <FaDollarSign className="me-2" />Points
@@ -307,10 +339,11 @@ const ManagerCourse = () => {
                                                     onChange={(e) => handleChange('coursePrice', e.target.value)}
                                                     required
                                                 />
+                                                {errorMessages.points && <span className="text-danger">{errorMessages.points}</span>}
                                             </div>
                                         </div>
-                                        {/* Row 4: Language */}
                                         <div className="row mb-3">
+                                            {/* Language Field */}
                                             <div className="col-md-6">
                                                 <label htmlFor="language" className="create-course-label">
                                                     <FaLanguage className="me-2" />Language
@@ -325,9 +358,8 @@ const ManagerCourse = () => {
                                                     required
                                                 />
                                             </div>
-                                        </div>
-                                        {/* Row 5: Thumbnail và Video */}
-                                        <div className="row mb-3">
+
+                                            {/* Thumbnail Field */}
                                             <div className="col-md-6">
                                                 <label htmlFor="courseThumbnail" className="create-course-label">
                                                     <FaImage className="me-2" />Thumbnail
@@ -372,34 +404,8 @@ const ManagerCourse = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="col-md-6">
-                                                <label htmlFor="courseFile" className="create-course-label">
-                                                    <FaPlayCircle className="me-2" />Course Video
-                                                </label>
-                                                <input
-                                                    type="file"
-                                                    className="form-control create-course-input"
-                                                    accept="video/*"
-                                                    id="courseFile"
-                                                    onChange={(e) => {
-                                                        const file = e.target.files[0]; // Lấy file video
-                                                        if (file) {
-                                                            handleChange('courseFile', file); // Lưu file vào state courseData
-                                                            setVideoPreviewUrl(URL.createObjectURL(file)); // Tạo URL preview video
-                                                        }
-                                                    }}
-                                                />
-                                                {videoPreviewUrl && (
-                                                    <div className="create-course-video-preview mt-2">
-                                                        <video
-                                                            src={videoPreviewUrl}
-                                                            className="create-course-video"
-                                                            controls
-                                                        />
-                                                    </div>
-                                                )}
-                                            </div>
                                         </div>
+
                                     </form>
                                 </div>
                                 <div className="modal-footer create-course-footer">

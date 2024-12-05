@@ -112,7 +112,7 @@ export const ProfileDropdown = ({
               </li>
             )}
 
-            {(role === "USER" || role === "TEACHER") && (
+            {(role === "USER") && (
               <li>
                 <Link to="/transaction" className="dropdown-item d-flex align-items-center" >
                   <i className="fas fa-history me-2"></i>
