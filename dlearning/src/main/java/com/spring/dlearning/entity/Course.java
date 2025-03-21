@@ -10,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -36,8 +38,8 @@ public class Course  {
     @Column(name = "description", columnDefinition = "MEDIUMTEXT")
     String description;
 
-    @Column(name = "point", columnDefinition = "BIGINT DEFAULT 0")
-    Long points;
+    @Column(name = "price", columnDefinition = "BIGINT DEFAULT 0")
+    BigDecimal price;
 
     @Column(name = "duration")
     Integer duration; // in hours

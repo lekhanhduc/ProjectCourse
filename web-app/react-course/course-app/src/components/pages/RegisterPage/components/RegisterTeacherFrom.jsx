@@ -169,6 +169,19 @@ const RegisterTeachForm = (props) => {
                 />
             </div>
 
+            <div className="mb-3">
+                <label htmlFor="qrCode" className="form-label text-muted custom-form-label">
+                    QrCode
+                </label>
+                <input
+                    type="file"
+                    className="form-control custom-form-control-file"
+                    id="qrCode"
+                    name="qrCode"
+                    onChange={handleFileChange}
+                />
+            </div>
+
             {/* Submit button */}
 
             {loadingRegister ? (

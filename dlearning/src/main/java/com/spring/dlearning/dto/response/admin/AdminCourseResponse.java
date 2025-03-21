@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,7 +23,7 @@ public class AdminCourseResponse {
     private String language;
     private String level;
     private Integer duration;
-    private Long points;
+    private BigDecimal price;
     private String thumbnail;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")

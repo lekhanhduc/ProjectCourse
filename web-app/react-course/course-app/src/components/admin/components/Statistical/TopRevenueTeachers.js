@@ -98,7 +98,7 @@ const TopRevenueTeachers = () => {
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
-            {[2024, 2023, 2022, 2021].map((y) => (
+            {[2025, 2024, 2023, 2022, 2021].map((y) => (
               <option key={y} value={y}>
                 {y}
               </option>
@@ -112,7 +112,7 @@ const TopRevenueTeachers = () => {
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
-            {[2024, 2023, 2022, 2021].map((y) => (
+            {[2025, 2024, 2023, 2022, 2021].map((y) => (
               <option key={y} value={y}>
                 {y}
               </option>

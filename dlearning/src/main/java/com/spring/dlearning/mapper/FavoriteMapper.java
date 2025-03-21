@@ -15,7 +15,7 @@ public class FavoriteMapper {
                 .courseId(favorite.getCourse().getId())
                 .title(favorite.getCourse().getTitle())
                 .thumbnail(favorite.getCourse().getThumbnail())
-                .points(favorite.getCourse().getPoints())
+                .price(favorite.getCourse().getPrice())
                 .author(favorite.getCourse().getAuthor().getName())
                 .build();
     }

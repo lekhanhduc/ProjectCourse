@@ -23,11 +23,10 @@ import java.util.Objects;
 @Slf4j
 public class FileService {
 
-    private static final String URL = "file:///D:/FsoftProject/";
+    private static final String URL = "file:///D:/SWD/";
     public String store(MultipartFile file, String folder) throws URISyntaxException, IOException {
         String encodedFileName = URLEncoder.encode(Objects.requireNonNull(file.getOriginalFilename()), StandardCharsets.UTF_8);
         String finalName = System.currentTimeMillis() + "-" + encodedFileName;
-
 
         URI uri = new URI(URL + folder + "/" + finalName);
         log.info("URI: {}", uri);

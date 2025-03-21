@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.math.BigDecimal;
+
 @Document(indexName = "course-document")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -26,8 +28,8 @@ public class CourseDocument {
     @Field(type = FieldType.Text, name = "author")
     String author;
 
-    @Field(type = FieldType.Long, name = "points")
-    Long points;
+    @Field(type = FieldType.Long, name = "price")
+    BigDecimal price;
 
     @Field(type = FieldType.Text, name = "language")
     String language;

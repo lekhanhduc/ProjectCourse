@@ -89,7 +89,7 @@ public class AdminCourseService {
                 .language(course.getLanguage())
                 .level(course.getCourseLevel().toString())
                 .duration(course.getDuration())
-                .points(course.getPoints())
+                .price(course.getPrice())
                 .thumbnail(course.getThumbnail()) // Thêm trường này
                 .createdAt(course.getCreatedAt())
                 .updatedAt(course.getUpdatedAt())

@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long>, JpaSpecificationExecutor<Payment> {
@@ -20,7 +21,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>, JpaSpec
     @Query("SELECT p FROM Payment p WHERE p.user = :user AND p.createdAt BETWEEN :start AND :end ORDER BY p.createdAt DESC")
     List<Payment> findByUserAndDateRange(@Param("user") User user, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Query("SELECT p FROM Payment p WHERE p.course.author = :author AND p.status = :status AND p.createdAt BETWEEN :startDate AND :endDate")
+    @Query("SELECT p FROM Payment p WHERE p.course.author = :author AND p.paymentStatus = :status AND p.createdAt BETWEEN :startDate AND :endDate")
     List<Payment> findPaymentsByAuthorStatusAndDateRange(@Param("author") User author,
                                                          @Param("status") PaymentStatus status,
                                                          @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
@@ -39,4 +40,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>, JpaSpec
 
     @Query("SELECT p FROM Payment p WHERE p.createdAt BETWEEN :startDate AND :endDate")
     List<Payment> findPaymentsByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+
+    Optional<Payment> findByOrderCode(Long orderCode);
+
 }

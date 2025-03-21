@@ -127,7 +127,7 @@ public class CourseService {
                 .courseLevel(course.getCourseLevel())
                 .thumbnail(course.getThumbnail())
                 .videoUrl(course.getVideoUrl())
-                .points(course.getPoints())
+                .price(course.getPrice())
                 .averageRating(averageRating)
                 .build();
     }
@@ -172,7 +172,7 @@ public class CourseService {
                 .language(course.getLanguage())
                 .description(course.getDescription())
                 .thumbnail(course.getThumbnail())
-                .points(course.getPoints())
+                .price(course.getPrice())
                 .build();
 
         documentCourseRepository.save(courseDocument);
@@ -272,82 +272,82 @@ public class CourseService {
             documentCourseRepository.deleteById(String.valueOf(course.getId()));
     }
 
-    @Transactional
-    @PreAuthorize("isAuthenticated()")
-    public BuyCourseResponse buyCourse(BuyCourseRequest request){
-        String email = SecurityUtils.getCurrentUserLogin()
-                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_INVALID));
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        Course course = courseRepository.findById(request.getCourseId())
-                .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_EXISTED));
-
-        if (enrollmentRepository.existsByUserAndCourse(user, course)) {
-            throw new AppException(ErrorCode.COURSE_ALREADY_PURCHASED);
-        }
-
-        Long pointsCourse = Objects.requireNonNull(course.getPoints(), "Course points cannot be null");
-        Long pointsUser = Objects.requireNonNull(user.getPoints(), "User points cannot be null");
-
-        if(pointsUser < pointsCourse){
-            throw new AppException(ErrorCode.BUY_COURSE_INVALID);
-        }
-        user.setPoints(pointsUser - pointsCourse);
-        course.setQuantity(course.getQuantity() + 1);
-        userRepository.save(user);
-
-//       Cộng tiền vào account author khi người dùng mua thành công
-        User authorCourse = course.getAuthor();
-        Long addPointsTeacher = course.getPoints() * 80 / 100;
-        if(authorCourse.getPoints() == null) {
-            authorCourse.setPoints(addPointsTeacher);
-        } else {
-            authorCourse.setPoints(authorCourse.getPoints() + addPointsTeacher);
-        }
-
-        PaymentMethod paymentMethod = paymentMethodRepository.findByMethodName(PaymentMethodName.BANK_TRANSFER)
-                .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.builder()
-                                .methodName(PaymentMethodName.BANK_TRANSFER)
-                        .build()));
-
-        PaymentEvent paymentEvent = PaymentEvent.builder()
-                .userId(user.getId())
-                .courseId(course.getId())
-                .paymentMethod(paymentMethod)
-                .points(BigDecimal.valueOf(pointsCourse))
-                .price(BigDecimal.valueOf(pointsCourse * 1000))
-                .status(PaymentStatus.COMPLETED)
-                .build();
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("author", authorCourse.getName());
-        data.put("title", course.getTitle());
-        data.put("buyer", user.getEmail());
-        data.put("prices", (course.getPoints() * 80 / 100) * 1000);
-        data.put("points", course.getPoints() * 80 / 100);
-
-        NotificationEvent notificationEvent = NotificationEvent.builder()
-                .channel("Send Email")
-                .subject("A User Has Purchased Your Course")
-                .recipient(authorCourse.getEmail())
-                .templateCode("course-purchase-notification")
-                .param(data)
-                .build();
-
-        kafkaTemplate.send("payment-creation", paymentEvent);
-        kafkaTemplate.send("notification-delivery", notificationEvent);
-
-        Enrollment enrollment = Enrollment.builder()
-                .user(user)
-                .course(course)
-                .purchased(true)
-                .build();
-
-        enrollmentRepository.save(enrollment);
-        return enrollmentMapper.toBuyCourseResponse(enrollment);
-    }
+//    @Transactional
+//    @PreAuthorize("isAuthenticated()")
+//    public BuyCourseResponse buyCourse(BuyCourseRequest request){
+//        String email = SecurityUtils.getCurrentUserLogin()
+//                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_INVALID));
+//
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+//
+//        Course course = courseRepository.findById(request.getCourseId())
+//                .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_EXISTED));
+//
+//        if (enrollmentRepository.existsByUserAndCourse(user, course)) {
+//            throw new AppException(ErrorCode.COURSE_ALREADY_PURCHASED);
+//        }
+//
+//        BigDecimal pointsCourse = Objects.requireNonNull(course.getPrice(), "Course points cannot be null");
+//        BigDecimal pointsUser = Objects.requireNonNull(user.getP(), "User points cannot be null");
+//
+//        if(pointsUser < pointsCourse){
+//            throw new AppException(ErrorCode.BUY_COURSE_INVALID);
+//        }
+//        user.setPoints(pointsUser - pointsCourse);
+//        course.setQuantity(course.getQuantity() + 1);
+//        userRepository.save(user);
+//
+////       Cộng tiền vào account author khi người dùng mua thành công
+//        User authorCourse = course.getAuthor();
+//        Long addPointsTeacher = course.getPoints() * 80 / 100;
+//        if(authorCourse.getPoints() == null) {
+//            authorCourse.setPoints(addPointsTeacher);
+//        } else {
+//            authorCourse.setPoints(authorCourse.getPoints() + addPointsTeacher);
+//        }
+//
+//        PaymentMethod paymentMethod = paymentMethodRepository.findByMethodName(PaymentMethodName.BANK_TRANSFER)
+//                .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.builder()
+//                                .methodName(PaymentMethodName.BANK_TRANSFER)
+//                        .build()));
+//
+//        PaymentEvent paymentEvent = PaymentEvent.builder()
+//                .userId(user.getId())
+//                .courseId(course.getId())
+//                .paymentMethod(paymentMethod)
+//                .points(BigDecimal.valueOf(pointsCourse))
+//                .price(BigDecimal.valueOf(pointsCourse * 1000))
+//                .status(PaymentStatus.COMPLETED)
+//                .build();
+//
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("author", authorCourse.getName());
+//        data.put("title", course.getTitle());
+//        data.put("buyer", user.getEmail());
+//        data.put("prices", (course.getPoints() * 80 / 100) * 1000);
+//        data.put("points", course.getPoints() * 80 / 100);
+//
+//        NotificationEvent notificationEvent = NotificationEvent.builder()
+//                .channel("Send Email")
+//                .subject("A User Has Purchased Your Course")
+//                .recipient(authorCourse.getEmail())
+//                .templateCode("course-purchase-notification")
+//                .param(data)
+//                .build();
+//
+//        kafkaTemplate.send("payment-creation", paymentEvent);
+//        kafkaTemplate.send("notification-delivery", notificationEvent);
+//
+//        Enrollment enrollment = Enrollment.builder()
+//                .user(user)
+//                .course(course)
+//                .purchased(true)
+//                .build();
+//
+//        enrollmentRepository.save(enrollment);
+//        return enrollmentMapper.toBuyCourseResponse(enrollment);
+//    }
 
     public List<CourseResponse> fetchRelatedCourses(RelatedCourseRequest request) {
 
@@ -433,7 +433,7 @@ public class CourseService {
             response.setTitle(c.getTitle());
             response.setQuantity(c.getQuantity());
             response.setThumbnail(c.getThumbnail());
-            response.setTotalPrice(BigDecimal.valueOf(c.getPoints() * 100 * (c.getQuantity())));
+            response.setTotalPrice(BigDecimal.valueOf(c.getPrice().longValue() * (c.getQuantity())));
             response.setAvgReview(BigDecimal.valueOf(averageRating).setScale(2, RoundingMode.HALF_UP));
             return response;
         }).toList();

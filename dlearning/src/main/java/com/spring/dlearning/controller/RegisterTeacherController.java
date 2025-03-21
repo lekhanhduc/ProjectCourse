@@ -37,10 +37,11 @@ public class RegisterTeacherController {
     ApiResponse<UserRegisterTeacherResponse> registerTeacher(
             @RequestPart("request") UserRegisterTeacherRequest request,
             @RequestPart("cv") MultipartFile cv,
+            @RequestPart("qrCode") MultipartFile qrCode,
             @RequestPart("certificate") MultipartFile certificate
     ) throws IOException, URISyntaxException {
 
-        var result = registerTeacherService.registerTeacher(request, cv, certificate);
+        var result = registerTeacherService.registerTeacher(request, qrCode, cv, certificate);
 
         return ApiResponse.<UserRegisterTeacherResponse>builder()
                 .code(HttpStatus.OK.value())

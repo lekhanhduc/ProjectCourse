@@ -273,6 +273,10 @@ export const CourseDetail = () => {
         setComments(updatedReviews);
     };
 
+    const generateRandomOrderCode = () => {
+        return Math.floor(1000000 + Math.random() * 9000000);
+      };
+      
     const handleEnrollNow = async () => {
         Swal.fire({
             title: 'Are you sure?',
@@ -283,16 +287,22 @@ export const CourseDetail = () => {
             cancelButtonText: 'No, cancel.'
         }).then(async (result) => {
             if (result.isConfirmed) {
+                const {title, price,} = course;
+                const orderCode = generateRandomOrderCode();
+                const requestBody = {
+                    productName: title,
+                    description: title,
+                    returnUrl: "http://localhost:3000/course-detail/" + id,
+                    cancelUrl: "http://localhost:3000/payment-cancel",
+                    price: price,
+                    quantity: 1,
+                    courseId: id,
+                    orderCode: orderCode
+                }
                 try {
-                    const response = await buyCourse(id);
-                    if (response.data.result) {
-                        setIsPurchase(true);
-                        Swal.fire({
-                            title: 'Purchase successful!',
-                            text: `You have purchased the course: ${response.data.result.title}`,
-                            icon: 'success'
-                        });
-                        window.location.reload();
+                    const response = await buyCourse(requestBody);
+                    if (response.data.error === 0) {
+                        window.location.href = response.data.data.checkoutUrl;
                     } else {
                         Swal.fire({
                             title: 'Purchase fail!',

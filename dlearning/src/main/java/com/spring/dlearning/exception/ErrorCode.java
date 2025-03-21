@@ -89,6 +89,7 @@ public enum ErrorCode {
     CERTIFICATE_INVALID(400, "Certificate cannot be null", HttpStatus.BAD_REQUEST),
     CV_INVALID(400, "Cv cannot be null", HttpStatus.BAD_REQUEST),
     EXPERTISE_INVALID(400, "Expertise can not be null", HttpStatus.BAD_REQUEST),
+    ORDER_CODE_NOT_EXISTED(404, "Order code not existed", HttpStatus.BAD_REQUEST)
     ;
 
     private final int code;

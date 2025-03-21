@@ -1,6 +1,9 @@
 package com.spring.dlearning.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.spring.dlearning.constant.PaymentType;
+import com.spring.dlearning.dto.request.CreatePaymentLinkRequestBody;
 import com.spring.dlearning.dto.response.*;
 import com.spring.dlearning.entity.Advertisement;
 import com.spring.dlearning.entity.Payment;
@@ -22,10 +25,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -161,10 +162,26 @@ public class PaymentController {
                 .price(amount)
                 .points(amount.divide(BigDecimal.valueOf(1000)))
                 .paymentMethod(paymentMethod)
-                .status(status)
+                .paymentStatus(status)
                 .build();
 
         paymentRepository.save(payment);
+    }
+
+    @PostMapping("/create")
+    ObjectNode createPaymentLink(@RequestBody CreatePaymentLinkRequestBody requestBody) {
+        return paymentService.createPaymentLink(requestBody);
+    }
+
+    @GetMapping( "/{orderId}")
+    ObjectNode getOrderById(@PathVariable("orderId") Long orderId) {
+        return paymentService.getOrderById(orderId);
+    }
+
+    @PostMapping("/confirm-webhook")
+    public ObjectNode payosTransferHandler(@RequestBody ObjectNode body)
+            throws JsonProcessingException, IllegalArgumentException {
+        return paymentService.payosTransferHandler(body);
     }
 
 }

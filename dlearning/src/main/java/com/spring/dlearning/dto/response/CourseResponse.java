@@ -5,6 +5,8 @@ import com.spring.dlearning.common.CourseLevel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +26,6 @@ public class CourseResponse {
     String thumbnail;
     String videoUrl;
     Double averageRating;
-    Long points;
+    BigDecimal price;
 
 }

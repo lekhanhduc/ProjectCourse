@@ -102,8 +102,8 @@ const TransactionPage = () => {
                                     <td>{payment.title}</td>
                                     <td>{payment.createAt}</td>
                                     <td>
-                                        <span className={`payment-points ${payment.points > 80 ? 'high' : payment.points > 40 ? 'medium' : 'low'}`}>
-                                            {payment.points !== null ? payment.points.toLocaleString('de-DE') : ""}
+                                        <span className={`payment-points ${payment.previousLinkClassName > 80 ? 'high' : payment.price > 40 ? 'medium' : 'low'}`}>
+                                            {payment.price !== null ? payment.price.toLocaleString('de-DE') : ""}
                                             <i className="fa fa-coins"></i>
                                         </span>
                                     </td>

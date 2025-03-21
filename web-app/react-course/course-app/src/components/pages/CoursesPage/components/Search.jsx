@@ -84,7 +84,7 @@ export const Search = ({ onSearch, searchParams, setTitle, setAuthor, setCourseL
                                 type="number"
                                 className="form-control search-input custom-input"
                                 placeholder="Min Points"
-                                value={searchParams.minPoints}
+                                value={searchParams.price}
                                 onChange={(e) => setMinPoints(e.target.value)}
                             />
                         </div>
@@ -95,7 +95,7 @@ export const Search = ({ onSearch, searchParams, setTitle, setAuthor, setCourseL
                                 type="number"
                                 className="form-control search-input custom-input"
                                 placeholder="Max Points"
-                                value={searchParams.maxPoints}
+                                value={searchParams.price}
                                 onChange={(e) => setMaxPoints(e.target.value)}
                             />
                         </div>

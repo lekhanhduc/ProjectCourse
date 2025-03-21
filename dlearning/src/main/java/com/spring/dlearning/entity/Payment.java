@@ -23,6 +23,9 @@ public class Payment extends AbstractEntity<Long> {
     @JoinColumn(name = "course_id")
     Course course;
 
+    @Column(name = "order_code", nullable = false)
+    Long orderCode;
+
     @Column(name = "transaction_id")
     String transactionId;
 
@@ -32,7 +35,7 @@ public class Payment extends AbstractEntity<Long> {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    PaymentStatus status;
+    PaymentStatus paymentStatus;
 
     @Column(name = "price", nullable = false)
     BigDecimal price;

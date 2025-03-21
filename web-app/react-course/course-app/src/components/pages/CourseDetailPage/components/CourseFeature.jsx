@@ -71,7 +71,7 @@ export const CourseFeature = ({ course, handleEnrollNow, isPurchase, id, related
                 {/* Price */}
                 <h5 className="course-price text-white py-3 px-4 m-0">
                     <i className="fa fa-money mr-2 text-warning"></i>
-                    Course Price: {course.points}
+                    Course Price: {course.price.toLocaleString('de-DE')}
                     <span className="currency">
                         <i className="fa-solid fa-coins coins-course"></i>
                     </span>
@@ -115,7 +115,7 @@ export const CourseFeature = ({ course, handleEnrollNow, isPurchase, id, related
                                     <h6 className="course-title-related mb-1">{related.title}</h6>
                                     <p className="course-author text-muted mb-1">By {related.author}</p>
                                     <span className="course-points badge badge-primary">
-                                        {related.points !== null ? related.points.toLocaleString('de-DE') : 'Free'} Points
+                                        {related.price !== null ? related.price.toLocaleString('de-DE') : 'Free'} Price
                                     </span>
                                 </div>
                             </div>

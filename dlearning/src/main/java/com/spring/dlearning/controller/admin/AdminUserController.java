@@ -62,6 +62,7 @@ public class AdminUserController {
         userService.updateUserRole(userId, roleName);
         return ResponseEntity.ok("User role updated successfully");
     }
+
     @GetMapping("/{userId}/details")
     public ResponseEntity<TeacherApplicationDetailResponse> getUserApplicationDetail(@PathVariable Long userId) {
         TeacherApplicationDetailResponse details = userService.getUserApplicationDetail(userId);

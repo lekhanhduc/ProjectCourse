@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +20,6 @@ public class CourseCreationRequest {
     String language;
     CourseLevel courseLevel;
 
-    @Min(value = 1, message = "POINT_INVALID")
-    Long points;
+    @Min(value = 0, message = "POINT_INVALID")
+    BigDecimal price;
 }

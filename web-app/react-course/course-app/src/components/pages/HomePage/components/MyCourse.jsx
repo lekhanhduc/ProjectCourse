@@ -93,8 +93,8 @@ export const MyCourses = () => {
                                     <p className="my-course-price text-dark">
                                         <span className="d-flex align-items-center">
                                             <i className="fa fa-coins text-warning mr-2"></i>
-                                            <b>Points:</b>
-                                            <span className="ml-1">{course.points !== null ? course.points.toLocaleString() : 'Free'}</span>
+                                            <b>Price:</b>
+                                            <span className="ml-1">{course.price !== null ? course.price.toLocaleString() : 'Free'}</span>
                                         </span>
                                     </p>
                                 </div>

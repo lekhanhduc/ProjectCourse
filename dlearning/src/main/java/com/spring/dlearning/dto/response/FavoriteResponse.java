@@ -3,6 +3,8 @@ package com.spring.dlearning.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
@@ -15,6 +17,6 @@ public class FavoriteResponse {
     String author;
     String title;
     String thumbnail;
-    Long points;
+    BigDecimal price;
     Long courseId;
 }

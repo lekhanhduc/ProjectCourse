@@ -26,7 +26,7 @@ const ManagerCourse = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState();
     const [errorMessages, setErrorMessages] = useState({
-        points: '',
+        price: '',
         duration: ''
     });
 
@@ -114,14 +114,14 @@ const ManagerCourse = () => {
     const handleUploadCourse = async (event) => {
         event.preventDefault();
         setErrorMessages({
-            points: '',
+            price: '',
             duration: ''
         });
         let hasError = false;
         if (courseData.coursePrice < 0) {
             setErrorMessages(prevState => ({
                 ...prevState,
-                points: 'Points must be greater than or equal to 0'
+                price: 'Price must be greater than or equal to 0'
             }));
             hasError = true;
         }
@@ -143,7 +143,7 @@ const ManagerCourse = () => {
         const dataCourse = new Blob([JSON.stringify({
             title: courseData.courseTitle,
             description: courseData.courseDescription,
-            points: courseData.coursePrice,
+            price: courseData.coursePrice,
             duration: courseData.duration,
             language: courseData.language,
             courseLevel: courseData.level
@@ -163,7 +163,7 @@ const ManagerCourse = () => {
                     id: response.data.result.id,
                     title: response.data.result.title,
                     description: response.data.result.description,
-                    points: response.data.result.points,
+                    price: response.data.result.price,
                     duration: response.data.result.duration,
                     language: response.data.result.language,
                     courseLevel: response.data.result.courseLevel,
@@ -328,7 +328,7 @@ const ManagerCourse = () => {
 
                                             <div className="col-md-4">
                                                 <label htmlFor="coursePrice" className="create-course-label">
-                                                    <FaDollarSign className="me-2" />Points
+                                                    <FaDollarSign className="me-2" />Price
                                                 </label>
                                                 <input
                                                     type="number"
@@ -339,7 +339,7 @@ const ManagerCourse = () => {
                                                     onChange={(e) => handleChange('coursePrice', e.target.value)}
                                                     required
                                                 />
-                                                {errorMessages.points && <span className="text-danger">{errorMessages.points}</span>}
+                                                {errorMessages.price && <span className="text-danger">{errorMessages.price}</span>}
                                             </div>
                                         </div>
                                         <div className="row mb-3">
@@ -522,8 +522,8 @@ const ManagerCourse = () => {
                                     <p className="my-course-price text-dark">
                                         <span className="d-flex align-items-center">
                                             <i className="fa fa-coins text-warning mr-2"></i>
-                                            <b>Points:</b>
-                                            <span className="ml-1">{course.points}</span>
+                                            <b>Price:</b>
+                                            <span className="ml-1">{course.price}</span>
                                         </span>
                                     </p>
                                 </div>

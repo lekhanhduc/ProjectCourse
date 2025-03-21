@@ -35,6 +35,7 @@ public class RegisterTeacherService {
     RoleRepository roleRepository;
     NotificationService notificationService;
     FileService fileService;
+    CloudinaryService cloudinaryService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserRegisterTeacherResponse> getAll() {
@@ -53,6 +54,7 @@ public class RegisterTeacherService {
     @Transactional
     @PreAuthorize("hasAuthority('USER') and isAuthenticated()")
     public UserRegisterTeacherResponse registerTeacher(UserRegisterTeacherRequest request,
+                                                       MultipartFile qrCode,
                                                        MultipartFile cv,
                                                        MultipartFile certificate)
             throws IOException, URISyntaxException {
@@ -75,6 +77,9 @@ public class RegisterTeacherService {
 
             registerTeacherMapper.toUpdateTeacher(request, userCurrent);
             userCurrent.setRegistrationStatus(RegistrationStatus.PENDING);
+
+            String qrCodeUrl = cloudinaryService.uploadImage(qrCode);
+            userCurrent.setQrCode(qrCodeUrl);
             userRepository.save(userCurrent);
 
             String message = "A new teacher application has been submitted.";

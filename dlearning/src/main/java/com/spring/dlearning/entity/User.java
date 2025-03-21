@@ -96,6 +96,9 @@ public class User extends AbstractEntity<Long> {
     @Column(name = "points", columnDefinition = "BIGINT DEFAULT 0")
     Long points;
 
+    @Column(name = "qrCoode")
+    String qrCode;
+
     @Column(name = "registrationStatus")
     @Enumerated(EnumType.STRING)
     RegistrationStatus registrationStatus;

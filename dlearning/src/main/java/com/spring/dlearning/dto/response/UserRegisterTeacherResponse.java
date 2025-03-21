@@ -15,14 +15,13 @@ public class UserRegisterTeacherResponse {
     String email;
     String name;
     String phone;
-
     String expertise;
     Double yearsOfExperience;
     String bio;
     String facebookLink;
     String certificate;
     String cvUrl;
-
+    String qrCode;
     RegistrationStatus registrationStatus;
 
 }

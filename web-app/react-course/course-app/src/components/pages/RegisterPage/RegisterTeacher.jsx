@@ -20,6 +20,7 @@ export const RegisterTeacher = () => {
         facebook: "",
         cv: null,
         certificate: null,
+        qrCode: null
     });
 
     const handleChange = (e) => {
@@ -71,7 +72,7 @@ export const RegisterTeacher = () => {
         })], { type: 'application/json' });
 
         formDataToSend.append('request', jsonBlob);
-
+        formDataToSend.append('qrCode', formData.qrCode);
         formDataToSend.append('cv', formData.cv);
         formDataToSend.append('certificate', formData.certificate);
 

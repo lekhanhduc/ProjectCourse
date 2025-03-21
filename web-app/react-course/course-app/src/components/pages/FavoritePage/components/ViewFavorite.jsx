@@ -43,9 +43,8 @@ export const ViewFavorite = (props) => {
                 <div className="course-price mt-2">
                   <strong>Price: </strong>
                   <span className="course-price-value">
-                    {favorite.points}{" "}
-                    <i className="fa-solid fa-coins coins-course-favorite"></i>
-                  </span>
+                      {favorite.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                </span>
                 </div>
 
                 <div className="d-flex justify-content-between mt-3">

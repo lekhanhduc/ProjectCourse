@@ -126,13 +126,13 @@ public class CourseController {
                 .build();
     }
 
-    @PostMapping("/buy-course")
-    ApiResponse<BuyCourseResponse> buyCourse(@RequestBody @Valid BuyCourseRequest request) {
-        return ApiResponse.<BuyCourseResponse>builder()
-                .code(HttpStatus.OK.value())
-                .result(courseService.buyCourse(request))
-                .build();
-    }
+//    @PostMapping("/buy-course")
+//    ApiResponse<BuyCourseResponse> buyCourse(@RequestBody @Valid BuyCourseRequest request) {
+//        return ApiResponse.<BuyCourseResponse>builder()
+//                .code(HttpStatus.OK.value())
+//                .result(courseService.buyCourse(request))
+//                .build();
+//    }
 
     @GetMapping("/fetch-related-courses")
     ApiResponse<List<CourseResponse>> fetchRelatedCourses(@RequestBody RelatedCourseRequest request) {

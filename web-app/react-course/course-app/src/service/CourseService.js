@@ -65,9 +65,10 @@ export const getCommentByCourseId = async (id) => {
   }
 };
 
-export const buyCourse = async (id) => {
+export const buyCourse = async (requestBody) => {
   try {
-    const response = await axios.post(`api/v1/buy-course`, { courseId: id });
+    const response = await axios.post('api/v1/payment/create', requestBody);
+    console.log(response);
     return response;
   } catch (error) {
     console.error("Error By Course:", error);

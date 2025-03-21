@@ -127,7 +127,7 @@ const CourseDetail = () => {
             <strong>Duration:</strong> {course.duration} hours
           </p>
           <p>
-            <strong>Points:</strong> {course.points}
+            <strong>Price:</strong> {course.price}
           </p>
         </div>
       </div>
